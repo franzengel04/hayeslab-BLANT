@@ -1,0 +1,43 @@
+
+.landing-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 2rem 1rem; /* Add some padding around the content */
+}
+
+.landing-page h1 {
+  margin-bottom: 2rem; /* Space between title and image */
+  font-size: 3rem;
+  font-weight: 700;
+}
+
+.landing-image {
+  max-width: 1000px; 
+  width: 100%;
+  height: auto;
+  margin-bottom: 3rem; /* Space between image and text */
+  border-radius: px; 
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
+}
+
+.info-text {
+  max-width: 1000px;
+  text-align: left; 
+  line-height: 1.6; 
+}
+
+.info-text p {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.info-text a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.info-text a:hover {
+  text-decoration: underline;
+}
