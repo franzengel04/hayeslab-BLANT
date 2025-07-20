@@ -1,5 +1,5 @@
 import React from 'react';
-import '../App.css';
+import './LookupJob.css';
 
 const LookupJob: React.FC = () => {
   return (

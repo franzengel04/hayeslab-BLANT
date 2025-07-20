@@ -1,5 +1,5 @@
 import React from 'react';
-import '../App.css';
+import './SubmitJob.css';
 
 const SubmitJob: React.FC = () => {
   return (
