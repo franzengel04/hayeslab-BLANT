@@ -1,0 +1,118 @@
+/* src/components/Options.css */
+.os-stepContainer {
+  padding: 1rem;
+}
+
+.os-noteBox {
+  background-color: #fefce8;
+  border: 1px solid #fde047;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.os-noteBox h4 {
+  font-weight: 700;
+  color: #ca8a04;
+  margin: 0 0 0.5rem 0;
+}
+
+.os-helpButton {
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  transition: background-color 0.2s;
+}
+
+.os-helpButton:hover {
+  background-color: #2563eb;
+}
+
+.os-helpContent {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #fde047;
+}
+
+.os-optionsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.os-inputGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.os-inputGroup label {
+  margin-bottom: 0.5rem;
+  color: #374151;
+  font-weight: 500;
+}
+
+.os-selectInput, .os-numberInput {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 1rem;
+  background-color: #fff;
+}
+
+.os-radioGroup {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+}
+.os-radioGroup h4 {
+    margin: 0 0 0.75rem 0;
+    font-weight: 600;
+}
+.os-radioGroup label {
+    margin-right: 2rem;
+    font-weight: 500;
+}
+.os-radioGroup input {
+    margin-right: 0.5rem;
+}
+
+.os-buttonContainer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.os-navButton {
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.os-navButton.os-navButton-previous {
+  background-color: #dc2626;
+}
+.os-navButton.os-navButton-previous:hover {
+  background-color: #b91c1c;
+}
+
+.os-navButton {
+  background-color: #3b82f6;
+}
+.os-navButton:hover {
+  background-color: #2563eb;
+}

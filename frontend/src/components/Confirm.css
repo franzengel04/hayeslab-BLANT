@@ -1,0 +1,93 @@
+/* src/components/Confirm.css */
+.cf-stepContainer {
+  padding: 1rem;
+}
+
+.cf-noteBox {
+  background-color: #fefce8;
+  border: 1px solid #fde047;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.cf-noteBox h4 {
+  font-weight: 700;
+  color: #ca8a04;
+  margin: 0 0 0.5rem 0;
+}
+
+.cf-noteBox ul {
+  list-style-type: disc;
+  padding-left: 20px;
+  margin: 0;
+}
+
+.cf-summaryTitle {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.cf-summaryGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+}
+
+.cf-summaryItem {
+    display: flex;
+    flex-direction: column;
+}
+
+.cf-summaryItem label {
+    margin-bottom: 0.5rem;
+    color: #374151;
+    font-weight: 500;
+}
+
+.cf-summaryItem input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 1rem;
+    background-color: #f3f4f6; /* Grayed out */
+    cursor: not-allowed;
+    color: #6b7280;
+}
+
+.cf-buttonContainer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.cf-navButton {
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.cf-navButton.cf-navButton-previous {
+  background-color: #dc2626;
+}
+.cf-navButton.cf-navButton-previous:hover {
+  background-color: #b91c1c;
+}
+
+.cf-navButton {
+  background-color: #3b82f6;
+}
+.cf-navButton:hover {
+  background-color: #2563eb;
+}

@@ -1,0 +1,32 @@
+/* src/components/Processing.css */
+.pr-stepContainer {
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.pr-statusText {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: #374151;
+}
+
+.pr-noteBox {
+  background-color: #fefce8; /* A light yellow */
+  border: 1px solid #fde047; /* A darker yellow */
+  border-radius: 8px;
+  padding: 1.5rem;
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.pr-noteBox h4 {
+  font-weight: 700;
+  color: #ca8a04; /* A dark yellow/brown for the title */
+  margin: 0 0 0.5rem 0;
+}
+
+.pr-noteBox p {
+  margin: 0;
+}
