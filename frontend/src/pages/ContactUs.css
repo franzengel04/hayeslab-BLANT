@@ -1,26 +1,25 @@
-/* src/pages/LookupJob.css */
-.lj-pageContainer {
+/* src/pages/ContactUs.css */
+.cu-pageContainer {
     display: flex;
     justify-content: center;
-    align-items: center;
-    min-height: 80vh;
-    /* Use min-height to fill the viewport */
-    padding: 0rem;
+    padding: 1rem;
     background-color: #ffffff;
-    /* A light background for the page */
+    margin-top: 3rem;
+    /* Adds space between the header and the contact box */
 }
 
-.lj-lookupBox {
+.cu-contactBox {
     background-color: #e2e8f0;
-    /* Light blue/purple background */
-    padding: 3rem;
+    padding: 2.5rem;
+    /* Reduced padding */
     border-radius: 16px;
     box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
     width: 100%;
-    max-width: 450px;
+    max-width: 500px;
+    /* Made the box smaller */
 }
 
-.lj-title {
+.cu-title {
     text-align: center;
     font-size: 2rem;
     font-weight: 700;
@@ -28,54 +27,68 @@
     margin-bottom: 2rem;
 }
 
-.lj-formGroup {
-    margin-bottom: 1.5rem;
+.cu-formGroup {
+    margin-bottom: 1.25rem;
+    /* Slightly reduced margin */
     text-align: left;
 }
 
-.lj-label {
+.cu-label {
     display: block;
     margin-bottom: 0.5rem;
     font-weight: 500;
     color: #374151;
+    font-size: 0.875rem;
+    /* Smaller label font */
 }
 
-.lj-input {
+.cu-input,
+.cu-textarea {
     width: 100%;
-    padding: 0.75rem 1rem;
-    font-size: 1rem;
+    padding: 0.65rem 1rem;
+    /* Adjusted padding */
+    font-size: 0.875rem;
+    /* Smaller input font */
     border: 1px solid #d1d5db;
     border-radius: 8px;
     box-sizing: border-box;
-    /* Important for padding and width */
     transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-.lj-input:focus {
+.cu-textarea {
+    min-height: 100px;
+    /* Reduced min-height */
+    resize: vertical;
+}
+
+.cu-input:focus,
+.cu-textarea:focus {
     outline: none;
     border-color: #4f46e5;
     box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
 }
 
-.lj-submitButton {
+.cu-submitButton {
     width: 100%;
-    padding: 0.875rem 1.5rem;
-    font-size: 1.125rem;
+    padding: 0.75rem 1.5rem;
+    /* Adjusted padding */
+    font-size: 1rem;
+    /* Smaller button font */
     font-weight: 600;
     color: white;
     background-color: #4f46e5;
     border: none;
     border-radius: 50px;
-    /* Pill shape */
     cursor: pointer;
     transition: background-color 0.2s, transform 0.1s;
     box-shadow: 0 4px 14px 0 rgba(79, 70, 229, 0.39);
+    margin-top: 1rem;
 }
 
-.lj-submitButton:hover {
+.cu-submitButton:hover {
     background-color: #4338ca;
 }
 
-.lj-submitButton:active {
+.cu-submitButton:active {
     transform: scale(0.98);
 }

@@ -8,20 +8,26 @@ import LandingPage from './pages/LandingPage';
 import NotFound from './pages/NotFound';
 import SubmitJob from './pages/SubmitJob';
 import LookupJob from './pages/LookupJob';
+import ContactUs from './pages/ContactUs';
+import Login from './pages/Login';
+
 
 function App() {
   return (
     <Router>
-        <Header />
-        <main className="flex-grow">
-          <Routes>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="*" element={<NotFound />} />
-            <Route path="/submit-job" element={<SubmitJob />} />
-            <Route path="/lookup-job" element={<LookupJob />} />
-          </Routes>
-        </main>
-        <Footer />
+      <Header />
+      <main className="flex-grow">
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="*" element={<NotFound />} />
+          <Route path="/submit-job" element={<SubmitJob />} />
+          <Route path="/lookup-job" element={<LookupJob />} />
+          <Route path="/contact-us" element={<ContactUs />} />
+          <Route path="/login" element={<Login />} />
+
+        </Routes>
+      </main>
+      <Footer />
     </Router>
   );
 }
