@@ -1,43 +1,31 @@
-import { Router, Request, Response, NextFunction } from 'express';
+import { Router } from 'express';
 import {
     uploadMiddleware,
     validateSingleFileMiddleware,
     cleanupFileErrorHandler,
 } from '../middlewares/upload';
 import {
-    downloadZipJob,
     getJobResults,
+    getJobStatus,
     submitJobController,
-    processController,
-    submitDefaultController,
 } from '../controllers/jobController';
 
 const router: Router = Router();
 
-
-// router.get('/:id/zip', downloadZipJob);
-
-//chill
+// Single endpoint for job submission that handles preprocessing and queueing
 router.post(
-    '/preprocess',
+    '/submit',
     uploadMiddleware,
     validateSingleFileMiddleware,
     submitJobController,
     cleanupFileErrorHandler,
 );
-// router.post('/process', processController);
+
+router.get('/status/:id', getJobStatus);
+
+// Future endpoints
+// router.get('/:id/zip', downloadZipJob);
 // router.get('/:id', getJobResults);
-
 // router.get('/api/jobs', lookupJobsController); <-- for admin page in future
-
-// router.post(
-//     '/submit-default',
-//     supabaseAuth,
-//     uploadMiddleware,
-//     validateSingleFileMiddleware,
-//     submitDefaultController,
-//     cleanupFileErrorHandler
-// );
-
 
 export default router;

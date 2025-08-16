@@ -42,12 +42,13 @@ export interface SubmitJobRequest extends Request{
 export interface ProcessJobRequest extends Request{
     body: {
         id?: string;
+        jobData?: object;
     };
 }
 
 export interface DownloadZipRequest extends ProcessJobRequest{};
 export interface GetJobResultsRequest extends ProcessJobRequest{};
-
+export interface GetJobStatusRequest extends ProcessJobRequest{};
 // // response types
 
 export interface ErrorDetails<T = undefined> {
@@ -91,6 +92,11 @@ export type JobData = {
     completedAt?: string;
     failedAt?: string;
 };
+
+export interface JobStatusResponse {
+    id: string;
+    status: string;
+}
 
 // BullMQ job payload type
 export interface BullMQJobData {

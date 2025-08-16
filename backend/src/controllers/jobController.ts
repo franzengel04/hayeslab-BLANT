@@ -1,21 +1,22 @@
 import fs from 'fs';
-import { Request, Response, NextFunction } from 'express';
+import { Response, NextFunction } from 'express';
 import HttpError from '../middlewares/HttpError';
 import { createJob } from '../services/jobService';
 import { jobProcess } from '../services/processService';
-import getJobExecutionLog from '../utils/getJobExecutionLog';
 import {
     DownloadZipRequest,
     GetJobResultsRequest,
+    GetJobStatusRequest,
     JobData,
-    JobMode,
+    JobStatusResponse,
     ProcessedJobResponse,
     ProcessJobData,
-    ProcessJobRequest,
     SubmitJobRequest,
     UnifiedResponse,
 } from '../../types/types';
 import path from 'path';
+import { jsonToJobData } from '../utils/jsonToJobData';
+import { getJobFromQueue } from '../config/queue';
 /**
  * Downloads the zip file for a job based on the request parameters.
  * @param req - The request object.
@@ -99,7 +100,7 @@ const submitJobController = async (req: SubmitJobRequest, res: Response, next: N
         if (!req.body.graphletSize ) {
             throw HttpError.badRequest('graphlet size is required.');
         }
-        // Parse graphletSize to number and validate
+
         const graphletSize = parseInt(req.body.graphletSize, 10);
         if (isNaN(graphletSize)) {
             throw HttpError.badRequest('graphlet size must be a valid number.');
@@ -120,60 +121,22 @@ const submitJobController = async (req: SubmitJobRequest, res: Response, next: N
             message: 'Job submitted successfully',
             data: result,
         };
-
+        await processController(result);
         res.status(201).json(response);
     } catch (err) {
         next(err);
     }
 };
-
-/**
- * Controller to process a job after submission.
- */
-const processController = async (req: ProcessJobRequest, res: Response, next: NextFunction): Promise<void> => {
-    try {
-        const jobId = req.body.id;
-        if (!jobId) {
-            throw new HttpError('id field is required in request.body', { status: 400 });
-        }
-        const result = await jobProcess(jobId);
-        console.log('processing done'); //TESTING
-
-        // Check if we need to include execution log
-        let execLogFileOutput: string | undefined;
-        if (result.status === 'Networks are still being aligned.') {
-            execLogFileOutput = getJobExecutionLog(jobId);
-        }
-
-        if (result.redirect) {
-            // Return redirect response
-            const redirectResponse: UnifiedResponse = {
-                status: 'redirect',
-                message: result.status,
-                redirect: result.redirect,
-            };
-            res.status(200).json(redirectResponse);
-            return;
-        } else {
-            const processedJobData: ProcessJobData = {
-                ...result,
-                execLogFileOutput: execLogFileOutput || result.execLogFileOutput,
-            };
-
-            const successResponse: UnifiedResponse<ProcessJobData> = {
-                status: 'success',
-                message: result.status,
-                data: processedJobData,
-            };
-            res.status(200).json(successResponse);
-            return;
-        }
-
-    } catch (error) {
-        next(error);
+ 
+// Controller to process a job after submission.
+const processController = async (data: JobData): Promise<ProcessJobData> => {
+    const jobId = data.id;
+    const jobData = jsonToJobData(data);
+    if (!jobId) {
+        throw new HttpError('id field is required in request.body', { status: 400 });
     }
+    return await jobProcess(jobId, jobData);
 };
-
 
 /**
  * Controller function to retrieve job results based on a job ID.
@@ -301,45 +264,44 @@ const getJobResults = async (req: GetJobResultsRequest, res: Response, next: Nex
     }
 };
 
-
-// Controller to handle job submission with single .el file using default settings
-const submitDefaultController = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+const getJobStatus = async (req: GetJobStatusRequest, res: Response, next: NextFunction): Promise<void> => {
     try {
-        // File is already validated by middleware
-        if (!req.file) {
-            throw new HttpError('A .el file is required.', { status: 400 });
+        const jobId = req.params.id;
+        if (!jobId) {
+            throw new HttpError('Job ID is required.', { status: 400 });
         }
- 
-        // Create job with default options
-        const result = await createJob(req.file, 'f', 3);
-        
-        // Send successful response
-        const response: UnifiedResponse<JobData> = {
+
+        const job = await getJobFromQueue(jobId);
+        if (!job) {
+            throw new HttpError(`Job for id ${jobId} not found.`, { status: 404 });
+        }
+
+        const status = job.data.status;
+
+        const response: UnifiedResponse<JobStatusResponse> = {
             status: 'success',
-            message: 'Job submitted successfully with default settings',
-            data: result,
+            message: 'Job status retrieved successfully',
+            data: {
+                id: jobId,
+                status: status,
+            },
         };
-        
-        if (process.env.REDIRECT_AFTER_SUBMIT === 'true') {
-            const redirectResponse: UnifiedResponse = {
-                status: 'redirect',
-                message: 'Job submitted successfully. Redirecting...',
-                redirect: `/submit-job/${result.id}`,
-            };
-            res.status(302).json(redirectResponse);
-            return;
-        }
-        
-        res.status(201).json(response);
+
+        res.status(200).json(response); 
     } catch (err) {
-        next(err);
+        const response: UnifiedResponse<JobStatusResponse> = {
+            status: 'error',
+            message: `${err}`,
+        };
+
+        res.status(500).json(response);
     }
-};
+}
 
 export { 
     downloadZipJob, 
     getJobResults, 
     submitJobController, 
     processController,
-    submitDefaultController
+    getJobStatus,
 };
