@@ -12,6 +12,13 @@ import {
 
 const router: Router = Router();
 
+router.post(
+    '/preprocess',
+    uploadMiddleware,
+    validateSingleFileMiddleware,
+    cleanupFileErrorHandler,
+);
+
 // Single endpoint for job submission that handles preprocessing and queueing
 router.post(
     '/submit',

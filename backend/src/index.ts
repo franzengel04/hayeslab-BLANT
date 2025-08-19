@@ -41,7 +41,7 @@ app.use(cookieParser());
 
 // api routes
 // app.use('/api/auth', publicRateLimit, authRoutes);
-app.use('/api/auth', authRoutes);
+// app.use('/api/auth', authRoutes);
 app.use('/api/jobs', jobRoutes);
 
 // error handling middleware after routes
