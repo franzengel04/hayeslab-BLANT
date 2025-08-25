@@ -6,9 +6,7 @@ import ErrorHandler from './middlewares/ErrorHandler';
 import cors from 'cors';
 import logger from 'morgan';
 import cookieParser from 'cookie-parser';
-import authRoutes from './routes/authRoutes';
 import jobRoutes from './routes/jobRoutes';
-import { authenticatedRateLimit, publicRateLimit } from './middlewares/rateLimiter';
 
 
 const app = express();

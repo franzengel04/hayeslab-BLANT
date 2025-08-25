@@ -2,8 +2,10 @@ import { Queue } from 'bullmq';
 import IORedis from 'ioredis';
 import { JobData } from '../../types/types';
 
-const connection = new IORedis();
-
+const connection = new IORedis({
+    host: 'redis',
+    port: 6379,
+  });
 
 const jobQueue = new Queue('jobQueue', { connection });
 

@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - redis # Ensure the backend starts after Redis
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "3000:80"
+    volumes:
+      - ./frontend:/app
+    depends_on:
+      - backend
+
+  redis:
+    image: "redis:7-alpine" # Use a lightweight Redis image
+    ports:
+      - "6379:6379" # Map the host's 6379 port to the container's 6379
