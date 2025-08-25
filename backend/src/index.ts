@@ -10,7 +10,7 @@ import jobRoutes from './routes/jobRoutes';
 
 
 const app = express();
-const PORT = process.env.PORT || 4000;
+const PORT = parseInt(process.env.PORT) || 4000;
 
 // cors and bodyparser middleware
 if (process.env.NODE_ENV === 'development') {
@@ -53,6 +53,6 @@ if (process.env.NODE_ENV === 'production') {
     });
 }
 
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });

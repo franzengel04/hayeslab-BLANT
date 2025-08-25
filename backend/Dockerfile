@@ -18,5 +18,5 @@ RUN chown -R app:app /app
 USER app
 
 # Expose port and start the app
-EXPOSE 5000
+EXPOSE 4000
 CMD ["npm", "start"]
