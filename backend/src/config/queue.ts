@@ -1,11 +1,13 @@
 import { Queue } from 'bullmq';
 import IORedis from 'ioredis';
 import { JobData } from '../../types/types';
+require('dotenv').config();
 
 const connection = new IORedis({
-    host: 'redis',
-    port: 6379,
-  });
+    host: process.env.REDIS_HOST || 'redis',
+    port: parseInt(process.env.REDIS_PORT) || 6379,
+    maxRetriesPerRequest: null,
+});
 
 const jobQueue = new Queue('jobQueue', { connection });
 

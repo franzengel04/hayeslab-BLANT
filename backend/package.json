@@ -7,6 +7,7 @@
     "build": "tsc",
     "pre:build": "cd .. && npm run build && cd backend",
     "start": "npm run build && node dist/src/index.js",
+    "worker": "npm run build && node dist/src/services/jobWorkers.js",
     "dev": "tsx src/index.ts",
     "lint": "eslint src/**/*.ts",
     "format": "eslint src/**/*.ts --fix"

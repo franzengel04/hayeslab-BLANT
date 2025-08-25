@@ -9,7 +9,16 @@ services:
     volumes:
       - ./backend:/app
     depends_on:
-      - redis # Ensure the backend starts after Redis
+      - redis
+
+  worker:
+    build:
+      context: ./backend
+    command: ["npm", "run", "worker"]
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - redis
 
   frontend:
     build:
