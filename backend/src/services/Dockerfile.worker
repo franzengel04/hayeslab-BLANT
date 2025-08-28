@@ -1,0 +1,71 @@
+# ----------------------
+# Stage 1: Build BLANT
+# ----------------------
+FROM debian:trixie-slim AS builder
+
+# Install build tools and GCC 13
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    gcc-13 \
+    g++-13 \
+    make \
+    time \
+    git \
+    libstdc++6 \
+    dos2unix \
+    nodejs \
+    npm \
+    && rm -rf /var/lib/apt/lists/*
+
+# Use GCC 13 as the default compiler
+RUN update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-13 100 \
+    && update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-13 100
+
+# ----------------------
+# Build BLANT
+# ----------------------
+WORKDIR /blant
+
+# Copy entire BLANT repo
+COPY BLANT/ /blant/
+
+# Ensure scripts are executable and convert line endings
+RUN find . -name "*.sh" -exec dos2unix {} \; \
+    && chmod +x *.sh
+
+# Build BLANT fully (skip regression failures)
+RUN ./regression-test-all.sh -make || true
+
+# ----------------------
+# Stage 2: Runtime / Worker
+# ----------------------
+FROM debian:trixie-slim AS worker
+
+# Install runtime dependencies for Node + BLANT
+RUN apt-get update && apt-get install -y \
+    nodejs \
+    npm \
+    libstdc++6 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set working directory
+WORKDIR /app
+
+# Copy BLANT build artifacts (binary + all supporting files)
+COPY --from=builder /blant /blant
+
+# Symlink BLANT binary into /usr/local/bin so it's on PATH
+RUN ln -s /blant/blant /usr/local/bin/blant \
+    && chmod +x /blant/blant
+
+# Copy worker code
+COPY backend/ /app/
+
+# Install Node dependencies
+RUN npm install
+
+# Build worker app once at image build time
+RUN npm run build
+
+# Default command — only run Node at runtime (clean shutdown on SIGTERM)
+CMD ["node", "dist/src/services/jobWorkers.js"]

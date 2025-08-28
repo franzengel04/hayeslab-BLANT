@@ -13,10 +13,12 @@ services:
 
   worker:
     build:
-      context: ./backend
-    command: ["npm", "run", "worker"]
+      context: .
+      dockerfile: backend/src/services/Dockerfile.worker
+    command: ["node", "dist/src/services/jobWorkers.js"]
     volumes:
       - ./backend:/app
+      - /app/node_modules
     depends_on:
       - redis
 
