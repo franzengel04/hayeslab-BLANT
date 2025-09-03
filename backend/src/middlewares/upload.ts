@@ -7,7 +7,7 @@ import HttpError from './HttpError';
 import { MulterFile } from '../../types/types';
 
 // Constants
-const tmpDir: string = path.join(__dirname, '../tmp');
+const tmpDir: string = '/app/tmp';
 
 // Configure multer storage
 const storage = multer.diskStorage({
@@ -51,6 +51,7 @@ const validateSingleFileMiddleware = async (req: Request, res: Response, next: N
         }
         
         console.log(`File uploaded: ${req.file.originalname} (${req.file.size} bytes)`);
+        console.log(`File path: ${req.file.path}`);
         next();
     } catch (error) {
 

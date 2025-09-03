@@ -12,9 +12,10 @@ const connection = new IORedis({
 const jobQueue = new Queue('jobQueue', { connection });
 
 async function addJobToQueue(jobId: string, jobData: JobData) {
+    console.log('Adding job to queue', jobId);
     await jobQueue.add(
         jobId, 
-        { jobData },
+        jobData,
         { removeOnComplete: true, removeOnFail: true },
     );
 }

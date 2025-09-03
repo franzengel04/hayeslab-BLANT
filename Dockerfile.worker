@@ -36,6 +36,9 @@ RUN find . -name "*.sh" -exec dos2unix {} \; \
 # Build BLANT fully (skip regression failures)
 RUN ./regression-test-all.sh -make || true
 
+# Ensure the BLANT binary has execute permissions
+RUN chmod +x /blant/blant
+
 # ----------------------
 # Stage 2: Runtime / Worker
 # ----------------------
@@ -54,9 +57,18 @@ WORKDIR /app
 # Copy BLANT build artifacts (binary + all supporting files)
 COPY --from=builder /blant /blant
 
+# Ensure BLANT binary has execute permissions
+RUN chmod +x /blant/blant \
+    && chmod -R +r /blant
+
+RUN find /blant -name "*.sh" -exec chmod +x {} \;
+
 # Symlink BLANT binary into /usr/local/bin so it's on PATH
 RUN ln -s /blant/blant /usr/local/bin/blant \
-    && chmod +x /blant/blant
+    && chmod +x /usr/local/bin/blant
+
+# Create the uploads directory for job files
+RUN mkdir -p /app/uploads
 
 # Copy worker code
 COPY backend/ /app/
