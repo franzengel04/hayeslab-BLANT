@@ -1,38 +1,37 @@
-version: '3.8'
-
 services:
+  redis:
+    image: "redis:7-alpine" # Use a lightweight Redis image
+    ports:
+      - "6379:6379" # Map the host's 6379 port to the container's 6379
+    volumes:
+      - redis_data:/data
+
   backend:
     build:
       context: ./backend
     ports:
       - "4000:4000"
-    volumes:
-      - ./backend:/app
     depends_on:
       - redis
+    volumes:
+      - job_files:/app/uploads 
 
   worker:
     build:
       context: .
-      dockerfile: backend/src/services/Dockerfile.worker
-    command: ["node", "dist/src/services/jobWorkers.js"]
-    volumes:
-      - ./backend:/app
-      - /app/node_modules
+      dockerfile: Dockerfile.worker
     depends_on:
       - redis
+    volumes:
+      - job_files:/app/uploads 
 
   frontend:
     build:
       context: ./frontend
     ports:
       - "3000:80"
-    volumes:
-      - ./frontend:/app
     depends_on:
       - backend
-
-  redis:
-    image: "redis:7-alpine" # Use a lightweight Redis image
-    ports:
-      - "6379:6379" # Map the host's 6379 port to the container's 6379
+volumes:
+  redis_data:
+  job_files: 

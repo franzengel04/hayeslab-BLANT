@@ -50,7 +50,7 @@ const createJob = async (
     const jobData: JobData = {
         id: jobId,
         status: 'preprocessing',
-        jobLocation: path.join(__dirname, '../process', jobId),
+        jobLocation: `/app/uploads/${jobId}`, 
         extension,
         networkName,
         mode,

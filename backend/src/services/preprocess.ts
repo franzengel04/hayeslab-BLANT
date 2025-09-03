@@ -34,10 +34,13 @@ const preprocess = async (
     const networkLocation: string = path.join(networkDir, `${jobData.networkName}${jobData.extension}`);
     try {
         fs.mkdirSync(path.dirname(networkLocation), { recursive: true });
-        fs.renameSync(file.path, networkLocation);
+
+        fs.copyFileSync(file.path, networkLocation);
+        fs.unlinkSync(file.path);
     } catch (error: any) {
         throw new HttpError(
-            `File ${file.originalname} could not be moved to ${networkLocation}`,
+            `File ${file.path} could not be moved to ${networkLocation}
+            MESSAGE: ${error.message}`,
             {status: 500}
         );
     }

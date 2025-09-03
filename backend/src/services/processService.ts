@@ -5,14 +5,14 @@ import { addJobToQueue, getJobFromQueue } from '../config/queue';
 
 const jobProcess = async (jobId: string, jobData: JobData): Promise<ProcessJobData> => {
     // Step 1: Check that there is an id supplied - done in controller
-    const jobDir = path.join(__dirname, '../process', jobId);
+    console.log("Attempting to add job to queue: ", jobId);
+    const jobDir = `/app/uploads/${jobId}`;
 
     if (!fs.existsSync(jobDir) || !fs.lstatSync(jobDir).isDirectory()) {
         return {
             jobId: jobId,
             success: false,
-            status: 'Job does not exist.',
-            redirect: `/lookup-job/${jobId}`,
+            status: `Job does not exist at ${jobDir}`,
         };
     }
     
@@ -22,7 +22,7 @@ const jobProcess = async (jobId: string, jobData: JobData): Promise<ProcessJobDa
         return {
             jobId: jobId,
             success: true,
-            status: `Job is ${job.data.status}`,
+            status: `Job already exists and is ${job.data.status}`,
         };
     }
 

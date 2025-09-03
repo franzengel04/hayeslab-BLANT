@@ -94,18 +94,18 @@ const submitJobController = async (req: SubmitJobRequest, res: Response, next: N
             req.body.mode !== 'g' && 
             req.body.mode !== 'i' && 
             req.body.mode !== 'j')) {
-            throw HttpError.badRequest('Mode must be a valid string.');
+            throw HttpError.badRequest('mode must be a valid string.');
         }
 
         if (!req.body.graphletSize ) {
-            throw HttpError.badRequest('graphlet size is required.');
+            throw HttpError.badRequest('graphletSize is required.');
         }
 
         const graphletSize = parseInt(req.body.graphletSize, 10);
         if (isNaN(graphletSize)) {
-            throw HttpError.badRequest('graphlet size must be a valid number.');
+            throw HttpError.badRequest('graphletSize must be a valid number.');
         } else if (graphletSize > 8 || graphletSize < 3) {
-            throw HttpError.badRequest('graphlet size must be between 3 and 8.');
+            throw HttpError.badRequest('graphletSize must be between 3 and 8.');
         }
 
         //  Create job with validated inputs
@@ -121,8 +121,8 @@ const submitJobController = async (req: SubmitJobRequest, res: Response, next: N
             message: 'Job submitted successfully',
             data: result,
         };
-        await processController(result);
-        res.status(201).json(response);
+        const processResult = await processController(result);
+        res.status(201).json(processResult);
     } catch (err) {
         next(err);
     }
@@ -131,7 +131,7 @@ const submitJobController = async (req: SubmitJobRequest, res: Response, next: N
 // Controller to process a job after submission.
 const processController = async (data: JobData): Promise<ProcessJobData> => {
     const jobId = data.id;
-    const jobData = jsonToJobData(data);
+    const jobData = data;
     if (!jobId) {
         throw new HttpError('id field is required in request.body', { status: 400 });
     }
