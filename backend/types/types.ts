@@ -34,8 +34,8 @@ export interface UploadedFiles {
 
 export interface SubmitJobRequest extends Request{
     body: {
-        mode: string,
-        graphletSize: string,
+        density: number,
+        graphletSize: number,
     };
 }
 
@@ -75,7 +75,7 @@ export type JobData = {
     // identifiers
     id: string;
     status: JobStatus;
-    mode: string;
+    density: number;
     graphletSize: number;
     // file info
     networkName: string;
@@ -102,7 +102,7 @@ export interface JobStatusResponse {
 export interface BullMQJobData {
     jobData: JobData;
     files: UploadedFiles;
-    mode: string;
+    density: number;
     graphletSize: number;
 }
 
@@ -122,7 +122,7 @@ export interface BullMQJobOptions {
 export interface JobInfoFile {
     status: JobStatus; 
     data: JobData; 
-    mode: string; 
+    density: number; 
     graphletSize: number;
 };
 

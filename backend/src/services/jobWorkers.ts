@@ -3,6 +3,8 @@ import { JobData } from '../../types/types';
 import IORedis from 'ioredis';
 import { exec } from 'child_process';
 import { promisify } from 'util';
+import 'fs';
+const fs = require('fs');
 require('dotenv').config();
 console.log("Worker started");
 
@@ -12,8 +14,9 @@ const connection = new IORedis({
     maxRetriesPerRequest: null,
 });
 
+const blantPath = '/blant';
+
 const execAsync = promisify(exec);
-const blantLocation = '/blant/blant';
 const worker = new Worker('jobQueue', async (job: Job) => {
         console.log("Worker Started Processing Job: ", job.id);
         await jobWorker(job.id, job.data);
@@ -43,18 +46,14 @@ const jobWorker = async (jobId: string, jobData: JobData) => {
         const inputFile = `${jobData.jobLocation}/networks/${jobData.networkName}/${jobData.networkName}.el`;
         const outputFile = `${jobData.jobLocation}/blant_runtime.log`;
         
-        let optionString = 'cd /blant && ';
-        optionString += `${blantLocation} `;
-        optionString += `-k ${jobData.graphletSize} `;
-        optionString += `-m ${jobData.mode} `;
-        optionString += `"${inputFile}" > "${outputFile}" 2>&1`;
+        let optionString = `cd ${blantPath} && ./scripts/blant-clusters.sh ./blant ${jobData.graphletSize} ${jobData.density} `;
+        optionString += `\"${inputFile}\" > \"${outputFile}\" 2>&1`;
         
         console.log(`Executing command for job ${jobId}:`, optionString);
-        
         // Run the command
         const { stdout, stderr } = await execAsync(optionString);
         
-        if (stderr) {
+        if (stderr) {   
             console.warn(`Job ${jobId} stderr:`, stderr);
         }
         

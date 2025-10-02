@@ -8,13 +8,13 @@ import { JobData, MulterFile, UploadedFiles } from '../../types/types';
 /**
  * Creates a new job with the provided files and options
  * @param files The uploaded network files
- * @param mode The mode to run BLANT in
+ * @param density The density to run BLANT in
  * @param graphletSize The size of the graphlet to use for the job
  * @returns JobData or RedirectResponse
  */
 const createJob = async (
     file: MulterFile,
-    mode: string,
+    density: number,
     graphletSize: number,
 
 ): Promise<JobData> => {
@@ -53,7 +53,7 @@ const createJob = async (
         jobLocation: `/app/uploads/${jobId}`, 
         extension,
         networkName,
-        mode,
+        density,
         graphletSize,
         attempts: 0,
         createdAt: new Date().toISOString(),
@@ -63,7 +63,7 @@ const createJob = async (
     console.log(`Created job data:`, JSON.stringify(jobData, null, 2));
     
     try {
-        await preprocess(file, jobData, mode, graphletSize);
+        await preprocess(file, jobData);
         console.log('Preprocessing completed successfully');
         return jobData;
     } catch (error: any) {

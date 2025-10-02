@@ -7,8 +7,6 @@ import { JobData, MulterFile } from '../../types/types';
 const preprocess = async (
   file: MulterFile, 
   jobData: JobData,
-  mode: string,
-  graphletSize: number
 ): Promise<void> => {
     // create directories for the job
     const jobLocation: string = jobData.jobLocation;

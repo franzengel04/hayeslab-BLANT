@@ -15,7 +15,6 @@ import {
     UnifiedResponse,
 } from '../../types/types';
 import path from 'path';
-import { jsonToJobData } from '../utils/jsonToJobData';
 import { getJobFromQueue } from '../config/queue';
 /**
  * Downloads the zip file for a job based on the request parameters.
@@ -86,25 +85,21 @@ const downloadZipJob = async (req: DownloadZipRequest, res: Response, next: Next
 const submitJobController = async (req: SubmitJobRequest, res: Response, next: NextFunction): Promise<void> => {
     try {
         //  Validate required fields
-        if (!req.body.mode) {
-            throw HttpError.badRequest('Mode is required.');
-        } else if (typeof(req.body.mode) !== 'string' || 
-            (req.body.mode !== 'f' && 
-            req.body.mode !== 'o' && 
-            req.body.mode !== 'g' && 
-            req.body.mode !== 'i' && 
-            req.body.mode !== 'j')) {
-            throw HttpError.badRequest('mode must be a valid string.');
+        if (!req.body.density) {
+            throw HttpError.badRequest('density is required.');
         }
-
+        if (isNaN(req.body.density)) {
+            throw HttpError.badRequest('density must be a valid number.');
+        } else if (req.body.density > 1 || req.body.density < 0.01) {
+            throw HttpError.badRequest('density must be between 0.01 and 1.00.');
+        }
+        
         if (!req.body.graphletSize ) {
             throw HttpError.badRequest('graphletSize is required.');
         }
-
-        const graphletSize = parseInt(req.body.graphletSize, 10);
-        if (isNaN(graphletSize)) {
+        if (isNaN(req.body.graphletSize)) {
             throw HttpError.badRequest('graphletSize must be a valid number.');
-        } else if (graphletSize > 8 || graphletSize < 3) {
+        } else if (req.body.graphletSize > 8 || req.body.graphletSize < 3) {
             throw HttpError.badRequest('graphletSize must be between 3 and 8.');
         }
 
@@ -113,7 +108,7 @@ const submitJobController = async (req: SubmitJobRequest, res: Response, next: N
             throw new HttpError('No file uploaded', { status: 400 });
         }
         
-        const result = await createJob(req.file, req.body.mode, graphletSize);
+        const result = await createJob(req.file, req.body.density, req.body.graphletSize);
 
         //  Send successful response
         const response: UnifiedResponse<JobData> = {
