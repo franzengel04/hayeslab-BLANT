@@ -50,7 +50,8 @@ const createJob = async (
     const jobData: JobData = {
         id: jobId,
         status: 'preprocessing',
-        jobLocation: `/app/uploads/${jobId}`, 
+        // jobLocation: `/app/uploads/${jobId}`, 
+        jobLocation: `./process/${jobId}`, 
         extension,
         networkName,
         density,

@@ -128,7 +128,7 @@ export interface JobInfoFile {
 
 export interface SuccessJobInfoFile{
     status: 'processed';
-    zipName: string;
+    // zipName: string;
     command: string;
 };
 

@@ -15,7 +15,7 @@ import {
     UnifiedResponse,
 } from '../../types/types';
 import path from 'path';
-import { getJobFromQueue } from '../config/queue';
+// import { getJobFromQueue } from '../config/queue';
 /**
  * Downloads the zip file for a job based on the request parameters.
  * @param req - The request object.
@@ -107,7 +107,7 @@ const submitJobController = async (req: SubmitJobRequest, res: Response, next: N
         if (!req.file) {
             throw new HttpError('No file uploaded', { status: 400 });
         }
-        
+        // creates job and runs preprocessing (creating the directory for output files, moving the network files there, etc... but does not actually start running the job)
         const result = await createJob(req.file, req.body.density, req.body.graphletSize);
 
         //  Send successful response
@@ -259,44 +259,44 @@ const getJobResults = async (req: GetJobResultsRequest, res: Response, next: Nex
     }
 };
 
-const getJobStatus = async (req: GetJobStatusRequest, res: Response, next: NextFunction): Promise<void> => {
-    try {
-        const jobId = req.params.id;
-        if (!jobId) {
-            throw new HttpError('Job ID is required.', { status: 400 });
-        }
+// const getJobStatus = async (req: GetJobStatusRequest, res: Response, next: NextFunction): Promise<void> => {
+//     try {
+//         const jobId = req.params.id;
+//         if (!jobId) {
+//             throw new HttpError('Job ID is required.', { status: 400 });
+//         }
 
-        const job = await getJobFromQueue(jobId);
-        if (!job) {
-            throw new HttpError(`Job for id ${jobId} not found.`, { status: 404 });
-        }
+//         // const job = await getJobFromQueue(jobId);
+//         if (!job) {
+//             throw new HttpError(`Job for id ${jobId} not found.`, { status: 404 });
+//         }
 
-        const status = job.data.status;
+//         const status = job.data.status;
 
-        const response: UnifiedResponse<JobStatusResponse> = {
-            status: 'success',
-            message: 'Job status retrieved successfully',
-            data: {
-                id: jobId,
-                status: status,
-            },
-        };
+//         const response: UnifiedResponse<JobStatusResponse> = {
+//             status: 'success',
+//             message: 'Job status retrieved successfully',
+//             data: {
+//                 id: jobId,
+//                 status: status,
+//             },
+//         };
 
-        res.status(200).json(response); 
-    } catch (err) {
-        const response: UnifiedResponse<JobStatusResponse> = {
-            status: 'error',
-            message: `${err}`,
-        };
+//         res.status(200).json(response); 
+//     } catch (err) {
+//         const response: UnifiedResponse<JobStatusResponse> = {
+//             status: 'error',
+//             message: `${err}`,
+//         };
 
-        res.status(500).json(response);
-    }
-}
+//         res.status(500).json(response);
+//     }
+// }
 
 export { 
     downloadZipJob, 
     getJobResults, 
     submitJobController, 
     processController,
-    getJobStatus,
+    // getJobStatus,
 };

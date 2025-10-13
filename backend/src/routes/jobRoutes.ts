@@ -6,7 +6,7 @@ import {
 } from '../middlewares/upload';
 import {
     getJobResults,
-    getJobStatus,
+    // getJobStatus,
     submitJobController,
 } from '../controllers/jobController';
 
@@ -28,7 +28,7 @@ router.post(
     cleanupFileErrorHandler,
 );
 
-router.get('/status/:id', getJobStatus);
+// router.get('/status/:id', getJobStatus);
 
 // Future endpoints
 // router.get('/:id/zip', downloadZipJob);

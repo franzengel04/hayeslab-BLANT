@@ -7,7 +7,8 @@ import HttpError from './HttpError';
 import { MulterFile } from '../../types/types';
 
 // Constants
-const tmpDir: string = '/app/tmp';
+// const tmpDir: string = '/app/tmp';
+const tmpDir: string = path.join(__dirname, '../tmp');
 
 // Configure multer storage
 const storage = multer.diskStorage({
