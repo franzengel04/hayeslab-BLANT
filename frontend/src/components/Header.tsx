@@ -22,7 +22,7 @@ const Header: React.FC = () => {
       <nav className="header-nav">
         <Link to="/submit-job" className="nav-link">Submit New Job</Link>
         <Link to="/lookup-job" className="nav-link">Lookup Previous Job</Link>
-        <a href="/contact" className="nav-link">Contact Us</a>
+        <a href="/contact-us" className="nav-link">Contact Us</a>
         <a href="/login" className="nav-link">Login/Register</a>
       </nav>
     </header>

@@ -1,0 +1,140 @@
+/* src/pages/Login.css */
+.li-pageContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    background-color: #ffffff;
+    margin-top: 3rem;
+    /* Adds space between the header and the login box */
+    min-height: 80vh;
+}
+
+.li-loginBox {
+    background-color: #e2e8f0;
+    padding: 2.5rem 3rem;
+    border-radius: 24px;
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 420px;
+    text-align: center;
+}
+
+.li-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #1e40af;
+    /* A deep blue color */
+    margin: 0;
+}
+
+.li-subtitle {
+    margin: 0.25rem 0 2rem 0;
+    color: #6b7280;
+}
+
+.li-googleButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: white;
+    background-color: #ef4444;
+    /* Red color */
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.li-googleButton:hover {
+    background-color: #dc2626;
+}
+
+.li-googleIcon {
+    width: 20px;
+    height: 20px;
+    margin-right: 12px;
+}
+
+.li-separator {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #9ca3af;
+    margin: 1.5rem 0;
+}
+
+.li-separator::before,
+.li-separator::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.li-separator span {
+    padding: 0 1rem;
+}
+
+.li-formGroup {
+    margin-bottom: 1.25rem;
+    text-align: left;
+}
+
+.li-formGroup label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #374151;
+}
+
+.li-formGroup input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+.li-forgotLink {
+    display: block;
+    text-align: right;
+    font-size: 0.875rem;
+    color: #3b82f6;
+    text-decoration: none;
+    margin-top: -0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.li-submitButton {
+    width: 100%;
+    padding: 0.875rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: white;
+    background-color: #3b82f6;
+    /* Blue color */
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.li-submitButton:hover {
+    background-color: #2563eb;
+}
+
+.li-registerLink {
+    margin-top: 2rem;
+    font-size: 0.875rem;
+    color: #6b7280;
+}
+
+.li-registerLink a {
+    color: #3b82f6;
+    font-weight: 600;
+    text-decoration: none;
+}

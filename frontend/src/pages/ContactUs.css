@@ -1,0 +1,94 @@
+/* src/pages/ContactUs.css */
+.cu-pageContainer {
+    display: flex;
+    justify-content: center;
+    padding: 1rem;
+    background-color: #ffffff;
+    margin-top: 3rem;
+    /* Adds space between the header and the contact box */
+}
+
+.cu-contactBox {
+    background-color: #e2e8f0;
+    padding: 2.5rem;
+    /* Reduced padding */
+    border-radius: 16px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    width: 100%;
+    max-width: 500px;
+    /* Made the box smaller */
+}
+
+.cu-title {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 2rem;
+}
+
+.cu-formGroup {
+    margin-bottom: 1.25rem;
+    /* Slightly reduced margin */
+    text-align: left;
+}
+
+.cu-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #374151;
+    font-size: 0.875rem;
+    /* Smaller label font */
+}
+
+.cu-input,
+.cu-textarea {
+    width: 100%;
+    padding: 0.65rem 1rem;
+    /* Adjusted padding */
+    font-size: 0.875rem;
+    /* Smaller input font */
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    box-sizing: border-box;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.cu-textarea {
+    min-height: 100px;
+    /* Reduced min-height */
+    resize: vertical;
+}
+
+.cu-input:focus,
+.cu-textarea:focus {
+    outline: none;
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+}
+
+.cu-submitButton {
+    width: 100%;
+    padding: 0.75rem 1.5rem;
+    /* Adjusted padding */
+    font-size: 1rem;
+    /* Smaller button font */
+    font-weight: 600;
+    color: white;
+    background-color: #4f46e5;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    box-shadow: 0 4px 14px 0 rgba(79, 70, 229, 0.39);
+    margin-top: 1rem;
+}
+
+.cu-submitButton:hover {
+    background-color: #4338ca;
+}
+
+.cu-submitButton:active {
+    transform: scale(0.98);
+}

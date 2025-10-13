@@ -1,0 +1,81 @@
+/* src/pages/LookupJob.css */
+.lj-pageContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    /* Use min-height to fill the viewport */
+    padding: 0rem;
+    background-color: #ffffff;
+    /* A light background for the page */
+}
+
+.lj-lookupBox {
+    background-color: #e2e8f0;
+    /* Light blue/purple background */
+    padding: 3rem;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    width: 100%;
+    max-width: 450px;
+}
+
+.lj-title {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 2rem;
+}
+
+.lj-formGroup {
+    margin-bottom: 1.5rem;
+    text-align: left;
+}
+
+.lj-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #374151;
+}
+
+.lj-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    box-sizing: border-box;
+    /* Important for padding and width */
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.lj-input:focus {
+    outline: none;
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+}
+
+.lj-submitButton {
+    width: 100%;
+    padding: 0.875rem 1.5rem;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: white;
+    background-color: #4f46e5;
+    border: none;
+    border-radius: 50px;
+    /* Pill shape */
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    box-shadow: 0 4px 14px 0 rgba(79, 70, 229, 0.39);
+}
+
+.lj-submitButton:hover {
+    background-color: #4338ca;
+}
+
+.lj-submitButton:active {
+    transform: scale(0.98);
+}
