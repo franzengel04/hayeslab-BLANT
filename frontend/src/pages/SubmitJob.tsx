@@ -6,11 +6,13 @@ import NetworkSelection from '../components/NetworkSelection';
 import Options from '../components/Options';
 import Confirm from '../components/Confirm';
 import Processing from '../components/Processing';
+import { useJobSubmission } from '../context/JobSubmissionContext';
 
 // Define a type for all the form data
 export interface FormData {
   networkFile: File | null;
   graphletSize: number;
+  edgeDensity?: number;
   outputMode: string;
   samplingMethod: string;
   precision: number;
@@ -20,6 +22,15 @@ export interface FormData {
 const SubmitJobPage: React.FC = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [isSubmitted, setIsSubmitted] = useState(false); // State to track submission
+  const { 
+    networkFile, 
+    blantOptions, 
+    validateFile, 
+    handleSubmit, 
+    resetForm, 
+    fileError 
+  } = useJobSubmission();
+
   
   const [formData, setFormData] = useState<FormData>({
     networkFile: null,
@@ -43,10 +54,11 @@ const SubmitJobPage: React.FC = () => {
     setCurrentStep((prevStep) => Math.max(prevStep - 1, 0));
   };
 
-  const handleSubmit = () => {
+  const handleSubmitJob = () => {
       console.log('Submitting Job with data:', formData);
       setIsSubmitted(true); // Set submission status to true
       // Move to the "Processing" step
+      handleSubmit();
       handleNext(); 
   }
 
@@ -93,7 +105,7 @@ const SubmitJobPage: React.FC = () => {
            <Confirm 
             formData={formData}
             onPrevious={handlePrevious}
-            onSubmit={handleSubmit}
+            onSubmit={handleSubmitJob}
            />
         </AccordionSection>
 
