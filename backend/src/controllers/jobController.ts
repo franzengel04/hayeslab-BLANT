@@ -11,6 +11,7 @@ import {
     JobStatusResponse,
     ProcessedJobResponse,
     ProcessJobData,
+    SubmitJobOptions,
     SubmitJobRequest,
     UnifiedResponse,
 } from '../../types/types';
@@ -86,21 +87,29 @@ const submitJobController = async (req: SubmitJobRequest, res: Response, next: N
     try {
         //  Validate required fields
         console.log("submitJobController req.body:", req.body);
-        if (!req.body.options.density) {
+        const jobOptions: SubmitJobOptions = JSON.parse(req.body.options);
+        console.log("submitJobController jobOptions object:", jobOptions);
+        // if (!req.body.options.density) {
+        if (!jobOptions.density) {
             throw HttpError.badRequest('density is required.');
         }
-        if (isNaN(req.body.options.density)) {
+        // if (isNaN(req.body.options.density)) {
+        if (isNaN(jobOptions.density)) {
             throw HttpError.badRequest('density must be a valid number.');
-        } else if (req.body.options.density > 1 || req.body.options.density < 0.01) {
+        // } else if (req.body.options.density > 1 || req.body.options.density < 0.01) {
+        } else if (jobOptions.density > 1 || jobOptions.density < 0.01) {
             throw HttpError.badRequest('density must be between 0.01 and 1.00.');
         }
         
-        if (!req.body.options.graphletSize ) {
+        // if (!req.body.options.graphletSize ) {
+        if (!jobOptions.graphletSize ) {
             throw HttpError.badRequest('graphletSize is required.');
         }
-        if (isNaN(req.body.options.graphletSize)) {
+        // if (isNaN(req.body.options.graphletSize)) {
+        if (isNaN(jobOptions.graphletSize)) {
             throw HttpError.badRequest('graphletSize must be a valid number.');
-        } else if (req.body.options.graphletSize > 8 || req.body.options.graphletSize < 3) {
+        // } else if (req.body.options.graphletSize > 8 || req.body.options.graphletSize < 3) {
+        } else if (jobOptions.graphletSize > 8 || jobOptions.graphletSize < 3) {
             throw HttpError.badRequest('graphletSize must be between 3 and 8.');
         }
 
@@ -109,7 +118,8 @@ const submitJobController = async (req: SubmitJobRequest, res: Response, next: N
             throw new HttpError('No file uploaded', { status: 400 });
         }
         // creates job and runs preprocessing (creating the directory for output files, moving the network files there, etc... but does not actually start running the job)
-        const result = await createJob(req.file, req.body.options.density, req.body.options.graphletSize);
+        // const result = await createJob(req.file, req.body.options.density, req.body.options.graphletSize);
+        const result = await createJob(req.file, jobOptions.density, jobOptions.graphletSize);
         console.log("cratead job with preprocess data:", result);
         //  Send successful response
         const response: UnifiedResponse<JobData> = {
