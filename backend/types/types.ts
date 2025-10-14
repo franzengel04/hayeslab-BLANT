@@ -34,8 +34,14 @@ export interface UploadedFiles {
 
 export interface SubmitJobRequest extends Request{
     body: {
-        density: number,
-        graphletSize: number,
+        options: {
+            density: number,
+            graphletSize: number,
+            outputMode: string,
+            samplingMethod: string,
+            precision?: number,
+        }
+        file: MulterFile;
     };
 }
 
