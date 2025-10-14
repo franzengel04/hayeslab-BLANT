@@ -145,7 +145,7 @@ const processController = async (data: JobData): Promise<ProcessJobData> => {
 };
 
 const _parseJobStatusFile = async(jobId: string): Promise<JobStatusResponse> => {
-    const jobDir = path.join(__dirname, '../process', jobId);
+    const jobDir = path.resolve(path.join(__dirname, '../process', jobId));
 
     // Check if job directory exists
     const jobDirExists = fs.existsSync(jobDir);
