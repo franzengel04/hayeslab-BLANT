@@ -85,6 +85,7 @@ const downloadZipJob = async (req: DownloadZipRequest, res: Response, next: Next
 const submitJobController = async (req: SubmitJobRequest, res: Response, next: NextFunction): Promise<void> => {
     try {
         //  Validate required fields
+        console.log("submitJobController req.body:", req.body);
         if (!req.body.density) {
             throw HttpError.badRequest('density is required.');
         }

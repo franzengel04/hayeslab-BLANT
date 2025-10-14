@@ -25,7 +25,7 @@ router.post(
     uploadMiddleware,
     validateSingleFileMiddleware,
     submitJobController,
-    cleanupFileErrorHandler,
+    // cleanupFileErrorHandler,
 );
 
 // router.get('/status/:id', getJobStatus);
