@@ -45,10 +45,12 @@ const apiRequest = async <T extends object>(
   }
   
   try {
-    const response = await fetch(url, {
+    const requestOptions = {
       headers,
-      ...options,
-    });
+      ...options
+    }
+    console.log("requestOptions: ", requestOptions);
+    const response = await fetch(url, requestOptions);
 
     const data = await response.json();
     if (response.status != 302 && (response.status < 200 || response.status >= 300)) {
@@ -120,17 +122,25 @@ const api: Api = {
 //   },
   
   submitJob: async (formData: FormData): Promise<any> => {
-    const response = await apiRequest<SubmitJobResponse>(
-      // "/jobs/preprocess",
-      "/jobs/submitJob",
-      {
-        method: "POST",
-        body: formData,
-      },
-      true
-    );
-    console.log("submitJob api.submitJob response:", response);
-    alert(response.execLogFileOutput);
+    // const response = await apiRequest<SubmitJobResponse>(
+    //   // "/jobs/preprocess",
+    //   "/jobs/submitJob",
+    //   {
+    //     method: "POST",
+    //     body: formData,
+    //   },
+    //   true
+    // );
+    const url = `${API_URL}/jobs/submitJob`;
+    const requestOptions = {
+      method: "POST",
+      body: formData,
+    }
+    console.log("submitJob requestOptions: ", requestOptions);
+    const response = await fetch(url, requestOptions);
+    const responseData = await response.json();
+    console.log("submitJob api.submitJob response:", responseData);
+    alert(responseData.execLogFileOutput);
     return response;
   },
 

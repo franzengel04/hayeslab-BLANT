@@ -12,7 +12,7 @@ import api from "../api/api.ts";
 
 export interface blantOptions {
     graphletSize: number,
-    edgeDensity?: number,
+    density?: number,
     samplingMethod: 'precision' | 'sample_number',
     outputMode: 'frequency' | 'odv',
     precision?: number,
@@ -43,7 +43,14 @@ export function JobSubmissionProvider({
 }) {
     const navigate = useNavigate();
     const [networkFile, setNetworkFile] = useState<File | null>(null);
-    const [blantOptions, setBlantOptions] = useState<blantOptions | null>(null);
+    const [blantOptions, setBlantOptions] = useState<blantOptions | null>({
+        graphletSize: 3,
+        outputMode: 'frequency',
+        samplingMethod: 'precision',
+        precision: 0.01,
+        density: 0.01,
+        // numSamples: 10000,
+    });
     const [fileError, setFileError] = useState<string | null>(null);
 
     const validateFile = (
@@ -60,7 +67,9 @@ export function JobSubmissionProvider({
     const handleFileInputChange = async (
         event: React.ChangeEvent<HTMLInputElement>,
     ) : Promise<boolean> => {
+        console.log("handleFileInputChange event.target: ", event.target);
         const file = event.target.files?.[0];
+        console.log("handleFileInputChange file: ", file);
         if (!file) return false;
 
         try {
@@ -86,22 +95,34 @@ export function JobSubmissionProvider({
     ) : Promise<boolean> => {
         if (!event.target.value || !blantOptions) return false;
 
-        const newBlantOptions = { ...blantOptions, [optionName]: event.target.value };
+        // Helper to check if a string is a number (integer or decimal)
+        const isNumericString = (s: string) => /^\d+(\.\d+)?$/.test(s);
+        let value; 
+        if (isNumericString(event.target.value)) {
+            value = parseFloat(event.target.value);
+        } else {
+            value = event.target.value;
+        }
+    
+        const newBlantOptions = { ...blantOptions, [optionName]: value };
         // const newBlantOptions = { ...blantOptions, ...newData };
         setBlantOptions(newBlantOptions);
+        console.log("handleBlantOptionsChange newBlantOptions: ", newBlantOptions);
         return true;
     };
 
     const handleSubmit = async (): Promise<void> => {
         try {
             // Validate required files
+            console.log("handleSubmit networkFile: ", networkFile);
+            console.log("handleSubmit blantOptions: ", blantOptions);
             if (!networkFile) {
                 setFileError("Please upload a network file.");
                 return;
             }
 
             const formData = new FormData();
-            formData.append("files", networkFile);
+            formData.append("file", networkFile);
             formData.append("options", JSON.stringify(blantOptions));
 
             // Log FormData contents
@@ -111,6 +132,7 @@ export function JobSubmissionProvider({
             }
 
             try {
+                console.log("Submitting form data: ", formData);
                 const response = await api.submitJob(formData);
                 console.log("jobSubmission api.upload response:", response);
 

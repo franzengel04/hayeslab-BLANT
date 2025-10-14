@@ -84,7 +84,7 @@ const Options: React.FC<OptionsProps> = ({ onNext, onPrevious, onDataChange, ini
           <div className="os-inputGroup">
             <label htmlFor="precision">Precision</label>
             {/* <input type="number" id="precision" className="os-numberInput" defaultValue={initialData.precision} step="0.01" onChange={(e) => onDataChange({ edgeDensity: parseFloat(e.target.value) })} /> */}
-            <input type="number" id="precision" className="os-numberInput" defaultValue={initialData.precision} step="0.01" onChange={(e) => onDataChange(e, 'edgeDensity')} />
+            <input type="number" id="precision" className="os-numberInput" defaultValue={initialData.precision} step="0.01" onChange={(e) => onDataChange(e, 'density')} />
           </div>
         ) : (
           <div className="os-inputGroup">

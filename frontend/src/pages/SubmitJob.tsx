@@ -61,7 +61,7 @@ const SubmitJobPage: React.FC = () => {
   };
 
   const handleSubmitJob = () => {
-      console.log('Submitting Job with data:', formData);
+      // console.log('Submitting Job with data:', formData);
       setIsSubmitted(true); // Set submission status to true
       // Move to the "Processing" step
       handleSubmit();
