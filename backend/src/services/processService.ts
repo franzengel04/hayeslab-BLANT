@@ -56,7 +56,7 @@ const jobProcess = async (jobId: string, jobData: JobData): Promise<ProcessJobDa
     const networkDir = path.resolve(jobDir, 'networks', `${jobData.networkName}${jobData.extension}`);
 
     // Step 4: generate the command-line string
-    const commandLine = `cd ${blantDirectory} && ./scripts/blant-clusters.sh ./blant ${jobData.graphletSize} ${jobData.density} ${networkDir}`;
+    const commandLine = `cd ${blantDirectory} && source ./setup.sh && ./scripts/blant-clusters.sh ./blant ${jobData.graphletSize} ${jobData.density} ${networkDir}`;
     
     // Step 5: Run the script
     return new Promise<ProcessJobData>((resolve, reject) => {

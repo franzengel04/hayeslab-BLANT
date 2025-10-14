@@ -8,8 +8,21 @@
 //     GetJobResultSuccessResponseSchema, // Use this one for success cases
 //   } from './apiValidation';
 
+interface SubmitJobResponse {
+  success: boolean;
+  status: string;
+  jobId: string;
+  execLogFileOutput?: string;
+  redirect?: string;
+
+  // maybe
+  note?: string;
+  zipDownloadUrl?: string;
+}
+
+
 export const API_URL = import.meta.env.VITE_API_URL; // ?? 'http://localhost:4000';
-// export const API_URL = "https://hayeslab.ics.uci.edu/backend/api";
+// export const API_URL = "https://hayeslab.ics.uci.edu/blant-backend/api";
 console.log("API_URL is: ", API_URL);
 /**
  * Generic API request function with improved error handling and type validation
@@ -107,14 +120,18 @@ const api: Api = {
 //   },
   
   submitJob: async (formData: FormData): Promise<any> => {
-    return await apiRequest(
-      "/jobs/preprocess",
+    const response = await apiRequest<SubmitJobResponse>(
+      // "/jobs/preprocess",
+      "/jobs/submitJob",
       {
         method: "POST",
         body: formData,
       },
       true
     );
+    console.log("submitJob api.submitJob response:", response);
+    alert(response.execLogFileOutput);
+    return response;
   },
 
 //   process: async (jobId) => {

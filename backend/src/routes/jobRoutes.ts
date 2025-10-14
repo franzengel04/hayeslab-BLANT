@@ -21,7 +21,7 @@ router.post(
 
 // Single endpoint for job submission that handles preprocessing and queueing
 router.post(
-    '/submit',
+    '/submitJob',
     uploadMiddleware,
     validateSingleFileMiddleware,
     submitJobController,
