@@ -51,8 +51,8 @@ const validateSingleFileMiddleware = async (req: Request, res: Response, next: N
             throw new HttpError('A .el file must be uploaded.', { status: 400 });
         }
         
-        console.log(`File uploaded: ${req.file.originalname} (${req.file.size} bytes)`);
-        console.log(`File path: ${req.file.path}`);
+        // console.log(`File uploaded: ${req.file.originalname} (${req.file.size} bytes)`);
+        // console.log(`File path: ${req.file.path}`);
         next();
     } catch (error) {
 
