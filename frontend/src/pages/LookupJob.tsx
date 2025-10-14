@@ -11,6 +11,7 @@ const LookupJob: React.FC = () => {
   // Set the jobId from URL parameter if it exists
   useEffect(() => {
     async function getJobStatus(id: string) {
+      console.log('getting job status for id:', id);
       const result = await api.getJobStatus(id);
       console.log('Job Result:', result);
     }
