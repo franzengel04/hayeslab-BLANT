@@ -57,6 +57,7 @@ const jobProcess = async (jobId: string, jobData: JobData): Promise<ProcessJobDa
 
     // Step 4: generate the command-line string
     const commandLine = `cd ${blantDirectory} && source ./setup.sh && ./scripts/blant-clusters.sh ./blant ${jobData.graphletSize} ${jobData.density} ${networkDir}`;
+    console.log("jobProcess commandLine:", commandLine);
     
     // Step 5: Run the script
     return new Promise<ProcessJobData>((resolve, reject) => {
@@ -67,7 +68,7 @@ const jobProcess = async (jobId: string, jobData: JobData): Promise<ProcessJobDa
         let stdoutData = '';
         let stderrData = '';
         
-        const child = spawn('sh', ['-c', commandLine], { 
+        const child = spawn('bash', ['-c', commandLine], { 
             cwd: jobDir,
             stdio: ['ignore', 'pipe', 'pipe']  // Capture stdout and stderr as streams
         });
