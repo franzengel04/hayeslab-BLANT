@@ -145,12 +145,14 @@ const processController = async (data: JobData): Promise<ProcessJobData> => {
 };
 
 const _parseJobStatusFile = async(jobId: string): Promise<JobStatusResponse> => {
-    const jobDir = path.resolve(path.join(__dirname, '../process', jobId));
+    const jobDir = path.resolve(path.join(__dirname, '../../process', jobId));
 
     // Check if job directory exists
+    console.log('jobDir:', jobDir);
     const jobDirExists = fs.existsSync(jobDir);
     // const jobDirIsDirectory = fs.lstatSync(jobDir).isDirectory();
     console.log('jobDirExists:', jobDirExists);
+    
     // console.log('jobDirIsDirectory:', jobDirIsDirectory);
     if (!jobDirExists) {
         throw new HttpError('Job not found.', { status: 404 });
