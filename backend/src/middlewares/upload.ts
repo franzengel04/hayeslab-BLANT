@@ -27,6 +27,10 @@ const upload = multer({
     },
     fileFilter: (req: Request, file: MulterFile, cb: multer.FileFilterCallback) => {
         // Validate file extension
+        console.log("upload fileFilter file:", file);
+        console.log("upload fileFilter req.body:", req.body);
+        console.log("upload fileFilter req.files:", req.files);
+        
         const fileExt = path.extname(file.originalname).toLowerCase().slice(1);
         if (fileExt !== 'el') {
             return cb(
