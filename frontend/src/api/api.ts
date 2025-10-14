@@ -140,8 +140,7 @@ const api: Api = {
     const response = await fetch(url, requestOptions);
     const responseData = await response.json();
     console.log("submitJob api.submitJob response:", responseData);
-    alert(responseData.execLogFileOutput);
-    return response;
+    return responseData;
   },
 
 //   process: async (jobId) => {

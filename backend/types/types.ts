@@ -110,7 +110,8 @@ export type JobData = {
 
 export interface JobStatusResponse {
     id: string;
-    status: string;
+    status: "processed" | "failed" | "preprocessed" | "preprocessing";
+    command: string,
 }
 
 // BullMQ job payload type

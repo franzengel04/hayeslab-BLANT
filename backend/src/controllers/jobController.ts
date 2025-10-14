@@ -144,6 +144,34 @@ const processController = async (data: JobData): Promise<ProcessJobData> => {
     return await jobProcess(jobId, jobData);
 };
 
+const _parseJobStatusFile = async(jobId: string): Promise<JobStatusResponse> => {
+    const jobDir = path.join(__dirname, '../process', jobId);
+
+    // Check if job directory exists
+    if (!fs.existsSync(jobDir) || !fs.lstatSync(jobDir).isDirectory()) {
+        throw new HttpError('Job not found.', { status: 404 });
+    }
+
+    // Check if info.json exists
+    const infoJsonPath = path.join(jobDir, 'info.json');
+    if (!fs.existsSync(infoJsonPath)) {
+        throw new HttpError('Job data not found. The job might not have been processed yet.', {
+            status: 500,
+        });
+    }
+
+    // Read job data
+    const infoJsonContent = fs.readFileSync(infoJsonPath, 'utf8');
+    const jobData = JSON.parse(infoJsonContent);
+    jobData['id'] = jobId;
+
+    return jobData;
+
+    // Handle different job statuses
+    // const status = jobData.status;
+
+};
+
 /**
  * Controller function to retrieve job results based on a job ID.
  *
@@ -152,7 +180,7 @@ const processController = async (data: JobData): Promise<ProcessJobData> => {
  * @param next - Express next middleware function for error handling.
  * @returns A Promise that resolves when the response is sent.
  */
-const getJobResults = async (req: GetJobResultsRequest, res: Response, next: NextFunction): Promise<void> => {
+const getJobStatus = async (req: GetJobResultsRequest, res: Response, next: NextFunction): Promise<void> => {
     try {
         const jobId = req.params.id;
 
@@ -164,24 +192,28 @@ const getJobResults = async (req: GetJobResultsRequest, res: Response, next: Nex
 
         const jobDir = path.join(__dirname, '../process', jobId);
 
-        // Check if job directory exists
-        if (!fs.existsSync(jobDir) || !fs.lstatSync(jobDir).isDirectory()) {
-            throw new HttpError('Job not found.', { status: 404 });
-        }
+        // // Check if job directory exists
+        // if (!fs.existsSync(jobDir) || !fs.lstatSync(jobDir).isDirectory()) {
+        //     throw new HttpError('Job not found.', { status: 404 });
+        // }
 
-        // Check if info.json exists
-        const infoJsonPath = path.join(jobDir, 'info.json');
-        if (!fs.existsSync(infoJsonPath)) {
-            throw new HttpError('Job data not found. The job might not have been processed yet.', {
-                status: 500,
-            });
-        }
+        // // Check if info.json exists
+        // const infoJsonPath = path.join(jobDir, 'info.json');
+        // if (!fs.existsSync(infoJsonPath)) {
+        //     throw new HttpError('Job data not found. The job might not have been processed yet.', {
+        //         status: 500,
+        //     });
+        // }
 
-        // Read job data
-        const infoJsonContent = fs.readFileSync(infoJsonPath, 'utf8');
-        const jobData = JSON.parse(infoJsonContent);
+        // // Read job data
+        // const infoJsonContent = fs.readFileSync(infoJsonPath, 'utf8');
+        // const jobData = JSON.parse(infoJsonContent);
 
-        // Handle different job statuses
+        // // Handle different job statuses
+        // const status = jobData.status;
+
+        const jobData = await _parseJobStatusFile(jobId);
+
         const status = jobData.status;
 
         if (status === 'failed') {
@@ -210,22 +242,23 @@ const getJobResults = async (req: GetJobResultsRequest, res: Response, next: Nex
             });
         }
 
-        if (status === 'preprocessed' || status === 'processing') {
+        if (status === 'preprocessed') {
             const redirectResponse: UnifiedResponse = {
                 status: 'redirect',
                 message: 'Job is still being processed. Redirecting...',
-                redirect: `/submit-job/${jobId}`,
+                // redirect: `/submit-job/${jobId}`,
+                redirect: `/lookup-job/${jobId}`,
             };
             res.status(200).json(redirectResponse);
             return;
         }
 
         if (status === 'processed') {
-            if (!jobData.zipName) {
-                throw new HttpError('Invalid job data: missing zip file name.', {
-                    status: 500,
-                });
-            }
+            // if (!jobData.zipName) {
+            //     throw new HttpError('Invalid job data: missing zip file name.', {
+            //         status: 500,
+            //     });
+            // }
 
             // Get execution log
             const execLogFilePath = path.join(jobDir, 'run.log');
@@ -278,6 +311,7 @@ const getJobResults = async (req: GetJobResultsRequest, res: Response, next: Nex
 //         }
 
 //         // const job = await getJobFromQueue(jobId);
+
 //         if (!job) {
 //             throw new HttpError(`Job for id ${jobId} not found.`, { status: 404 });
 //         }
@@ -306,7 +340,8 @@ const getJobResults = async (req: GetJobResultsRequest, res: Response, next: Nex
 
 export { 
     downloadZipJob, 
-    getJobResults, 
+    // getJobResults, 
+    getJobStatus,
     submitJobController, 
     processController,
     // getJobStatus,
