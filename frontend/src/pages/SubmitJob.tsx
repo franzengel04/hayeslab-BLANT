@@ -24,9 +24,13 @@ const SubmitJobPage: React.FC = () => {
   const [isSubmitted, setIsSubmitted] = useState(false); // State to track submission
   const { 
     networkFile, 
+    setNetworkFile,
     blantOptions, 
+    setBlantOptions,
     validateFile, 
     handleSubmit, 
+    handleFileInputChange,
+    handleBlantOptionsChange,
     resetForm, 
     fileError 
   } = useJobSubmission();
@@ -41,10 +45,12 @@ const SubmitJobPage: React.FC = () => {
     numSamples: 10000,
   });
 
-  const handleDataChange = (newData: Partial<FormData>) => {
-    setFormData(prev => ({ ...prev, ...newData }));
-  };
+  // const handleDataChange = (newData: Partial<FormData>) => {
+  //   setFormData(prev => ({ ...prev, ...newData }));
+  // };
 
+
+  
   const handleNext = () => {
     // There are now 4 steps total (0, 1, 2, 3)
     setCurrentStep((prevStep) => Math.min(prevStep + 1, 3));
@@ -74,9 +80,17 @@ const SubmitJobPage: React.FC = () => {
           isLocked={isSubmitted} // Pass submission status
           onClick={() => currentStep > 0 && !isSubmitted && setCurrentStep(0)}
         >
+          {/* <NetworkSelection 
+            onNext={handleNext} 
+            onDataChange={handleBlantOptionsChange}
+          /> */}
+          {/* <NetworkSelection 
+            onNext={handleNext} 
+            onDataChange={setNetworkFile}
+          /> */}
           <NetworkSelection 
             onNext={handleNext} 
-            onDataChange={handleDataChange}
+            onDataChange={handleFileInputChange}
           />
         </AccordionSection>
 
@@ -90,7 +104,7 @@ const SubmitJobPage: React.FC = () => {
            <Options 
             onNext={handleNext} 
             onPrevious={handlePrevious} 
-            onDataChange={handleDataChange}
+            onDataChange={handleBlantOptionsChange}
             initialData={formData}
            />
         </AccordionSection>

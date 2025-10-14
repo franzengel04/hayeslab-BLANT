@@ -10,7 +10,7 @@ import api from "../api/api.ts";
 
 // export const JobSubmissionContext = createContext<JobSubmissionContextType | null>(null);
 
-interface blantOptions {
+export interface blantOptions {
     graphletSize: number,
     edgeDensity?: number,
     samplingMethod: 'precision' | 'sample_number',
@@ -20,11 +20,15 @@ interface blantOptions {
 
 interface JobSubmissionContextSchema {
     networkFile: File | null,
+    setNetworkFile: (file: File | null) => void,
     blantOptions: blantOptions | null,
+    setBlantOptions: (options: blantOptions | null) => void,
     fileError: string | null,
     validateFile: (file: File) => boolean,
     handleSubmit: () => Promise<void>,
     resetForm: () => void,
+    handleFileInputChange: (event: React.ChangeEvent<HTMLInputElement>) => Promise<boolean>,
+    handleBlantOptionsChange: (event: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>, optionName: keyof blantOptions) => Promise<boolean>,
 }
 
 const JobSubmissionContext = createContext<JobSubmissionContextSchema | null>(null);
@@ -50,6 +54,41 @@ export function JobSubmissionProvider({
             setFileError("File extension must be .el");
             return false;
         }
+        return true;
+    };
+
+    const handleFileInputChange = async (
+        event: React.ChangeEvent<HTMLInputElement>,
+    ) : Promise<boolean> => {
+        const file = event.target.files?.[0];
+        if (!file) return false;
+
+        try {
+            const isValid = await validateFile(file);
+            console.log("Is valid: ", isValid);
+            if (isValid) {
+                setNetworkFile(file);
+                return true;
+            }
+            // file is not valid
+            event.target.value = '';
+            setNetworkFile(null);
+            return false;
+        } catch (error) {
+            console.error("File validation error:", error);
+            return false;
+        }
+    };
+
+    const handleBlantOptionsChange = async (
+        event: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>,
+        optionName: keyof blantOptions  
+    ) : Promise<boolean> => {
+        if (!event.target.value || !blantOptions) return false;
+
+        const newBlantOptions = { ...blantOptions, [optionName]: event.target.value };
+        // const newBlantOptions = { ...blantOptions, ...newData };
+        setBlantOptions(newBlantOptions);
         return true;
     };
 
@@ -107,9 +146,13 @@ export function JobSubmissionProvider({
         <JobSubmissionContext.Provider
             value={{
                 networkFile,
+                setNetworkFile,
                 blantOptions,
+                setBlantOptions,
                 validateFile,
                 handleSubmit,
+                handleFileInputChange,
+                handleBlantOptionsChange,
                 resetForm,
                 fileError,
             }}

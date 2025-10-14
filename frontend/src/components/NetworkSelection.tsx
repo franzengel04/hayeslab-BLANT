@@ -7,16 +7,20 @@ import type { FormData } from '../pages/SubmitJob';
 // 'onPrevious' and 'initialData' have been removed to fix the warnings
 interface NetworkSelectionProps {
   onNext: () => void;
-  onDataChange: (data: Partial<FormData>) => void;
+  // onDataChange: (data: Partial<FormData>) => void;
+  // onDataChange: (file: File | null) => void
+  onDataChange: (event: React.ChangeEvent<HTMLInputElement>) => Promise<boolean>,
+  
 }
 
 const NetworkSelection: React.FC<NetworkSelectionProps> = ({ onNext, onDataChange }) => {
   
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      onDataChange({ networkFile: e.target.files[0] });
-    }
-  };
+  // const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   if (e.target.files && e.target.files[0]) {
+  //     // onDataChange({ networkFile: e.target.files[0] });
+  //     onDataChange(e.target.files[0]);
+  //   }
+  // };
 
   return (
     <div className="ns-stepContainer">
@@ -39,7 +43,8 @@ const NetworkSelection: React.FC<NetworkSelectionProps> = ({ onNext, onDataChang
 
       <div className="ns-fileInputGroup">
         <label htmlFor="sourceNetwork">Select Network File</label>
-        <input type="file" id="sourceNetwork" className="ns-fileInput" onChange={handleFileChange} />
+        {/* <input type="file" id="sourceNetwork" className="ns-fileInput" onChange={handleFileChange} /> */}
+        <input type="file" id="sourceNetwork" className="ns-fileInput" onChange={onDataChange} />
       </div>
 
       <p className="ns-loginPrompt">
