@@ -13,7 +13,7 @@ const preprocess = async (
     const networkDir: string = path.join(
         jobLocation,
         "networks",
-        jobData.networkName
+        // jobData.networkName
     );
 
 
@@ -29,15 +29,16 @@ const preprocess = async (
     }
 
     // 5. Move the network file into their directory
-    const networkLocation: string = path.join(networkDir, `${jobData.networkName}${jobData.extension}`);
+    // const networkLocation: string = path.join(networkDir, `${jobData.networkName}${jobData.extension}`);
     try {
-        fs.mkdirSync(path.dirname(networkLocation), { recursive: true });
+        // fs.mkdirSync(path.dirname(networkLocation), { recursive: true });
 
-        fs.copyFileSync(file.path, networkLocation);
+        // fs.copyFileSync(file.path, networkLocation);
+        fs.copyFileSync(file.path, networkDir);
         fs.unlinkSync(file.path);
     } catch (error: any) {
         throw new HttpError(
-            `File ${file.path} could not be moved to ${networkLocation}
+            `File ${file.path} could not be moved to ${networkDir}
             MESSAGE: ${error.message}`,
             {status: 500}
         );
