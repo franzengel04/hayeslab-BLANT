@@ -5,7 +5,7 @@
     align-items: center;
     min-height: 80vh;
     /* Use min-height to fill the viewport */
-    padding: 0rem;
+    padding: 2rem;
     background-color: #ffffff;
     /* A light background for the page */
 }

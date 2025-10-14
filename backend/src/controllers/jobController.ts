@@ -274,8 +274,10 @@ const getJobStatus = async (req: GetJobResultsRequest, res: Response, next: Next
             if (fs.existsSync(execLogFilePath)) {
                 try {
                     const execLogFileContent = fs.readFileSync(execLogFilePath, 'utf8');
-                    const lines = execLogFileContent.split('\n');
-                    execLogFileOutput = lines.map((line) => `<span>${line.trim()}</span>`).join('');
+                    // const lines = execLogFileContent.split('\n');
+                    // execLogFileOutput = lines.map((line) => `${line.trim()}`).join('');
+                    // execLogFileOutput = lines.join('\n');
+                    execLogFileOutput = execLogFileContent;
                 } catch (err) {
                     execLogFileOutput = 'Problem opening execution log file.';
                 }
