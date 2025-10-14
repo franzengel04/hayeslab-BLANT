@@ -100,7 +100,7 @@ interface Api {
 //   upload: (formData: FormData) => Promise<SubmitJobResponse>;
 //   process: (jobId: string) => Promise<ProcessJobResponse>;
   submitJob: (formData: FormData) => Promise<any>;
-  getJobResult: (
+  getJobStatus: (
     jobId: string
   ) => Promise<any>;
   downloadJobZip: (jobId: string) => Promise<Blob>;
@@ -153,8 +153,12 @@ const api: Api = {
 //       }
 //     );
 //   },
-  getJobResult: async (jobId) => {
-    return await apiRequest(`/jobs/${jobId}`, { method: 'GET' });
+  getJobStatus: async (jobId) => {
+    // return await apiRequest(`/jobs/status/${jobId}`, { method: 'GET' });
+    console.log('getJobStatus api.getJobStatus jobId:', jobId);
+    const response = await fetch(`${API_URL}/jobs/status/${jobId}`, { method: 'GET' });
+    const responseData = await response.json();
+    return responseData;
   },
 
   downloadJobZip: async (jobId) => {

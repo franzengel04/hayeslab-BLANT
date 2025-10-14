@@ -1,16 +1,33 @@
 // src/pages/LookupJob.tsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import './LookupJob.css';
+import api from '../api/api';
 
 const LookupJob: React.FC = () => {
+  const { id } = useParams<{ id?: string }>();
   const [jobId, setJobId] = useState('');
+
+  // Set the jobId from URL parameter if it exists
+  useEffect(() => {
+    async function getJobStatus(id: string) {
+      const result = await api.getJobStatus(id);
+      console.log('Job Result:', result);
+    }
+    
+    if (id) {
+      setJobId(id);
+      setTimeout(() => getJobStatus(id), 3000);
+    }
+  }, [id]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // Logic to look up the job will go here
     console.log('Searching for Job ID:', jobId);
-    alert(`Searching for Job ID: ${jobId}`);
+    // alert(`Searching for Job ID: ${jobId}`);
   };
+
 
   return (
     <div className="lj-pageContainer">

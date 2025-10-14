@@ -136,9 +136,9 @@ export function JobSubmissionProvider({
                 const response = await api.submitJob(formData);
                 console.log("jobSubmission api.upload response:", response);
 
-                // if (response.redirect) {
-                //     navigate(response.redirect); // redirects to /submit-jobs/[jobID] url
-                // }
+                if (response.redirect) {
+                    navigate(response.redirect); // redirects to /submit-jobs/[jobID] url
+                }
             } catch (error) {
                 setFileError("An error occurred during submission: " + String(error));
             }

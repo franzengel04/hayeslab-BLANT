@@ -22,7 +22,7 @@ function App() {
               <Route path="/" element={<LandingPage />} />
               <Route path="*" element={<NotFound />} />
               <Route path="/submit-job" element={<SubmitJob />} />
-              <Route path="/lookup-job" element={<LookupJob />} />
+              <Route path="/lookup-job/:id?" element={<LookupJob />} />
               <Route path="/contact-us" element={<ContactUs />} />
               <Route path="/login" element={<Login />} />
           </Routes>
