@@ -1,6 +1,7 @@
 // src/components/LandingPage.tsx
 import React from 'react';
 import './LandingPage.css'; // Make sure your CSS is imported
+import BlantImage from '../assets/blant.png';
 
 const LandingPage: React.FC = () => {
   return (
@@ -8,7 +9,7 @@ const LandingPage: React.FC = () => {
       <h1>Welcome to the BLANT Web Interface</h1>
 
       <img
-        src="/blant.png"
+        src={BlantImage}
         alt="Network graph examples for BLANT"
         className="landing-image"
       />
