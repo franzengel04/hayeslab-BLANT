@@ -3,7 +3,7 @@ import React from 'react';
 
 import { Link } from 'react-router-dom';
 import './Header.css'; // Assuming your header's styling is in App.css
-import SanaLogo from '../assets/sana-logo-white.png';
+import SanaLogo from '../../public/sana-logo-white.png';
 
 const Header: React.FC = () => {
   return (
