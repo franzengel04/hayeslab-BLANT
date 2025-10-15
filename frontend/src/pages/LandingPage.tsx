@@ -20,7 +20,9 @@ const LandingPage: React.FC = () => {
           G, and a value of k, it samples connected k-node subgraphs called k-graphlets. Since the number of k-graphlets in a graph of n
           nodes is exponential in both k and n, BLANT does not exhaustively enumerate all k-graphlets, but instead samples them--either
           randomly as many as the user specifies, or deterministically using our own algorithm to create a index that can be used for
-          actual local alignments. In the random case, uniform random sampling of k-graphlets is difficult, so there are several choices
+          actual local alignments.
+          <br /><br />
+          In the random case, uniform random sampling of k-graphlets is difficult, so there are several choices
           among sampling methods, each with different trade-offs. Finally, BLANT allows for several different methods of output: it can
           produce orbit-degree vectors (ODVs) like ORCA, or graphlet frequencies, or an explicit list of k-graphlets that can be used as
           seeds for later extension. At present, BLANT does not provide an "extend" functionality; there are many seed-and-extend local
