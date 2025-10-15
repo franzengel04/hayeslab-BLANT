@@ -32,10 +32,10 @@ const upload = multer({
         console.log("upload fileFilter req.file:", req.file);
         
         const fileExt = path.extname(file.originalname).toLowerCase().slice(1);
-        if (fileExt !== 'el' && fileExt !== 'gw') {
+        if (fileExt !== 'el') {
             return cb(
                 new HttpError(
-                    `Invalid file extension: ${fileExt}. Must be .el or .gw`,
+                    `Invalid file extension: ${fileExt}. Must be .el`,
                     { status: 400 },
                 ),
             );
@@ -52,7 +52,7 @@ const upload = multer({
 const validateSingleFileMiddleware = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         if (!req.file) {
-            throw new HttpError('A .el or .gw file must be uploaded.', { status: 400 });
+            throw new HttpError('A .el file must be uploaded.', { status: 400 });
         }
         
         // console.log(`File uploaded: ${req.file.originalname} (${req.file.size} bytes)`);
