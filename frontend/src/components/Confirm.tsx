@@ -47,7 +47,7 @@ const Confirm: React.FC<ConfirmProps> = ({ formData, onPrevious, onSubmit }) => 
         </div>
         <div className="cf-summaryItem">
           <label>Sampling Method</label>
-          <input type="text" value={formData.samplingMethod === 'precision' ? `Precision (${formData.density})` : `Samples (${formData.numSamples})`} disabled />
+          <input type="text" value={formData.samplingMethod === 'precision' ? `Density (${formData.density})` : `Samples (${formData.numSamples})`} disabled />
         </div>
       </div>
 

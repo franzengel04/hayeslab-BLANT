@@ -48,8 +48,8 @@ export function JobSubmissionProvider({
         graphletSize: 3,
         outputMode: 'frequency',
         samplingMethod: 'precision',
-        precision: 0.01,
-        density: 0.01,
+        precision: 1,
+        density: 1,
         numSamples: 10000,
     });
     const [fileError, setFileError] = useState<string | null>(null);
@@ -105,6 +105,15 @@ export function JobSubmissionProvider({
         } else {
             value = event.target.value;
         }
+
+        // // input validation
+        // if (optionName === 'density' && typeof value === 'number') {
+        //     if (value < 0.01 || value > 1) {
+        //         event.target.value = '1';
+        //         return false;
+        //         // return false;
+        //     }
+        // }
     
         const newBlantOptions = { ...blantOptions, [optionName]: value };
         // const newBlantOptions = { ...blantOptions, ...newData };

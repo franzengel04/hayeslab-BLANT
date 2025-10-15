@@ -58,10 +58,13 @@ const SubmitJobPage: React.FC = () => {
   //   setFormData(prev => ({ ...prev, ...newData }));
   // };
 
-
-  
   const handleNext = () => {
     // There are now 4 steps total (0, 1, 2, 3)
+    if (currentStep === 1 && (blantOptions.density && (blantOptions.density < 0.01 || blantOptions.density > 1))) {
+      alert("Density must be between 0.01 and 1.");
+      return;
+    }
+    
     setCurrentStep((prevStep) => Math.min(prevStep + 1, 3));
   };
 
@@ -129,7 +132,7 @@ const SubmitJobPage: React.FC = () => {
             formData={{
               networkFile: networkFile,
               graphletSize: blantOptions?.graphletSize || 3,
-              density: blantOptions?.density || 0.01,
+              density: blantOptions?.density || 1,
               samplingMethod: blantOptions?.samplingMethod || 'precision',
               outputMode: blantOptions?.outputMode || 'frequency',
               precision: blantOptions?.precision || 0.01,
