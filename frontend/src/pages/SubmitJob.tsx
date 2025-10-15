@@ -19,6 +19,15 @@ export interface FormData {
   numSamples: number;
 }
 
+const defaultOptions = {
+  networkFile: null,
+  graphletSize: 3,
+  outputMode: 'f',
+  samplingMethod: 'precision',
+  precision: 0.01,
+  numSamples: 10000,
+}
+
 const SubmitJobPage: React.FC = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [isSubmitted, setIsSubmitted] = useState(false); // State to track submission
@@ -36,14 +45,14 @@ const SubmitJobPage: React.FC = () => {
   } = useJobSubmission();
 
   
-  const [formData, setFormData] = useState<FormData>({
-    networkFile: null,
-    graphletSize: 3,
-    outputMode: 'f',
-    samplingMethod: 'precision',
-    precision: 0.01,
-    numSamples: 10000,
-  });
+  // const [formData, setFormData] = useState<FormData>({
+  //   networkFile: null,
+  //   graphletSize: 3,
+  //   outputMode: 'f',
+  //   samplingMethod: 'precision',
+  //   precision: 0.01,
+  //   numSamples: 10000,
+  // });
 
   // const handleDataChange = (newData: Partial<FormData>) => {
   //   setFormData(prev => ({ ...prev, ...newData }));
@@ -105,7 +114,7 @@ const SubmitJobPage: React.FC = () => {
             onNext={handleNext} 
             onPrevious={handlePrevious} 
             onDataChange={handleBlantOptionsChange}
-            initialData={formData}
+            initialData={blantOptions}
            />
         </AccordionSection>
         
@@ -117,7 +126,14 @@ const SubmitJobPage: React.FC = () => {
           onClick={() => currentStep > 2 && !isSubmitted && setCurrentStep(2)}
         >
            <Confirm 
-            formData={formData}
+            formData={{
+              networkFile: networkFile,
+              graphletSize: blantOptions?.graphletSize || 3,
+              density: blantOptions?.density || 0.01,
+              samplingMethod: blantOptions?.samplingMethod || 'precision',
+              outputMode: blantOptions?.outputMode || 'frequency',
+              precision: blantOptions?.precision || 0.01,
+            }}
             onPrevious={handlePrevious}
             onSubmit={handleSubmitJob}
            />

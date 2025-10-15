@@ -10,7 +10,8 @@ interface OptionsProps {
   onPrevious: () => void;
   // onDataChange: (data: Partial<FormData>) => void;
   onDataChange: (event: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>, optionName: keyof blantOptions) => void;
-  initialData: FormData;
+  // initialData: FormData;
+  initialData: blantOptions;
 }
 
 const Options: React.FC<OptionsProps> = ({ onNext, onPrevious, onDataChange, initialData }) => {
@@ -18,7 +19,7 @@ const Options: React.FC<OptionsProps> = ({ onNext, onPrevious, onDataChange, ini
   
   const [samplingMethod, setSamplingMethod] = useState(initialData.samplingMethod);
 
-  const handleSamplingChange = (e: React.ChangeEvent<HTMLInputElement>, method: string) => {
+  const handleSamplingChange = (e: React.ChangeEvent<HTMLInputElement>, method: 'precision' | 'sample_number') => {
       setSamplingMethod(method);
       onDataChange(e, 'samplingMethod');
       // onDataChange({ samplingMethod: method });
@@ -48,7 +49,7 @@ const Options: React.FC<OptionsProps> = ({ onNext, onPrevious, onDataChange, ini
         <div className="os-inputGroup">
           <label htmlFor="graphletSize">Graphlet Size (-k)</label>
           {/* <select id="graphletSize" className="os-selectInput" defaultValue={initialData.graphletSize} onChange={(e) => onDataChange({ graphletSize: parseInt(e.target.value) })}> */}
-          <select id="graphletSize" className="os-selectInput" defaultValue={initialData.graphletSize} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => onDataChange(e, 'graphletSize')}>
+          <select id="graphletSize" className="os-selectInput" value={initialData.graphletSize || 3} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => onDataChange(e, 'graphletSize')}>
             <option value="3">3</option>
             <option value="4">4</option>
             <option value="5">5</option>
@@ -60,7 +61,7 @@ const Options: React.FC<OptionsProps> = ({ onNext, onPrevious, onDataChange, ini
 
         <div className="os-inputGroup">
           <label htmlFor="outputMode">Output Mode (-m)</label>
-          <select id="outputMode" className="os-selectInput" defaultValue={initialData.outputMode} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => onDataChange(e, 'outputMode')}>
+          <select id="outputMode" className="os-selectInput" value={initialData.outputMode || 'f'} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => onDataChange(e, 'outputMode')}>
             <option value="f">Frequency (default)</option>
             <option value="o">Orbit Degree Vector (ODV)</option>
           </select>
@@ -71,26 +72,26 @@ const Options: React.FC<OptionsProps> = ({ onNext, onPrevious, onDataChange, ini
         <h4>Sampling Method</h4>
         <label>
           <input type="radio" name="samplingMethod" value="precision" checked={samplingMethod === 'precision'} onChange={(e) => handleSamplingChange(e, 'precision')} />
-          Specify Precision (-p)
+          Specify Edge Density 
         </label>
         <label>
-          <input type="radio" name="samplingMethod" value="samples" checked={samplingMethod === 'samples'} onChange={(e) => handleSamplingChange(e, 'samples')} />
-          Specify Number of Samples (-n)
+          <input type="radio" name="samplingMethod" value="samples" checked={samplingMethod === 'sample_number'} onChange={(e) => handleSamplingChange(e, 'sample_number')} />
+          Specify Number of Samples
         </label>
       </div>
 
       <div className="os-optionsGrid">
         {samplingMethod === 'precision' ? (
           <div className="os-inputGroup">
-            <label htmlFor="precision">Precision</label>
+            <label htmlFor="precision">Edge Density</label>
             {/* <input type="number" id="precision" className="os-numberInput" defaultValue={initialData.precision} step="0.01" onChange={(e) => onDataChange({ edgeDensity: parseFloat(e.target.value) })} /> */}
-            <input type="number" id="precision" className="os-numberInput" defaultValue={initialData.precision} step="0.01" onChange={(e) => onDataChange(e, 'density')} />
+            <input type="number" id="precision" className="os-numberInput" value={initialData.density} onChange={(e) => onDataChange(e, 'density')} />
           </div>
         ) : (
           <div className="os-inputGroup">
             <label htmlFor="numSamples">Number of Samples</label>
             {/* <input type="number" id="numSamples" className="os-numberInput" defaultValue={initialData.numSamples} onChange={(e) => onDataChange({ numSamples: parseInt(e.target.value) })} /> */}
-            <input type="number" id="numSamples" className="os-numberInput" defaultValue={initialData.numSamples} onChange={(e) => onDataChange(e, 'samplingMethod')} />
+            <input type="number" id="numSamples" className="os-numberInput" defaultValue={initialData.numSamples || 10000} onChange={(e) => onDataChange(e, 'samplingMethod')} />
           </div>
         )}
       </div>

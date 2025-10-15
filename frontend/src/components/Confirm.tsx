@@ -6,11 +6,18 @@ import './Confirm.css'; // We will create this CSS file
 interface ConfirmProps {
   formData: {
     networkFile: File | null;
-    graphletSize: number;
-    outputMode: string;
-    samplingMethod: string;
-    precision: number;
-    numSamples: number;
+    graphletSize: number,
+    density?: number,
+    samplingMethod: 'precision' | 'sample_number',
+    outputMode: 'frequency' | 'odv',
+    precision?: number,
+    numSamples?: number,
+    // graphletSize: number;
+    // outputMode: string;
+    // samplingMethod: string;
+    // precision?: number;
+    // density?: number;
+    // numSamples?: number;
   };
   onPrevious: () => void;
   onSubmit: () => void;
@@ -42,11 +49,11 @@ const Confirm: React.FC<ConfirmProps> = ({ formData, onPrevious, onSubmit }) => 
         </div>
         <div className="cf-summaryItem">
           <label>Output Mode</label>
-          <input type="text" value={formData.outputMode === 'f' ? 'Frequency' : 'ODV'} disabled />
+          <input type="text" value={formData.outputMode === 'frequency' ? 'Frequency' : 'ODV'} disabled />
         </div>
         <div className="cf-summaryItem">
           <label>Sampling Method</label>
-          <input type="text" value={formData.samplingMethod === 'precision' ? `Precision (${formData.precision})` : `Samples (${formData.numSamples})`} disabled />
+          <input type="text" value={formData.samplingMethod === 'precision' ? `Precision (${formData.density})` : `Samples (${formData.numSamples})`} disabled />
         </div>
       </div>
 

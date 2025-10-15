@@ -16,13 +16,14 @@ export interface blantOptions {
     samplingMethod: 'precision' | 'sample_number',
     outputMode: 'frequency' | 'odv',
     precision?: number,
+    numSamples?: number,
 }
 
 interface JobSubmissionContextSchema {
     networkFile: File | null,
     setNetworkFile: (file: File | null) => void,
-    blantOptions: blantOptions | null,
-    setBlantOptions: (options: blantOptions | null) => void,
+    blantOptions: blantOptions,
+    setBlantOptions: (options: blantOptions) => void,
     fileError: string | null,
     validateFile: (file: File) => boolean,
     handleSubmit: () => Promise<void>,
@@ -43,13 +44,13 @@ export function JobSubmissionProvider({
 }) {
     const navigate = useNavigate();
     const [networkFile, setNetworkFile] = useState<File | null>(null);
-    const [blantOptions, setBlantOptions] = useState<blantOptions | null>({
+    const [blantOptions, setBlantOptions] = useState<blantOptions>({
         graphletSize: 3,
         outputMode: 'frequency',
         samplingMethod: 'precision',
         precision: 0.01,
         density: 0.01,
-        // numSamples: 10000,
+        numSamples: 10000,
     });
     const [fileError, setFileError] = useState<string | null>(null);
 
@@ -154,7 +155,7 @@ export function JobSubmissionProvider({
     const resetForm = () => {
         setNetworkFile(null);
         setFileError(null);
-        setBlantOptions(null);
+        // setBlantOptions(null);
     };
 
     useEffect(() => {
