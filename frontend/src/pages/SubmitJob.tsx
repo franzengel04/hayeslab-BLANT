@@ -19,29 +19,29 @@ export interface FormData {
   numSamples: number;
 }
 
-const defaultOptions = {
-  networkFile: null,
-  graphletSize: 3,
-  outputMode: 'f',
-  samplingMethod: 'precision',
-  precision: 0.01,
-  numSamples: 10000,
-}
+// const defaultOptions = {
+//   networkFile: null,
+//   graphletSize: 3,
+//   outputMode: 'f',
+//   samplingMethod: 'precision',
+//   precision: 0.01,
+//   numSamples: 10000,
+// }
 
 const SubmitJobPage: React.FC = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [isSubmitted, setIsSubmitted] = useState(false); // State to track submission
   const { 
     networkFile, 
-    setNetworkFile,
+    // setNetworkFile,
     blantOptions, 
-    setBlantOptions,
-    validateFile, 
+    // setBlantOptions,
+    // validateFile, 
     handleSubmit, 
     handleFileInputChange,
     handleBlantOptionsChange,
-    resetForm, 
-    fileError 
+    // resetForm, 
+    // fileError 
   } = useJobSubmission();
 
   
