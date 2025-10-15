@@ -74,7 +74,7 @@ export interface ErrorDetails<T = undefined> {
 }
 
 export interface UnifiedResponse<T = undefined, E = undefined> {
-    status: 'success' | 'error' | 'redirect';
+    status: 'success' | 'error' | 'redirect' | 'processing';
     message: string;
     data?: T;
     error?: ErrorDetails<E>;

@@ -4,6 +4,7 @@ import { useNavigate } from "react-router";
 import { useParams } from 'react-router-dom';
 import './LookupJob.css';
 import api from '../api/api';
+import LoadingCircle from '../components/LoadingCircle';
 
 const LookupJob: React.FC = () => {
   const { id } = useParams<{ id?: string }>();
@@ -16,28 +17,25 @@ const LookupJob: React.FC = () => {
     console.log('getting job status for id:', id);
     const result = await api.getJobStatus(id);
     console.log('Job Result:', result);
-    // console.log('Job Result execLogFileOutput:', result.execLogFileOutput);
-    setJobOutput(result.data.execLogFileOutput);
+    if (result.status === 'success') {
+      setJobOutput(result.data.execLogFileOutput);
+    } else if (result.status === 'processing') {
+      setTimeout(() => getJobStatus(id), 3000); // query again in 3 seconds
+    } else if (result.status === 'error') {
+      setJobOutput(result.error.message);
+    }
   }
 
   useEffect(() => {
     if (id) {
       setJobId(id);
-      // setTimeout(() => getJobStatus(id), 3000);
       getJobStatus(id);
     }
   }, [id]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Logic to look up the job will go here
-    // console.log('Searching for Job ID:', jobId);
-    // getJobStatus(jobId);
-    navigate(`${jobId}`)
-    // navigate(`/lookup-job/${jobId}`);
-
-
-    // alert(`Searching for Job ID: ${jobId}`);
+    navigate(`/lookup-job/${jobId}`)
   };
 
 
@@ -58,17 +56,30 @@ const LookupJob: React.FC = () => {
             />
           </div>
           <button type="submit" className="lj-submitButton">
-            Submit
+            {
+              (jobOutput === null && id != undefined) ? (
+                <LoadingCircle />
+              ) : (
+                'Submit'
+              )
+            }
           </button>
         </form>
         {
           jobOutput && (
             <div className="lj-output">
               <h3 className="lj-outputTitle">Job Output</h3>
-              {/* <pre className="lj-outputContent">{jobOutput}</pre> */}
-              {jobOutput}
+              <pre className="lj-outputContent">{jobOutput}</pre>
             </div>
           )
+        }
+        {
+          jobOutput === null && id != undefined && (
+            <div className="lj-output">
+              <h3 className="lj-outputTitle">Job Output</h3>
+              Job is still being processed...
+            </div>
+            )
         }
       </div>
     </div>

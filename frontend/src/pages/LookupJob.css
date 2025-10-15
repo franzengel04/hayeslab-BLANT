@@ -79,3 +79,12 @@
 .lj-submitButton:active {
     transform: scale(0.98);
 }
+
+
+.lj-outputContent {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-x: auto;
+
+
+}

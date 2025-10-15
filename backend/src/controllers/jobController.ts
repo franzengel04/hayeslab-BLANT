@@ -251,7 +251,8 @@ const getJobStatus = async (req: GetJobResultsRequest, res: Response, next: Next
 
         if (status === 'preprocessed') {
             const redirectResponse: UnifiedResponse = {
-                status: 'redirect',
+                // status: 'redirect',
+                status: 'processing',
                 message: 'Job is still being processed. Redirecting...',
                 // redirect: `/submit-job/${jobId}`,
                 redirect: `/lookup-job/${jobId}`,
