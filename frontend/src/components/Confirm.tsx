@@ -12,12 +12,6 @@ interface ConfirmProps {
     outputMode: 'frequency' | 'odv',
     precision?: number,
     numSamples?: number,
-    // graphletSize: number;
-    // outputMode: string;
-    // samplingMethod: string;
-    // precision?: number;
-    // density?: number;
-    // numSamples?: number;
   };
   onPrevious: () => void;
   onSubmit: () => void;

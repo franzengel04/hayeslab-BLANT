@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import './Options.css';
 // The 'type' keyword is added here to fix the error
-import type { FormData } from '../pages/SubmitJob';
 import type { blantOptions } from '../context/JobSubmissionContext';
 
 interface OptionsProps {

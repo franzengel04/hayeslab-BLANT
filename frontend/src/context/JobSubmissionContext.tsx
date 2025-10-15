@@ -58,8 +58,8 @@ export function JobSubmissionProvider({
         file: File,
     ): boolean => {
         const fileName = file.name.toLowerCase();
-        if (!fileName.endsWith('.el')) {
-            setFileError("File extension must be .el");
+        if (!fileName.endsWith('.el') && !fileName.endsWith('.gw')) {
+            setFileError("File extension must be .el or .gw");
             return false;
         }
         return true;
@@ -81,6 +81,7 @@ export function JobSubmissionProvider({
                 return true;
             }
             // file is not valid
+            alert("Invalid file. Please upload a valid network file format (.el or .gw).");
             event.target.value = '';
             setNetworkFile(null);
             return false;

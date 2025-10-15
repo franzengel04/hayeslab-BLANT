@@ -1,9 +1,6 @@
 // src/components/NetworkSelection.tsx
 import React from 'react';
 import './NetworkSelection.css';
-// The 'type' keyword is added here to fix the error
-import type { FormData } from '../pages/SubmitJob';
-
 // 'onPrevious' and 'initialData' have been removed to fix the warnings
 interface NetworkSelectionProps {
   onNext: () => void;
