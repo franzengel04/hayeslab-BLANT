@@ -8,12 +8,12 @@ export default defineConfig({
   server: {
     host: '0.0.0.0',
     port: 5173,
-    strictPort: true,
-    origin: 'http://hayeslab.ics.uci.edu',
-    hmr: {
-      protocol: 'ws',
-      host: 'hayeslab.ics.uci.edu',
-      port: 5173
-    }
+    // strictPort: true,
+    // origin: 'http://hayeslab.ics.uci.edu',
+    // hmr: {
+    //   protocol: 'ws',
+    //   host: 'hayeslab.ics.uci.edu',
+    //   port: 5173
+    // }
   }
 })
