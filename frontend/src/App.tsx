@@ -14,7 +14,7 @@ import { JobSubmissionProvider } from './context/JobSubmissionContext';
 
 function App() {
   return (
-    <Router>
+    <Router basename="/blant">
       <Header />
       <main className="flex-grow">
         <JobSubmissionProvider>
