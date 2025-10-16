@@ -45,7 +45,7 @@ export function JobSubmissionProvider({
     const navigate = useNavigate();
     const [networkFile, setNetworkFile] = useState<File | null>(null);
     const [blantOptions, setBlantOptions] = useState<blantOptions>({
-        graphletSize: 3,
+        graphletSize: 4,
         outputMode: 'frequency',
         samplingMethod: 'precision',
         precision: 1,

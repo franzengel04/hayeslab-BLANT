@@ -1,6 +1,6 @@
 /* src/components/NetworkSelection.css */
 .ns-stepContainer {
-  padding: 1rem;
+  padding: 0 1rem;
 }
 
 .ns-infoText, .ns-fileTypeList {

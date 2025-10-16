@@ -22,11 +22,9 @@ const Confirm: React.FC<ConfirmProps> = ({ formData, onPrevious, onSubmit }) => 
     <div className="cf-stepContainer">
       <div className="cf-noteBox">
         <h4>NOTE</h4>
-        <p>Please note the following:</p>
         <ul>
           <li>The network will be analyzed with the following options, which cannot be changed after submission.</li>
-          <li>To proceed, click the "Submit Job" button. To make changes, click the "Previous" button.</li>
-          <li>Faded values are the default settings.</li>
+          <li>Upon submitting, you will receive a job ID, which you can use to <a href="lookup-job" target="_blank">look it up</a> in the future.</li>
         </ul>
       </div>
 

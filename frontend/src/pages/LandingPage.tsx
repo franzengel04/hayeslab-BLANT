@@ -16,7 +16,7 @@ const LandingPage: React.FC = () => {
 
       <div className="info-text">
         <p>
-          BLANT stand for Basic Local Alignment of Network Topology.
+          BLANT stand for <a href="https://www.liebertpub.com/doi/abs/10.1089/cmb.2025.0095" target="_blank">Basic Local Alignment of Network Topology</a>.
           It is intended to form the basis of a seed-and-extend local alignment algorithm, but for networks: given an undirected network
           G, and a value of k, it samples connected k-node subgraphs called k-graphlets. Since the number of k-graphlets in a graph of n
           nodes is exponential in both k and n, BLANT does not exhaustively enumerate all k-graphlets, but instead samples them--either
@@ -33,8 +33,9 @@ const LandingPage: React.FC = () => {
           still capable of useful bioinformatics, as described in our tool paper in the journal Bioinformatics.
         </p>
         <p>
-          The most recent version of BLANT is always available on <a href="https://github.com/waynebhayes/BLANT">GitHub</a>.
+          The most recent version of BLANT is always available on <a href="https://github.com/waynebhayes/BLANT">GitHub</a>. <br />
         </p>
+        <p>Our paper on BLANT is available <a href="https://www.liebertpub.com/doi/abs/10.1089/cmb.2025.0095" target="_blank">here</a>.</p>
       </div>
     </div>
   );

@@ -21,6 +21,7 @@
   list-style-type: disc;
   padding-left: 20px;
   margin: 0;
+  line-height: 2;
 }
 
 .cf-summaryTitle {
@@ -34,7 +35,7 @@
 .cf-summaryGrid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1.5rem;
+    gap: 2rem;
 }
 
 .cf-summaryItem {

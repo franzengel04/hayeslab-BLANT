@@ -60,6 +60,10 @@ const SubmitJobPage: React.FC = () => {
 
   const handleNext = () => {
     // There are now 4 steps total (0, 1, 2, 3)
+    if (currentStep === 0 && !networkFile) {
+      alert("Please upload a network file in .el format");
+      return;
+    }
     if (currentStep === 1 && (blantOptions.density && (blantOptions.density < 0.01 || blantOptions.density > 1))) {
       alert("Density must be between 0.01 and 1.");
       return;

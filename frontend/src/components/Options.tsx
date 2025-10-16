@@ -1,5 +1,5 @@
 // src/components/Options.tsx
-import React, { useState } from 'react';
+import React from 'react';
 import './Options.css';
 // The 'type' keyword is added here to fix the error
 import type { blantOptions } from '../context/JobSubmissionContext';
@@ -14,85 +14,37 @@ interface OptionsProps {
 }
 
 const Options: React.FC<OptionsProps> = ({ onNext, onPrevious, onDataChange, initialData }) => {
-  const [showHelp, setShowHelp] = useState(false);
-  
-  const [samplingMethod, setSamplingMethod] = useState(initialData.samplingMethod);
-
-  const handleSamplingChange = (e: React.ChangeEvent<HTMLInputElement>, method: 'precision' | 'sample_number') => {
-      setSamplingMethod(method);
-      onDataChange(e, 'samplingMethod');
-      // onDataChange({ samplingMethod: method });
-  }
 
   return (
     <div className="os-stepContainer">
-       <div className="os-noteBox">
+      <div className="os-noteBox">
         <h4>NOTE</h4>
-        <p>Hover over an option to see its description or click the button to view the entire help menu.</p>
-        <button 
-          onClick={() => setShowHelp(!showHelp)} 
-          className="os-helpButton"
-        >
-          {showHelp ? 'Hide Options Help Menu' : 'Show Options Help Menu'}
-        </button>
-        {showHelp && (
-          <div className="os-helpContent">
-            <p><strong>Graphlet Size (-k):</strong> The number of nodes in the graphlets to sample (required, 3-8).</p>
-            <p><strong>Output Mode (-m):</strong> Choose the format for the final alignment results.</p>
-            <p><strong>Sampling Method (-p or -n):</strong> Control the alignment process by either specifying a desired precision or a fixed number of samples.</p>
-          </div>
-        )}
+        <ul>
+          <li><p><strong>Graphlet Size:</strong> The number of nodes in the graphlets to sample (required, 3-7). Default is 4, which is usually sufficient. Larger values may take longer to run. </p></li>
+          <li><p><strong>Edge Density:</strong> Set the lower bound on the edge density (fraction of all possible edges among the nodes) for communities you wish to discover. Note that we will produce <i>overlapping</i> communities.</p></li>
+        </ul>
+        Want to learn more about BLANT? Check out the paper <a href="https://www.liebertpub.com/doi/abs/10.1089/cmb.2025.0095" target="_blank">here</a>.
       </div>
 
-      <div className="os-optionsGrid">
-        <div className="os-inputGroup">
-          <label htmlFor="graphletSize">Graphlet Size (-k)</label>
-          {/* <select id="graphletSize" className="os-selectInput" defaultValue={initialData.graphletSize} onChange={(e) => onDataChange({ graphletSize: parseInt(e.target.value) })}> */}
-          <select id="graphletSize" className="os-selectInput" value={initialData.graphletSize || 3} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => onDataChange(e, 'graphletSize')}>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-          </select>
-        </div>
-
-        <div className="os-inputGroup">
-          <label htmlFor="outputMode">Output Mode (-m)</label>
-          <select id="outputMode" className="os-selectInput" value={initialData.outputMode || 'f'} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => onDataChange(e, 'outputMode')}>
-            <option value="f">Frequency (default)</option>
-            <option value="o">Orbit Degree Vector (ODV)</option>
-          </select>
-        </div>
-      </div>
-
-      <div className="os-radioGroup">
-        <h4>Sampling Method</h4>
-        <label>
-          <input type="radio" name="samplingMethod" value="precision" checked={samplingMethod === 'precision'} onChange={(e) => handleSamplingChange(e, 'precision')} />
-          Specify Edge Density 
-        </label>
-        <label>
-          <input type="radio" name="samplingMethod" value="samples" checked={samplingMethod === 'sample_number'} onChange={(e) => handleSamplingChange(e, 'sample_number')} />
-          Specify Number of Samples
-        </label>
-      </div>
-
-      <div className="os-optionsGrid">
-        {samplingMethod === 'precision' ? (
+      <div className="os-optionsContainer">
+        <div className="os-optionsGrid">
           <div className="os-inputGroup">
-            <label htmlFor="precision">Edge Density</label>
-            {/* <input type="number" id="precision" className="os-numberInput" defaultValue={initialData.precision} step="0.01" onChange={(e) => onDataChange({ edgeDensity: parseFloat(e.target.value) })} /> */}
-            <input type="number" id="precision" className="os-numberInput" defaultValue={initialData.density} onChange={(e) => onDataChange(e, 'density')} />
+            <label htmlFor="graphletSize">Graphlet Size</label>
+            <select id="graphletSize" className="os-selectInput" value={initialData.graphletSize || 4} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => onDataChange(e, 'graphletSize')}>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+            </select>
           </div>
-        ) : (
-          <div className="os-inputGroup">
-            <label htmlFor="numSamples">Number of Samples</label>
-            {/* <input type="number" id="numSamples" className="os-numberInput" defaultValue={initialData.numSamples} onChange={(e) => onDataChange({ numSamples: parseInt(e.target.value) })} /> */}
-            <input type="number" id="numSamples" className="os-numberInput" defaultValue={initialData.numSamples || 10000} onChange={(e) => onDataChange(e, 'samplingMethod')} />
-          </div>
-        )}
+        </div>
+        <div className="os-optionsGrid">
+            <div className="os-inputGroup">
+              <label htmlFor="precision">Edge Density</label>
+              <input type="number" id="precision" className="os-numberInput" defaultValue={initialData.density} onChange={(e) => onDataChange(e, 'density')} />
+            </div>
+        </div>
       </div>
 
       <div className="os-buttonContainer">
