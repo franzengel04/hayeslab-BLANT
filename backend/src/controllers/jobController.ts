@@ -16,6 +16,7 @@ import {
     UnifiedResponse,
 } from '../../types/types';
 import path from 'path';
+import { getJobFromQueue } from '../config/queue';
 // import { getJobFromQueue } from '../config/queue';
 /**
  * Downloads the zip file for a job based on the request parameters.
@@ -89,26 +90,22 @@ const submitJobController = async (req: SubmitJobRequest, res: Response, next: N
         console.log("submitJobController req.body:", req.body);
         const jobOptions: SubmitJobOptions = JSON.parse(req.body.options);
         console.log("submitJobController jobOptions object:", jobOptions);
-        // if (!req.body.options.density) {
+
         if (!jobOptions.density) {
             throw HttpError.badRequest('density is required.');
         }
-        // if (isNaN(req.body.options.density)) {
+
         if (isNaN(jobOptions.density)) {
             throw HttpError.badRequest('density must be a valid number.');
-        // } else if (req.body.options.density > 1 || req.body.options.density < 0.01) {
         } else if (jobOptions.density > 1 || jobOptions.density < 0.01) {
             throw HttpError.badRequest('density must be between 0.01 and 1.00.');
         }
-        
-        // if (!req.body.options.graphletSize ) {
+
         if (!jobOptions.graphletSize ) {
             throw HttpError.badRequest('graphletSize is required.');
         }
-        // if (isNaN(req.body.options.graphletSize)) {
         if (isNaN(jobOptions.graphletSize)) {
             throw HttpError.badRequest('graphletSize must be a valid number.');
-        // } else if (req.body.options.graphletSize > 8 || req.body.options.graphletSize < 3) {
         } else if (jobOptions.graphletSize > 8 || jobOptions.graphletSize < 3) {
             throw HttpError.badRequest('graphletSize must be between 3 and 8.');
         }
@@ -117,6 +114,7 @@ const submitJobController = async (req: SubmitJobRequest, res: Response, next: N
         if (!req.file) {
             throw new HttpError('No file uploaded', { status: 400 });
         }
+        
         // creates job and runs preprocessing (creating the directory for output files, moving the network files there, etc... but does not actually start running the job)
         // const result = await createJob(req.file, req.body.options.density, req.body.options.graphletSize);
         const result = await createJob(req.file, jobOptions.density, jobOptions.graphletSize);
@@ -195,7 +193,12 @@ const getJobStatus = async (req: GetJobResultsRequest, res: Response, next: Next
             throw new HttpError('Job ID is required.', { status: 400 });
         }
 
-        // const result = await getJob(jobId);
+        const job = await getJobFromQueue(jobId);
+
+        if (!job) {
+            throw new HttpError(`Job with id ${jobId} does not exist.`, { status: 400 });
+        }
+
 
         const jobDir = path.resolve(path.join(__dirname, '../../process', jobId));
 
@@ -218,10 +221,8 @@ const getJobStatus = async (req: GetJobResultsRequest, res: Response, next: Next
 
         // // Handle different job statuses
         // const status = jobData.status;
-
-        const jobData = await _parseJobStatusFile(jobId);
-
-        const status = jobData.status;
+        
+        const status = await job.getState();
 
         if (status === 'failed') {
             // Read the run.log file for error details
@@ -249,24 +250,7 @@ const getJobStatus = async (req: GetJobResultsRequest, res: Response, next: Next
             });
         }
 
-        if (status === 'preprocessed') {
-            const redirectResponse: UnifiedResponse = {
-                // status: 'redirect',
-                status: 'processing',
-                message: 'Job is still being processed. Redirecting...',
-                // redirect: `/submit-job/${jobId}`,
-                redirect: `/lookup-job/${jobId}`,
-            };
-            res.status(200).json(redirectResponse);
-            return;
-        }
-
-        if (status === 'processed') {
-            // if (!jobData.zipName) {
-            //     throw new HttpError('Invalid job data: missing zip file name.', {
-            //         status: 500,
-            //     });
-            // }
+        if (status === 'completed') {
 
             // Get execution log
             const execLogFilePath = path.join(jobDir, 'run.log');
@@ -304,10 +288,17 @@ const getJobStatus = async (req: GetJobResultsRequest, res: Response, next: Next
 
             res.status(200).json(response);
             return;
-        } else {
-            // Unhandled status
-            throw new HttpError(`Unhandled job status: ${status}`, { status: 500 });
-        }
+        } 
+
+        const redirectResponse: UnifiedResponse = {
+                // status: 'redirect',
+                status: 'processing',
+                message: `Job Status is ${status}.`,
+                redirect: `/lookup-job/${jobId}`,
+            };
+            res.status(200).json(redirectResponse);
+            return;
+
     } catch (err) {
         next(err);
     }

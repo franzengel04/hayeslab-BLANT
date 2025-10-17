@@ -4,17 +4,19 @@ import IORedis from 'ioredis';
 import { exec } from 'child_process';
 import { promisify } from 'util';
 import 'fs';
+import * as path from 'path';
 const fs = require('fs');
 require('dotenv').config();
+
 console.log("Worker started");
 
 const connection = new IORedis({
-    host: process.env.REDIS_HOST || 'redis',
+    host: process.env.REDIS_HOST || 'lcoalhost',
     port: parseInt(process.env.REDIS_PORT) || 6379,
     maxRetriesPerRequest: null,
 });
 
-const blantPath = '/blant';
+const blantDirectory = process.env.BLANT_DIRECTORY;
 
 const execAsync = promisify(exec);
 const worker = new Worker('jobQueue', async (job: Job) => {
@@ -43,11 +45,15 @@ worker.on('completed', (job: Job, returnvalue: any) => {
 const jobWorker = async (jobId: string, jobData: JobData) => {
 
         // Construct absolute paths
-        const inputFile = `${jobData.jobLocation}/networks/${jobData.networkName}/${jobData.networkName}.el`;
-        const outputFile = `${jobData.jobLocation}/blant_runtime.log`;
-        
-        let optionString = `cd ${blantPath} && ./scripts/blant-clusters.sh ./blant ${jobData.graphletSize} ${jobData.density} `;
-        optionString += `\"${inputFile}\" > \"${outputFile}\" 2>&1`;
+
+        const networkDir = path.resolve(`./process/${jobId}`, 'networks', `${jobData.networkName}${jobData.extension}`);
+
+        const outputFile = path.resolve(`./process/${jobId}`, 'output', 'blant_runtime.log');
+
+        const optionString = `cd ${blantDirectory} && source ./setup.sh && ./scripts/blant-clusters.sh` 
+                             + ` ./blant ${jobData.graphletSize} ${jobData.density} ${networkDir} > ${outputFile} 2>&1`;
+        // let optionString = `cd ${blantPath} && ./scripts/blant-clusters.sh ./blant ${jobData.graphletSize} ${jobData.density} `;
+        // optionString += `\"${inputFile}\" > \"${outputFile}\" 2>&1`;
         
         console.log(`Executing command for job ${jobId}:`, optionString);
         // Run the command

@@ -7,9 +7,9 @@ import cors from 'cors';
 import logger from 'morgan';
 import cookieParser from 'cookie-parser';
 import jobRoutes from './routes/jobRoutes';
+import { jobQueue } from './config/queue';
 
-
-const app = express();
+const app = express(); 
 const PORT = parseInt(process.env.PORT) || 4000;
 
 // cors and bodyparser middleware
