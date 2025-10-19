@@ -200,7 +200,7 @@ const getJobStatus = async (req: GetJobResultsRequest, res: Response, next: Next
         }
 
 
-        const jobDir = path.resolve(path.join(__dirname, '../../process', jobId));
+        const jobDir = path.resolve(path.join(__dirname, '../../../process', jobId));
 
         // // Check if job directory exists
         // if (!fs.existsSync(jobDir) || !fs.lstatSync(jobDir).isDirectory()) {
@@ -225,8 +225,8 @@ const getJobStatus = async (req: GetJobResultsRequest, res: Response, next: Next
         const status = await job.getState();
 
         if (status === 'failed') {
-            // Read the run.log file for error details
-            const runLogPath = path.join(jobDir, 'run.log');
+            // Read the blant_runtime.log file for error details
+            const runLogPath = path.join(jobDir, 'blant_runtime.log');
             let runLogContent = '';
 
             try {
@@ -237,10 +237,10 @@ const getJobStatus = async (req: GetJobResultsRequest, res: Response, next: Next
                         .map((line) => `<span>${line.trim()}</span>`)
                         .join('\n');
                 } else {
-                    runLogContent = 'Run log file not found';
+                    runLogContent = `Run log file at ${runLogPath} not found`;
                 }
             } catch (err) {
-                console.error('Error reading run.log:', err);
+                console.error('Error reading blant_runtime.log:', err);
                 runLogContent = 'Error reading run log file';
             }
 
@@ -253,7 +253,7 @@ const getJobStatus = async (req: GetJobResultsRequest, res: Response, next: Next
         if (status === 'completed') {
 
             // Get execution log
-            const execLogFilePath = path.join(jobDir, 'run.log');
+            const execLogFilePath = path.join(jobDir, 'blant_runtime.log');
             let execLogFileOutput = '';
 
             if (fs.existsSync(execLogFilePath)) {
@@ -267,7 +267,7 @@ const getJobStatus = async (req: GetJobResultsRequest, res: Response, next: Next
                     execLogFileOutput = 'Problem opening execution log file.';
                 }
             } else {
-                execLogFileOutput = 'Job execution log file does not exist.';
+                execLogFileOutput = `Job execution log file at ${execLogFilePath} does not exist.`;
             }
 
             // Construct base URL for download link

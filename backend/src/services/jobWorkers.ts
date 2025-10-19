@@ -11,9 +11,10 @@ require('dotenv').config();
 console.log("Worker started");
 
 const connection = new IORedis({
-    host: process.env.REDIS_HOST || 'lcoalhost',
+    host: process.env.REDIS_HOST || 'localhost',
     port: parseInt(process.env.REDIS_PORT) || 6379,
     maxRetriesPerRequest: null,
+    password: process.env.REDIS_PASSWORD,
 });
 
 const blantDirectory = process.env.BLANT_DIRECTORY;
@@ -48,7 +49,7 @@ const jobWorker = async (jobId: string, jobData: JobData) => {
 
         const networkDir = path.resolve(`./process/${jobId}`, 'networks', `${jobData.networkName}${jobData.extension}`);
 
-        const outputFile = path.resolve(`./process/${jobId}`, 'output', 'blant_runtime.log');
+        const outputFile = path.resolve(`./process/${jobId}`, 'blant_runtime.log');
 
         const optionString = `cd ${blantDirectory} && source ./setup.sh && ./scripts/blant-clusters.sh` 
                              + ` ./blant ${jobData.graphletSize} ${jobData.density} ${networkDir} > ${outputFile} 2>&1`;
@@ -57,7 +58,7 @@ const jobWorker = async (jobId: string, jobData: JobData) => {
         
         console.log(`Executing command for job ${jobId}:`, optionString);
         // Run the command
-        const { stdout, stderr } = await execAsync(optionString);
+        const { stdout, stderr } = await execAsync(optionString, {shell:'/bin/bash'});
         
         if (stderr) {   
             console.warn(`Job ${jobId} stderr:`, stderr);
