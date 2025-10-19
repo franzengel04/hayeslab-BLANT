@@ -54,6 +54,7 @@ const jobProcess = async (jobId: string, jobData: JobData): Promise<ProcessJobDa
                 status: 'Job added to queue',
                 jobId: jobId,
                 execLogFileOutput: undefined,
+                redirect: `/lookup-job/${jobId}`,
             };
             resolve(res);
         });
@@ -64,6 +65,7 @@ const jobProcess = async (jobId: string, jobData: JobData): Promise<ProcessJobDa
                 status: 'Job not added to queue',
                 jobId: jobId,
                 execLogFileOutput: undefined,
+                redirect: `/lookup-job/${jobId}`,
             };
             resolve(res);
         });
