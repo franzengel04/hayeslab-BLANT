@@ -1,7 +1,7 @@
 #! /bin/bash
+# place this bash script in the root directory of the blant project
 
-directory="$HOME/hayeslab-BLANT/frontend"
-cd $directory
+cd frontend
 echo "Building static production files..."
 npm run build
 echo "Copying build files into /var/www/BLANT_Website/..."
