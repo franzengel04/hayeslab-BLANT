@@ -1,6 +1,7 @@
 #! /bin/bash
 
 directory="$HOME/hayeslab-BLANT/backend"
+npm install
 cd $directory
 if tmux has-session -t blant-backend 2>/dev/null; then # restart backend if tmux session already exists
     tmux send-keys -t blant-backend C-c

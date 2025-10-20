@@ -2,6 +2,7 @@
 # place this bash script in the root directory of the blant project
 
 cd frontend
+npm install
 echo "Building static production files..."
 npm run build
 echo "Copying build files into /var/www/BLANT_Website/..."
