@@ -88,3 +88,18 @@
 
 
 }
+
+.lj-copyIcon {
+    border-radius: 3px;
+    position: relative;
+    top: 0.2em;
+}
+.lj-copyIcon:hover {
+    background-color: #c7c7ca;
+}
+
+#lj-checkbox {
+    padding: 0.2em;
+    position: relative;
+    top: 0.2em;
+}

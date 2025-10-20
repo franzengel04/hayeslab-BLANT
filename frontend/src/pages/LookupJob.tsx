@@ -11,6 +11,7 @@ const LookupJob: React.FC = () => {
   const [jobId, setJobId] = useState('');
   const [searchJobId, setSearchJobId] = useState('');
   const [jobOutput, setJobOutput] = useState<string | null>(null);
+  const [copied, setCopied] = useState<boolean>(false);
   const navigate = useNavigate();
 
   // Set the jobId from URL parameter if it exists
@@ -47,7 +48,13 @@ const LookupJob: React.FC = () => {
 
   const handleBack = () => {
     setSearchJobId('');
+    setCopied(false);
     navigate('/lookup-job');
+  };
+
+  const handleCopyToClipboard = () => {
+    navigator.clipboard.writeText(jobOutput || '');
+    setCopied(true);
   };
 
 
@@ -95,7 +102,20 @@ const LookupJob: React.FC = () => {
           jobOutput && (
             <div className="lj-output">
               <button onClick={handleBack} className="lj-backButton"> Back </button>
-              <h3 className="lj-outputTitle">Job Output</h3>
+              <h3 className="lj-outputTitle">Job Output
+                 {
+                   copied ? (
+                     <svg id='lj-checkbox' width="20" height="20" viewBox="0 0 24 24" fill="black" style={{marginLeft: '10px'}}>
+                       <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                     </svg>
+                   ) : (
+                      <svg onClick={handleCopyToClipboard} className="lj-copyIcon" width="20" height="20" viewBox="0 0 24 24" fill="black" style={{marginLeft: '10px', cursor: 'pointer', padding: '0.2em'}} aria-label="Copy to clipboard">
+                       <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+                     </svg>
+                   )
+                 }
+                
+              </h3>
               <p> Job ID: {jobId} </p> 
               <pre className="lj-outputContent">{jobOutput}</pre>
             </div>
