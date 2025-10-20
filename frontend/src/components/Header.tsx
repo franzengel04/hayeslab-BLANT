@@ -1,17 +1,14 @@
-// src/components/Header.tsx
 import React from 'react';
 
 import { Link } from 'react-router-dom';
-import './Header.css'; // Assuming your header's styling is in App.css
+import './Header.css';
 import SanaLogo from '../../public/sana-logo-white.png';
 
 const Header: React.FC = () => {
   return (
     <header className="header">
       <div className="header-left">
-        {/* Container for logo and text to keep them together */}
         <Link to="/" className="site-logo-container">
-          {/* Add the SANA logo image here */}
           <img
             src={SanaLogo}
             alt="SANA Logo"
@@ -21,6 +18,8 @@ const Header: React.FC = () => {
         </Link>
       </div>
       <nav className="header-nav">
+        <Link to="/" className="nav-link">Home</Link>
+        <Link to="/about" className="nav-link">About Blant</Link>
         <Link to="/submit-job" className="nav-link">Submit New Job</Link>
         <Link to="/lookup-job" className="nav-link">Lookup Previous Job</Link>
         <a href="/contact-us" className="nav-link">Contact Us</a>

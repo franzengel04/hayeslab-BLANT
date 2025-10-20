@@ -8,7 +8,6 @@ import Confirm from '../components/Confirm';
 import Processing from '../components/Processing';
 import { useJobSubmission } from '../context/JobSubmissionContext';
 
-// Define a type for all the form data
 export interface FormData {
   networkFile: File | null;
   graphletSize: number;
@@ -19,44 +18,16 @@ export interface FormData {
   numSamples: number;
 }
 
-// const defaultOptions = {
-//   networkFile: null,
-//   graphletSize: 3,
-//   outputMode: 'f',
-//   samplingMethod: 'precision',
-//   precision: 0.01,
-//   numSamples: 10000,
-// }
-
 const SubmitJobPage: React.FC = () => {
   const [currentStep, setCurrentStep] = useState(0);
-  const [isSubmitted, setIsSubmitted] = useState(false); // State to track submission
+  const [isSubmitted, setIsSubmitted] = useState(false); 
   const { 
     networkFile, 
-    // setNetworkFile,
     blantOptions, 
-    // setBlantOptions,
-    // validateFile, 
     handleSubmit, 
     handleFileInputChange,
     handleBlantOptionsChange,
-    // resetForm, 
-    // fileError 
   } = useJobSubmission();
-
-  
-  // const [formData, setFormData] = useState<FormData>({
-  //   networkFile: null,
-  //   graphletSize: 3,
-  //   outputMode: 'f',
-  //   samplingMethod: 'precision',
-  //   precision: 0.01,
-  //   numSamples: 10000,
-  // });
-
-  // const handleDataChange = (newData: Partial<FormData>) => {
-  //   setFormData(prev => ({ ...prev, ...newData }));
-  // };
 
   const handleNext = () => {
     // There are now 4 steps total (0, 1, 2, 3)
@@ -86,7 +57,7 @@ const SubmitJobPage: React.FC = () => {
 
   return (
     <div className="sjp-submitJobPage">
-      <h1 className="sjp-pageTitle">Submit New Job</h1>
+      <h1 className="sjp-pageTitle">Community Detection</h1>
 
       <div className="sjp-accordion">
         <AccordionSection

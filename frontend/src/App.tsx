@@ -9,7 +9,8 @@ import NotFound from './pages/NotFound';
 import SubmitJob from './pages/SubmitJob';
 import LookupJob from './pages/LookupJob';
 import ContactUs from './pages/ContactUs';
-import Login from './pages/Login';
+import AboutPage from './pages/About';
+// import Login from './pages/Login';
 import { JobSubmissionProvider } from './context/JobSubmissionContext';
 
 function App() {
@@ -24,7 +25,8 @@ function App() {
               <Route path="/submit-job" element={<SubmitJob />} />
               <Route path="/lookup-job/:id?" element={<LookupJob />} />
               <Route path="/contact-us" element={<ContactUs />} />
-              <Route path="/login" element={<Login />} />
+              <Route path="/about" element={<AboutPage />} />
+              {/* <Route path="/login" element={<Login />} /> */}
           </Routes>
         </JobSubmissionProvider>
       </main>
