@@ -78,8 +78,10 @@ const LookupJob: React.FC = () => {
               </div>
               <button type="submit" className="lj-submitButton">
                 {
-                  (jobOutput === null && id != undefined) ? (
-                    <LoadingCircle />
+                  jobOutput === null && id != undefined ? (
+                    <>
+                      <LoadingCircle />
+                    </>
                   ) : (
                     'Submit'
                   )
@@ -94,6 +96,14 @@ const LookupJob: React.FC = () => {
                 </div>
               )
             }
+          </div>
+        )
+      }
+      {
+        jobId !== '' && jobOutput === null && (
+          <div>
+            <h1> Processing Job... </h1> 
+            <LoadingCircle />
           </div>
         )
       }
