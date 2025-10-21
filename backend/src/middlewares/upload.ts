@@ -22,7 +22,7 @@ const storage = multer.diskStorage({
 const upload = multer({
     storage,
     limits: { 
-        fileSize: 1000000, 
+        fileSize: 1000000, // 1 MB file size limit
         files: 1 
     },
     fileFilter: (req: Request, file: MulterFile, cb: multer.FileFilterCallback) => {
@@ -34,9 +34,8 @@ const upload = multer({
         const fileExt = path.extname(file.originalname).toLowerCase().slice(1);
         if (fileExt !== 'el') {
             return cb(
-                new HttpError(
+                HttpError.badRequest(
                     `Invalid file extension: ${fileExt}. Must be .el`,
-                    { status: 400 },
                 ),
             );
         }
@@ -52,11 +51,9 @@ const upload = multer({
 const validateSingleFileMiddleware = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         if (!req.file) {
-            throw new HttpError('A .el file must be uploaded.', { status: 400 });
+            throw HttpError.badRequest('A .el file must be uploaded.');
         }
         
-        // console.log(`File uploaded: ${req.file.originalname} (${req.file.size} bytes)`);
-        // console.log(`File path: ${req.file.path}`);
         next();
     } catch (error) {
 

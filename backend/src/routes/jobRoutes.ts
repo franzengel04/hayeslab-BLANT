@@ -22,8 +22,8 @@ router.post(
 // Single endpoint for job submission that handles preprocessing and queueing
 router.post(
     '/submitJob',
-    uploadMiddleware,
-    validateSingleFileMiddleware,
+    uploadMiddleware, // uploads the file to the tmp directory and validates the extension, size, and format (fileFilter runs automatically once for each uploaded file)
+    validateSingleFileMiddleware, // validates if the request contains a file to begin with, throws and error if not
     submitJobController,
     // cleanupFileErrorHandler,
 );

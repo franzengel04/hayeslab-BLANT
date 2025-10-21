@@ -106,13 +106,11 @@ const submitJobController = async (req: SubmitJobRequest, res: Response, next: N
         }
         if (isNaN(jobOptions.graphletSize)) {
             throw HttpError.badRequest('graphletSize must be a valid number.');
-        } else if (jobOptions.graphletSize > 8 || jobOptions.graphletSize < 3) {
-            throw HttpError.badRequest('graphletSize must be between 3 and 8.');
+        } else if (jobOptions.graphletSize > 7 || jobOptions.graphletSize < 3) {
+            throw HttpError.badRequest('graphletSize must be between 3 and 7.');
         }
-
-        //  Create job with validated inputs
         if (!req.file) {
-            throw new HttpError('No file uploaded', { status: 400 });
+            throw HttpError.badRequest('No network file uploaded.');
         }
         
         // creates job and runs preprocessing (creating the directory for output files, moving the network files there, etc... but does not actually start running the job)
