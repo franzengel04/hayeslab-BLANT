@@ -1,12 +1,11 @@
 // src/pages/SubmitJobPage.tsx
 import React, { useState } from 'react';
 import './SubmitJob.css';
-import AccordionSection from '../components/AccordionSection';
 import NetworkSelection from '../components/NetworkSelection';
 import Options from '../components/Options';
-import Confirm from '../components/Confirm';
 import Processing from '../components/Processing';
 import { useJobSubmission } from '../context/JobSubmissionContext';
+import { useNavigate } from 'react-router-dom';
 
 export interface FormData {
   networkFile: File | null;
@@ -19,115 +18,53 @@ export interface FormData {
 }
 
 const SubmitJobPage: React.FC = () => {
-  const [currentStep, setCurrentStep] = useState(0);
-  const [isSubmitted, setIsSubmitted] = useState(false); 
+  const navigate = useNavigate();
+  const [isSubmitted, setIsSubmitted] = useState<boolean>(false); 
   const { 
-    networkFile, 
     blantOptions, 
     handleSubmit, 
     handleFileInputChange,
     handleBlantOptionsChange,
   } = useJobSubmission();
 
-  const handleNext = () => {
-    // There are now 4 steps total (0, 1, 2, 3)
-    if (currentStep === 0 && !networkFile) {
-      alert("Please upload a network file in .el format");
-      return;
-    }
-    if (currentStep === 1 && (blantOptions.density && (blantOptions.density < 0.01 || blantOptions.density > 1))) {
-      alert("Density must be between 0.01 and 1.");
-      return;
-    }
-    
-    setCurrentStep((prevStep) => Math.min(prevStep + 1, 3));
-  };
-
-  const handlePrevious = () => {
-    setCurrentStep((prevStep) => Math.max(prevStep - 1, 0));
-  };
-
   const handleSubmitJob = () => {
-      // console.log('Submitting Job with data:', formData);
       setIsSubmitted(true); // Set submission status to true
-      // Move to the "Processing" step
-      handleSubmit();
-      handleNext(); 
+      handleSubmit(); 
   }
+
+  const handleBackToHome = () => {
+    navigate('/');
+  }
+
+  const JobSubmissionMenu = (
+    <div className="sjp-accordion">
+      <NetworkSelection 
+        onDataChange={handleFileInputChange}
+      />
+        <Options 
+        onDataChange={handleBlantOptionsChange}
+        initialData={blantOptions}
+        />
+        <div className="sjp-buttonContainer">
+          <button onClick={handleBackToHome} className="os-navButton os-navButton-previous">&larr; Back to Home </button>
+          <button onClick={handleSubmitJob} className="os-navButton">Submit &rarr;</button>
+      </div>
+    </div>
+  )
 
   return (
     <div className="sjp-submitJobPage">
       <h1 className="sjp-pageTitle">Community Detection</h1>
 
-      <div className="sjp-accordion">
-        <AccordionSection
-          title="1. Select Network"
-          isActive={currentStep === 0}
-          isCompleted={currentStep > 0}
-          isLocked={isSubmitted} // Pass submission status
-          onClick={() => currentStep > 0 && !isSubmitted && setCurrentStep(0)}
-        >
-          {/* <NetworkSelection 
-            onNext={handleNext} 
-            onDataChange={handleBlantOptionsChange}
-          /> */}
-          {/* <NetworkSelection 
-            onNext={handleNext} 
-            onDataChange={setNetworkFile}
-          /> */}
-          <NetworkSelection 
-            onNext={handleNext} 
-            onDataChange={handleFileInputChange}
-          />
-        </AccordionSection>
-
-        <AccordionSection
-          title="2. Options"
-          isActive={currentStep === 1}
-          isCompleted={currentStep > 1}
-          isLocked={isSubmitted} // Pass submission status
-          onClick={() => currentStep > 1 && !isSubmitted && setCurrentStep(1)}
-        >
-           <Options 
-            onNext={handleNext} 
-            onPrevious={handlePrevious} 
-            onDataChange={handleBlantOptionsChange}
-            initialData={blantOptions}
-           />
-        </AccordionSection>
-        
-        <AccordionSection
-          title="3. Confirm"
-          isActive={currentStep === 2}
-          isCompleted={currentStep > 2}
-          isLocked={isSubmitted} // Pass submission status
-          onClick={() => currentStep > 2 && !isSubmitted && setCurrentStep(2)}
-        >
-           <Confirm 
-            formData={{
-              networkFile: networkFile,
-              graphletSize: blantOptions?.graphletSize || 3,
-              density: blantOptions?.density || 1,
-              samplingMethod: blantOptions?.samplingMethod || 'precision',
-              outputMode: blantOptions?.outputMode || 'frequency',
-              precision: blantOptions?.precision || 0.01,
-            }}
-            onPrevious={handlePrevious}
-            onSubmit={handleSubmitJob}
-           />
-        </AccordionSection>
-
-        {/* This section now uses the new Processing component */}
-        <AccordionSection
-          title="4. Processing"
-          isActive={currentStep === 3}
-          isCompleted={false}
-          isLocked={isSubmitted}
-          onClick={()=>{}}
-        >
-          <Processing />
-        </AccordionSection>
-      </div>
+      {
+        isSubmitted ? (
+          <div className="sjp-accordion">
+            <Processing />
+          </div>
+        ) : (
+          JobSubmissionMenu
+        )
+      }
     </div>
   );
 };

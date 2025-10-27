@@ -1,6 +1,6 @@
 /* src/components/AccordionSection.css */
 .as-section {
-  border-bottom: 1px solid #d1d5db;
+  /* border-bottom: 1px solid #d1d5db; */
 }
 .as-section:last-child {
   border-bottom: none;
@@ -10,12 +10,12 @@
   background-color: #f9fafb;
   padding: 1rem 1.5rem;
   font-size: 1.125rem;
-  font-weight: 500;
+  /* font-weight: 500; */
   display: flex;
   justify-content: space-between;
   align-items: center;
   color: #6b7280;
-  cursor: not-allowed;
+  cursor: pointer;
 }
 
 .as-section.as-completed .as-header {
@@ -37,8 +37,8 @@
 .as-section.as-active .as-header {
   color: #111827;
   background-color: #fff;
-  font-weight: 600;
-  cursor: default;
+  /* font-weight: 600; */
+  cursor: pointer;
 }
 
 .as-content {

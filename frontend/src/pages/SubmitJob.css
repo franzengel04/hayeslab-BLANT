@@ -17,4 +17,14 @@
   border: 1px solid #d1d5db;
   border-radius: 8px;
   overflow: hidden;
+  padding: 2em;
+}
+
+.sjp-buttonContainer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+  padding-top: 1.5rem; 
+  border-top: 1px solid #e5e7eb;
 }

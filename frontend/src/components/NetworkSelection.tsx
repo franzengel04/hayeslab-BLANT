@@ -3,21 +3,14 @@ import React from 'react';
 import './NetworkSelection.css';
 // 'onPrevious' and 'initialData' have been removed to fix the warnings
 interface NetworkSelectionProps {
-  onNext: () => void;
+  // onNext: () => void;
   // onDataChange: (data: Partial<FormData>) => void;
   // onDataChange: (file: File | null) => void
   onDataChange: (event: React.ChangeEvent<HTMLInputElement>) => Promise<boolean>,
   
 }
 
-const NetworkSelection: React.FC<NetworkSelectionProps> = ({ onNext, onDataChange }) => {
-  
-  // const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   if (e.target.files && e.target.files[0]) {
-  //     // onDataChange({ networkFile: e.target.files[0] });
-  //     onDataChange(e.target.files[0]);
-  //   }
-  // };
+const NetworkSelection: React.FC<NetworkSelectionProps> = ({ onDataChange }) => {
 
   return (
     <div className="ns-stepContainer">
@@ -26,7 +19,6 @@ const NetworkSelection: React.FC<NetworkSelectionProps> = ({ onNext, onDataChang
       </p>
       <ul className="ns-fileTypeList">
         <li>Edge List - <code>.el</code></li>
-        {/* <li>LEDA - <code>.gw</code></li> */}
       </ul>
       <div className="ns-noteBox">
         <h4>NOTE</h4>
@@ -39,20 +31,7 @@ const NetworkSelection: React.FC<NetworkSelectionProps> = ({ onNext, onDataChang
 
       <div className="ns-fileInputGroup">
         <label htmlFor="sourceNetwork">Select Network File</label>
-        {/* <input type="file" id="sourceNetwork" className="ns-fileInput" onChange={handleFileChange} /> */}
         <input type="file" id="sourceNetwork" className="ns-fileInput" onChange={onDataChange} />
-      </div>
-
-      <p className="ns-loginPrompt">
-        Need to run jobs on larger files? <a href="/login">Log in</a> for more resources.
-      </p>
-
-      <div className="ns-buttonContainer">
-        {/* Previous button is not needed in the first step */}
-        <div></div> 
-        <button onClick={onNext} className="ns-navButton">
-          Next &rarr;
-        </button>
       </div>
     </div>
   );

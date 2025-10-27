@@ -1,6 +1,7 @@
 /* src/components/Options.css */
 .os-stepContainer {
-  padding: 1rem;
+  /* padding: 1rem; */
+  padding-top: 1rem;
 }
 
 .os-noteBox {
@@ -22,6 +23,10 @@
   /* list-style-type: disc; */
   padding-left: 1rem;
   /* margin: 0; */
+}
+
+.os-noteBox ul li {
+  font-size: 1rem;
 }
 
 .os-helpButton {

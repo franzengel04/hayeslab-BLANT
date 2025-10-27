@@ -26,6 +26,7 @@
   border-radius: 8px;
   padding: 1.5rem;
   margin-bottom: 2rem;
+  /* font-size: 0.6re */
 }
 
 .ns-noteBox h4 {
@@ -43,6 +44,11 @@
   padding-left: 20px;
   margin: 0;
 }
+
+.ns-noteBox ul li {
+  font-size: 1rem;
+}
+
 
 .ns-fileInputGroup {
   margin-bottom: 1.5rem;
@@ -95,7 +101,7 @@
   justify-content: space-between; /* Puts space between the buttons */
   margin-top: 2rem;
   padding-top: 1.5rem;
-  border-top: 1px solid #e5e7eb;
+  /* border-top: 1px solid #e5e7eb; */
 }
 
 .ns-navButton {

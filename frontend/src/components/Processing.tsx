@@ -7,13 +7,13 @@ const Processing: React.FC = () => {
   return (
     <div className="pr-stepContainer">
       <LoadingCircle />
-      <h3 className="pr-statusText">Preprocessing Networks...</h3>
+      <h3 className="pr-statusText">Submitting Job...</h3>
       
       {/* The yellow note box */}
-      <div className="pr-noteBox">
+      {/* <div className="pr-noteBox">
         <h4>NOTE</h4>
         <p>If this page doesn't redirect, try again in a different browser.</p>
-      </div>
+      </div> */}
     </div>
   );
 };

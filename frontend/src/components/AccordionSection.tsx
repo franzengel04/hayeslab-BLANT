@@ -35,7 +35,7 @@ const AccordionSection: React.FC<AccordionSectionProps> = ({
     <div className={sectionClasses}>
       <div className="as-header" onClick={isClickable ? onClick : undefined}>
         <span>{title}</span>
-        <span>{isActive ? '▼' : isCompleted ? '▲' : ''}</span>
+        <span>{isActive ? '▲' : isCompleted ? '▼' : ''}</span>
       </div>
       {isActive && <div className="as-content">{children}</div>}
     </div>
