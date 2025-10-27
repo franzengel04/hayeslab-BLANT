@@ -58,6 +58,7 @@ const createJob = async (
         density,
         graphletSize,
         attempts: 0,
+        execLogFileOutput: '',
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
     };

@@ -61,6 +61,17 @@ export interface ProcessJobRequest extends Request{
     };
 }
 
+export interface CancelJobRequest extends Request{
+    params: {
+        id: string;
+    };
+}
+
+export interface CancelJobResponse {
+    status: 'success' | 'error';
+    message: string;
+}
+
 export interface DownloadZipRequest extends ProcessJobRequest{};
 export interface GetJobResultsRequest extends ProcessJobRequest{};
 export interface GetJobStatusRequest extends ProcessJobRequest{};
@@ -76,6 +87,7 @@ export interface ErrorDetails<T = undefined> {
 export interface UnifiedResponse<T = undefined, E = undefined> {
     status: 'success' | 'error' | 'redirect' | 'processing';
     message: string;
+    execLogFileOutput?: string;
     data?: T;
     error?: ErrorDetails<E>;
     redirect?: string;
@@ -100,6 +112,8 @@ export type JobData = {
     attempts: number;
     result?: any;
     error?: string;
+    // outputs
+    execLogFileOutput: string;
     // timestamps (as ISO strings for JSON serialization)
     createdAt: string;
     updatedAt: string;

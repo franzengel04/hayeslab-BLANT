@@ -104,6 +104,7 @@ interface Api {
     jobId: string
   ) => Promise<any>;
   downloadJobZip: (jobId: string) => Promise<Blob>;
+  cancelJob: (jobId: string) => Promise<any>;
 }
 
 /**
@@ -175,6 +176,13 @@ const api: Api = {
     }
     
     return await response.blob();
+  },
+
+  cancelJob: async (jobId) => {
+    const url = `${API_URL}/jobs/cancelJob/${jobId}`;
+    const response = await fetch(url, { method: 'GET' });
+    const responseData = await response.json();
+    return responseData;
   },
 };
 

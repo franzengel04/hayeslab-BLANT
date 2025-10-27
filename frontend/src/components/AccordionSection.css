@@ -33,7 +33,7 @@
 
 .as-section.as-active .as-header {
   color: #111827;
-  background-color: #fff;
+  /* background-color: #fff; */
   cursor: pointer;
 }
 

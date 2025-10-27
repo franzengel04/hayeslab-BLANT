@@ -7,6 +7,8 @@ import {
     DownloadZipRequest,
     GetJobResultsRequest,
     GetJobStatusRequest,
+    CancelJobRequest,
+    CancelJobResponse,
     JobData,
     JobStatusResponse,
     ProcessedJobResponse,
@@ -292,14 +294,16 @@ const getJobStatus = async (req: GetJobResultsRequest, res: Response, next: Next
             return;
         } 
 
-        const redirectResponse: UnifiedResponse = {
-                // status: 'redirect',
-                status: 'processing',
-                message: `Job Status is ${status}.`,
-                redirect: `/lookup-job/${jobId}`,
-            };
-            res.status(200).json(redirectResponse);
-            return;
+        // if (status === 'processing') {
+        //     const redirectResponse: UnifiedResponse = {
+        //         status: 'processing',
+        //         message: `Job Status is ${status}.`,
+        //         redirect: `/lookup-job/${jobId}`,
+        //         execLogFileOutput: job.data.execLogFileOutput,
+        //     };
+        //     res.status(200).json(redirectResponse);
+        //     return;
+        // }
 
     } catch (err) {
         next(err);
@@ -340,6 +344,16 @@ const getJobStatus = async (req: GetJobResultsRequest, res: Response, next: Next
 //         res.status(500).json(response);
 //     }
 // }
+
+const cancelJobController = async (req: CancelJobRequest, res: CancelJobResponse, next: NextFunction): Promise<void> => {
+    try {
+        const jobId = req.params.id;
+        console.log('cancelJobController jobId:', jobId);
+    } catch (err) {
+        next(err);
+    }
+};
+
 
 export { 
     downloadZipJob, 

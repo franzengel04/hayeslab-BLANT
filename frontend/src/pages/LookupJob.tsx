@@ -57,6 +57,12 @@ const LookupJob: React.FC = () => {
     setCopied(true);
   };
 
+  const handleCancelJob = async () => {
+    console.log('handleCancelJob jobId:', jobId);
+    const result = await api.cancelJob(jobId);
+    console.log('Job Result:', result);
+
+  };
 
   return (
     <div className="lj-pageContainer">
@@ -104,6 +110,7 @@ const LookupJob: React.FC = () => {
           <div>
             <h1> Processing Job... </h1> 
             <LoadingCircle />
+            <button onClick={handleCancelJob}> Cancel Job </button>
           </div>
         )
       }

@@ -1,9 +1,10 @@
 import { Worker, Job } from 'bullmq';
 import { JobData } from '../../types/types';
 import IORedis from 'ioredis';
-import { exec } from 'child_process';
+import { exec, spawn } from 'child_process';
 import { promisify } from 'util';
 import 'fs';
+import { updateJobInQueue } from '../config/queue';
 import * as path from 'path';
 const fs = require('fs');
 require('dotenv').config();
@@ -19,7 +20,8 @@ const connection = new IORedis({
 
 const blantDirectory = process.env.BLANT_DIRECTORY;
 
-const execAsync = promisify(exec);
+// const execAsync = promisify(exec);
+// const spawnAsync = promisify(spawn);
 const worker = new Worker('jobQueue', async (job: Job) => {
         console.log("Worker Started Processing Job: ", job.id);
         await jobWorker(job.id, job.data);
@@ -57,15 +59,52 @@ const jobWorker = async (jobId: string, jobData: JobData) => {
         // optionString += `\"${inputFile}\" > \"${outputFile}\" 2>&1`;
         
         console.log(`Executing command for job ${jobId}:`, optionString);
-        // Run the command
-        const { stdout, stderr } = await execAsync(optionString, {shell:'/bin/bash'});
         
-        if (stderr) {   
-            console.warn(`Job ${jobId} stderr:`, stderr);
-        }
+        // CURRENT: Using execAsync (buffers all output in memory)
+        // const { stdout, stderr } = await execAsync(optionString, {shell:'/bin/bash'});
         
-        console.log(`Job ${jobId} completed successfully`);
-        return { success: true, stdout, stderr };
+        // if (stderr) {   
+        //     console.warn(`Job ${jobId} stderr:`, stderr);
+        // }
+        
+        // console.log(`Job ${jobId} completed successfully`);
+        // return { success: true, stdout, stderr };
+        
+        // ALTERNATIVE: Using spawn() for real-time streaming (more memory efficient for large outputs):
+        return new Promise((resolve, reject) => {
+            const child = spawn('/bin/bash', ['-c', optionString]);
+            let stdout = '';
+            // let stderr = '';
+            
+            child.stdout.on('data', (data: string) => {
+                stdout += data;
+                // Optional: log in real-time
+                console.log(`Job ${jobId} stdout:`, data.toString());
+                updateJobInQueue(jobId, { execLogFileOutput: stdout });
+            });
+            
+            child.stderr.on('data', (data: string) => {
+                stdout += data;
+                console.warn(`Job ${jobId} stderr:`, data.toString());
+                updateJobInQueue(jobId, { execLogFileOutput: stdout });
+            });
+            
+            child.on('close', (code) => {
+                if (code === 0) {
+                    console.log(`Job ${jobId} completed successfully with code ${code}`);
+                    resolve({ success: true, stdout });
+                } else {
+                    console.error(`Job ${jobId} failed with code ${code}`);
+                    reject(new Error(`Process exited with code ${code}`));
+                }
+            });
+            
+            child.on('error', (error) => {
+                console.error(`Job ${jobId} error:`, error);
+                reject(error);
+            });
+        });
+
 }
 
 export { worker, jobWorker };

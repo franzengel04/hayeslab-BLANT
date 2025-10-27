@@ -30,6 +30,8 @@ router.post(
 
 router.get('/status/:id', getJobStatus);
 
+// router.get('/cancelJob/:id', cancelJobController);
+
 // Future endpoints
 // router.get('/:id/zip', downloadZipJob);
 // router.get('/:id', getJobResults);
