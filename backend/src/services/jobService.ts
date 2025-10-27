@@ -3,6 +3,7 @@ import { preprocess } from './preprocess';
 import path from 'path';
 import HttpError from '../middlewares/HttpError';
 import { JobData, MulterFile, UploadedFiles } from '../../types/types';
+import { addJobToQueue } from '../config/queue';
 
 
 /**
@@ -65,6 +66,7 @@ const createJob = async (
     
     try {
         await preprocess(file, jobData);
+        addJobToQueue(jobId, jobData);
         console.log('Preprocessing completed successfully');
         return jobData;
     } catch (error: any) {

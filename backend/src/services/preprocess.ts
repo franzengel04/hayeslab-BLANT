@@ -19,7 +19,6 @@ const preprocess = async (
 
     try {
         fs.mkdirSync(jobLocation, { recursive: true });
-        // fs.mkdirSync(path.join(jobLocation, "networks"), {recursive: true});
         fs.mkdirSync(networkDir, { recursive: true });
     } catch (e: any) {
         throw new HttpError(
@@ -31,10 +30,7 @@ const preprocess = async (
     // 5. Move the network file into their directory
     const networkLocation: string = path.join(networkDir, `${jobData.networkName}${jobData.extension}`);
     try {
-        // fs.mkdirSync(path.dirname(networkLocation), { recursive: true });
-
         fs.copyFileSync(file.path, networkLocation);
-        // fs.copyFileSync(file.path, networkDir);
         fs.unlinkSync(file.path);
     } catch (error: any) {
         throw new HttpError(
