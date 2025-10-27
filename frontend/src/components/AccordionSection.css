@@ -1,7 +1,5 @@
 /* src/components/AccordionSection.css */
-.as-section {
-  /* border-bottom: 1px solid #d1d5db; */
-}
+
 .as-section:last-child {
   border-bottom: none;
 }
@@ -10,7 +8,6 @@
   background-color: #f9fafb;
   padding: 1rem 1.5rem;
   font-size: 1.125rem;
-  /* font-weight: 500; */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -37,7 +34,6 @@
 .as-section.as-active .as-header {
   color: #111827;
   background-color: #fff;
-  /* font-weight: 600; */
   cursor: pointer;
 }
 
