@@ -198,7 +198,8 @@ const getJobStatus = async (req: GetJobResultsRequest, res: Response, next: Next
         }
 
 
-        const jobDir = path.resolve(path.join(__dirname, '../../process', jobId));
+        // const jobDir = path.resolve(path.join(__dirname, '../../process', jobId));
+        const jobDir = path.resolve("../../../process", jobId);
 
         // // Check if job directory exists
         // if (!fs.existsSync(jobDir) || !fs.lstatSync(jobDir).isDirectory()) {

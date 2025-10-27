@@ -12,6 +12,7 @@ const jobProcess = async (jobId: string, jobData: JobData): Promise<ProcessJobDa
         return {
             jobId: jobId,
             success: false,
+            redirect: `/lookup-job/${jobId}`,
             status: `Job does not exist at ${jobDir}`,
         };
     }
@@ -24,6 +25,7 @@ const jobProcess = async (jobId: string, jobData: JobData): Promise<ProcessJobDa
             jobId: undefined,
             success: false,
             status: `ERROR: Job does not exist in queue.`,
+            redirect: `/lookup-job/${jobId}`,
             execLogFileOutput: null,
         };
     }
@@ -59,6 +61,7 @@ const jobProcess = async (jobId: string, jobData: JobData): Promise<ProcessJobDa
             jobId: jobId, 
             success: false,
             status: `Job Status is ${jobStatus}.`, 
+            redirect: `/lookup-job/${jobId}`,
         };
     }
     // }
