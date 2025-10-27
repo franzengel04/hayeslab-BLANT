@@ -295,14 +295,14 @@ const getJobStatus = async (req: GetJobResultsRequest, res: Response, next: Next
         } 
 
         // if (status === 'processing') {
-        //     const redirectResponse: UnifiedResponse = {
-        //         status: 'processing',
-        //         message: `Job Status is ${status}.`,
-        //         redirect: `/lookup-job/${jobId}`,
-        //         execLogFileOutput: job.data.execLogFileOutput,
-        //     };
-        //     res.status(200).json(redirectResponse);
-        //     return;
+            const redirectResponse: UnifiedResponse = {
+                status: 'processing',
+                message: `Job Status is ${status}.`,
+                redirect: `/lookup-job/${jobId}`,
+                execLogFileOutput: job.data.execLogFileOutput,
+            };
+            res.status(200).json(redirectResponse);
+            // return;
         // }
 
     } catch (err) {

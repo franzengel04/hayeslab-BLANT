@@ -1,10 +1,11 @@
 // src/pages/LookupJob.tsx
-import React, { useState, useEffect, } from 'react';
+import React, { useState, useEffect, useRef, } from 'react';
 import { useNavigate } from "react-router";
 import { useParams } from 'react-router-dom';
 import './LookupJob.css';
 import api from '../api/api';
 import LoadingCircle from '../components/LoadingCircle';
+
 
 const LookupJob: React.FC = () => {
   const { id } = useParams<{ id?: string }>();
@@ -14,6 +15,10 @@ const LookupJob: React.FC = () => {
   const [copied, setCopied] = useState<boolean>(false);
   const navigate = useNavigate();
 
+  const interval = useRef(setInterval(() => {
+    getJobStatus(jobId);
+  }, 3000));
+
   // Set the jobId from URL parameter if it exists
   async function getJobStatus(id: string) {
     console.log('getting job status for id:', id);
@@ -21,8 +26,10 @@ const LookupJob: React.FC = () => {
     console.log('Job Result:', result);
     if (result.status === 'success') {
       setJobOutput(result.data.execLogFileOutput);
-    } else if (result.status === 'processing') {
-      setTimeout(() => getJobStatus(id), 3000); // query again in 3 seconds
+      clearInterval(interval.current);
+    } else if (result.status === 'processing' && result.execLogFileOutput) {
+      // setTimeout(() => getJobStatus(id), 3000); // query again in 3 seconds
+      setJobOutput(result.execLogFileOutput);
     } else if (result.status === 'error') {
       setJobOutput(result.error.message);
     }
