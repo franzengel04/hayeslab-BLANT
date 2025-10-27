@@ -199,7 +199,7 @@ const getJobStatus = async (req: GetJobResultsRequest, res: Response, next: Next
 
 
         // const jobDir = path.resolve(path.join(__dirname, '../../process', jobId));
-        const jobDir = path.resolve("../process", jobId);
+        const jobDir = path.resolve("./process", jobId);
         console.log("process.cwd():", process.cwd());
         console.log("__dirname:", __dirname);
         console.log("jobDir:", jobDir);
