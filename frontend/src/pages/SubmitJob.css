@@ -3,6 +3,7 @@
   max-width: 900px;
   margin: 2rem auto;
   padding: 0 1rem;
+  z-index: -1;
 }
 
 .sjp-pageTitle {
