@@ -14,10 +14,7 @@ const LookupJob: React.FC = () => {
   const [jobOutput, setJobOutput] = useState<string | null>(null);
   const [copied, setCopied] = useState<boolean>(false);
   const navigate = useNavigate();
-
-  const interval = useRef(setInterval(() => {
-    getJobStatus(jobId);
-  }, 3000));
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   // Set the jobId from URL parameter if it exists
   async function getJobStatus(id: string) {
@@ -26,12 +23,20 @@ const LookupJob: React.FC = () => {
     console.log('Job Result:', result);
     if (result.status === 'success') {
       setJobOutput(result.data.execLogFileOutput);
-      clearInterval(interval.current);
+      console.log("Clearing interval...")
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
     } else if (result.status === 'processing' && result.execLogFileOutput) {
       // setTimeout(() => getJobStatus(id), 3000); // query again in 3 seconds
       setJobOutput(result.execLogFileOutput);
     } else if (result.status === 'error') {
       setJobOutput(result.error.message);
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
     }
   }
 
@@ -40,11 +45,27 @@ const LookupJob: React.FC = () => {
     if (id) {
       setJobId(id);
       getJobStatus(id);
+      
+      // Set up interval to poll job status
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+      intervalRef.current = setInterval(() => {
+        getJobStatus(id);
+      }, 3000);
     } else {
       setJobId('');
       setJobOutput(null);
       setSearchJobId('');
-    } 
+    }
+
+    // Cleanup function to clear interval on unmount or when id changes
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+    };
   }, [id]);
 
   const handleSubmit = (e: React.FormEvent) => {
