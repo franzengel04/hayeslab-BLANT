@@ -54,7 +54,7 @@ const jobWorker = async (jobId: string, jobData: JobData) => {
         const outputFile = path.resolve(`./process/${jobId}`, 'blant_runtime.log');
 
         const optionString = `cd ${blantDirectory} && source ./setup.sh && ./scripts/blant-clusters.sh` 
-                             + ` ./blant ${jobData.graphletSize} ${jobData.density} ${networkDir} > ${outputFile} 2>&1`;
+                             + ` ./blant ${jobData.graphletSize} ${jobData.density} ${networkDir}`;
         // let optionString = `cd ${blantPath} && ./scripts/blant-clusters.sh ./blant ${jobData.graphletSize} ${jobData.density} `;
         // optionString += `\"${inputFile}\" > \"${outputFile}\" 2>&1`;
         
@@ -73,6 +73,7 @@ const jobWorker = async (jobId: string, jobData: JobData) => {
         // ALTERNATIVE: Using spawn() for real-time streaming (more memory efficient for large outputs):
         return new Promise((resolve, reject) => {
             const child = spawn('/bin/bash', ['-c', optionString]);
+            const logStream = fs.createWriteStream(outputFile, { flags: 'a' });
             let stdout = '';
             // let stderr = '';
             
@@ -80,16 +81,19 @@ const jobWorker = async (jobId: string, jobData: JobData) => {
                 stdout += data.toString();
                 // Optional: log in real-time
                 console.log(`Job ${jobId} stdout:`, data.toString());
+                logStream.write(data);
                 await updateJobInQueue(jobId, { execLogFileOutput: stdout });
             });
             
             child.stderr.on('data', async (data: string) => {
                 stdout += data.toString();
                 console.warn(`Job ${jobId} stderr:`, data.toString());
+                logStream.write(data);
                 await updateJobInQueue(jobId, { execLogFileOutput: stdout });
             });
             
             child.on('close', (code) => {
+                logStream.end();
                 if (code === 0) {
                     console.log(`Job ${jobId} completed successfully with code ${code}`);
                     resolve({ success: true, stdout });
@@ -101,6 +105,7 @@ const jobWorker = async (jobId: string, jobData: JobData) => {
             
             child.on('error', (error) => {
                 console.error(`Job ${jobId} error:`, error);
+                logStream.end();
                 reject(error);
             });
         });
