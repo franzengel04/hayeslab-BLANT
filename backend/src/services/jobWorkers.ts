@@ -76,17 +76,17 @@ const jobWorker = async (jobId: string, jobData: JobData) => {
             let stdout = '';
             // let stderr = '';
             
-            child.stdout.on('data', (data: string) => {
+            child.stdout.on('data', async (data: string) => {
                 stdout += data.toString();
                 // Optional: log in real-time
                 console.log(`Job ${jobId} stdout:`, data.toString());
-                updateJobInQueue(jobId, { execLogFileOutput: stdout });
+                await updateJobInQueue(jobId, { execLogFileOutput: stdout });
             });
             
-            child.stderr.on('data', (data: string) => {
+            child.stderr.on('data', async (data: string) => {
                 stdout += data.toString();
                 console.warn(`Job ${jobId} stderr:`, data.toString());
-                updateJobInQueue(jobId, { execLogFileOutput: stdout });
+                await updateJobInQueue(jobId, { execLogFileOutput: stdout });
             });
             
             child.on('close', (code) => {
