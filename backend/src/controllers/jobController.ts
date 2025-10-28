@@ -230,6 +230,7 @@ const getJobStatus = async (req: GetJobResultsRequest, res: Response, next: Next
         // const status = jobData.status;
         
         const status = await job.getState();
+        console.log("getJobStatus status: ", status);
 
         if (status === 'failed') {
             // Read the blant_runtime.log file for error details
