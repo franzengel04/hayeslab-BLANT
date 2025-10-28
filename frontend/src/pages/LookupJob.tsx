@@ -138,7 +138,7 @@ const LookupJob: React.FC = () => {
           <div>
             <h1> Processing Job... </h1> 
             <LoadingCircle />
-            <button onClick={handleCancelJob}> Cancel Job </button>
+            {/* <button onClick={handleCancelJob}> Cancel Job </button> */}
           </div>
         )
       }
