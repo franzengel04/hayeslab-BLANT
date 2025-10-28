@@ -3,10 +3,9 @@ import { JobData } from '../../types/types';
 import IORedis from 'ioredis';
 import { exec, spawn } from 'child_process';
 import { promisify } from 'util';
-import 'fs';
+import fs from 'fs';
 import { updateJobInQueue } from '../config/queue';
 import * as path from 'path';
-const fs = require('fs');
 require('dotenv').config();
 
 console.log("Worker started");
