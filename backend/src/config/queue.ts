@@ -31,6 +31,7 @@ async function updateJobInQueue(jobId: string, newJobData: Partial<JobData>) {
         
         // await job.update(newJobData);
         await job.updateData(updatedData);
+        console.log(`Job ${jobId} updated with data:`, job.data);
     } else {
         console.error(`Job ${jobId} not found in queue, could not update job data.`);
     }
