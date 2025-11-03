@@ -161,7 +161,7 @@ const LookupJob: React.FC = () => {
                  }
                 
               </h3>
-              <p> Job ID: {jobId} </p> 
+              <p> Job ID: <b>{jobId}</b></p> 
               <pre className="lj-outputContent">{jobOutput}</pre>
             </div>
           )
