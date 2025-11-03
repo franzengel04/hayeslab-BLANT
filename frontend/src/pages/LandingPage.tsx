@@ -2,8 +2,16 @@
 import React from 'react';
 import './LandingPage.css'; // Make sure your CSS is imported
 import BlantImage from '../../public/blant.png';
+import { useNavigate } from 'react-router';
+
+
 
 const LandingPage: React.FC = () => {
+  const navigate = useNavigate();
+  const goToSubmitJob = () => {
+    navigate("/submit-job");
+  }
+
   return (
     <div className="landing-page">
       <h1>Welcome to the BLANT Web Interface</h1>
@@ -12,7 +20,8 @@ const LandingPage: React.FC = () => {
         alt="Network graph examples for BLANT"
         className="landing-image"
       />
-    
+
+      <button onClick={goToSubmitJob} className='os-navButton'>Submit a Job</button>
 
       <div className="info-text">
         <p>
