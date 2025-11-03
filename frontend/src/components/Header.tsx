@@ -8,7 +8,7 @@ const Header: React.FC = () => {
   return (
     <header className="header">
       <div className="header-left">
-        <Link to="/" className="site-logo-container">
+        <Link to="https://hayeslab.ics.uci.edu/" className="site-logo-container">
           <img
             src={SanaLogo}
             alt="SANA Logo"
@@ -19,7 +19,7 @@ const Header: React.FC = () => {
       </div>
       <nav className="header-nav">
         <Link to="/" className="nav-link">Home</Link>
-        <Link to="/about" className="nav-link">About Blant</Link>
+        <Link to="/about" className="nav-link">About BLANT</Link>
         <Link to="/submit-job" className="nav-link">Submit New Job</Link>
         <Link to="/lookup-job" className="nav-link">Lookup Previous Job</Link>
         <a href="/contact-us" className="nav-link">Contact Us</a>
