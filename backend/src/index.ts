@@ -12,15 +12,15 @@ const app = express();
 const PORT = parseInt(process.env.PORT) || 4000;
 
 // cors and bodyparser middleware
-if (process.env.NODE_ENV === 'development') {
-    app.use(
-        cors({
-            origin: '*',
-            allowedHeaders: ['Origin', 'Content-Type', 'Authorization']
-        }),
-    );
-    app.use(logger('dev'));
-}
+// if (process.env.NODE_ENV === 'development') {
+app.use(
+    cors({
+        origin: '*',
+        allowedHeaders: ['Origin', 'Content-Type', 'Authorization']
+    }),
+);
+app.use(logger('dev'));
+// }
 // Root route handler
 app.get('/', (req, res) => {
     console.log('test');
