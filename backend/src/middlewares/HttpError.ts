@@ -18,14 +18,14 @@ class HttpError<T = undefined, E = undefined> extends Error implements UnifiedRe
     constructor(message: string, options: HttpErrorOptions<E> = {}) {
         super(message);
         this.status = 'error';
-        this.message = message;
+        // this.message = message;
         this.statusCode = options.status ?? 500;
         this.data = undefined;
         this.error = {
             message: message,
-            errorLog: options.errorLog,
-            stackTrace: options.stackTrace,
-            data: options.data
+            // errorLog: options.errorLog,
+            // stackTrace: options.stackTrace,
+            // data: options.data
         };
     }
 
