@@ -1,13 +1,13 @@
 #! /bin/bash
 
-directory="$HOME/hayeslab-BLANT/backend"
+tmux_session_name=$(basename "$(pwd)")
 npm install
-cd $directory
-if tmux has-session -t blant-backend 2>/dev/null; then # restart backend if tmux session already exists
-    tmux send-keys -t blant-backend C-c
-    tmux send-keys -t blant-backend "npm run dev" C-m
+cd backend
+if tmux has-session -t $tmux_session_name 2>/dev/null; then # restart backend if tmux session already exists
+    tmux send-keys -t $tmux_session_name C-c
+    tmux send-keys -t $tmux_session_name "npm run dev" C-m
 else # otherwise create tmux session and start fresh backend instance
-    tmux new-session -d -s blant-backend
-    tmux send-keys -t blant-backend "npm run dev" C-m
+    tmux new-session -d -s $tmux_session_name
+    tmux send-keys -t $tmux_session_name "npm run dev" C-m
     tmux detach-client
 fi
