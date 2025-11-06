@@ -1,5 +1,6 @@
-#! /bin/bash
+#!/bin/bash
 
+cd backend
 npm install
 npm run build
 sudo systemctl enable --now redis-server
