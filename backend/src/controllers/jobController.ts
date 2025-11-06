@@ -195,13 +195,12 @@ const getJobStatus = async (req: GetJobResultsRequest, res: Response, next: Next
 
         const job = await getJobFromQueue(jobId);
 
-        console.log("getJobStatus job: ", job);
-        console.log("getJobStatus job.data: ", job.data);
-
         if (!job) {
             throw new HttpError(`Job with id ${jobId} does not exist.`, { status: 400 });
         }
 
+        console.log("getJobStatus job: ", job);
+        console.log("getJobStatus job.data: ", job?.data ?? 'no data');
 
         // const jobDir = path.resolve(path.join(__dirname, '../../process', jobId));
         const jobDir = path.resolve("./process", jobId);
