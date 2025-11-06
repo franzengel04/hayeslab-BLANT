@@ -7,7 +7,6 @@ import cors from 'cors';
 import logger from 'morgan';
 import cookieParser from 'cookie-parser';
 import jobRoutes from './routes/jobRoutes';
-import { jobQueue } from './config/queue';
 
 const app = express(); 
 const PORT = parseInt(process.env.PORT) || 4000;
@@ -20,14 +19,13 @@ if (process.env.NODE_ENV === 'development') {
             allowedHeaders: ['Origin', 'Content-Type', 'Authorization']
         }),
     );
-
-    // Root route handler
-    app.get('/', (req, res) => {
-        console.log('test');
-        res.send('hello!');
-    });
     app.use(logger('dev'));
 }
+// Root route handler
+app.get('/', (req, res) => {
+    console.log('test');
+    res.send('hello!');
+});
 app.use(express.json());
 app.use(cookieParser());
 
