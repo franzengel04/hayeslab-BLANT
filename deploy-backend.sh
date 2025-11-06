@@ -1,10 +1,11 @@
 #!/bin/bash
 
+tmux_session_name=$(basename "$(pwd)")
+
 cd backend
 npm install
 npm run build
 sudo systemctl enable --now redis-server
-tmux_session_name=$(basename "$(pwd)")
 
 if tmux has-session -t $tmux_session_name 2>/dev/null; then # restart backend if tmux session already exists
     tmux send-keys -t $tmux_session_name C-c
