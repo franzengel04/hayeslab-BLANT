@@ -1,9 +1,24 @@
 import { Request, Response, NextFunction } from 'express';
-import { UnifiedResponse } from '../../types/types';
+import { UnifiedResponse, ErrorDetails } from '../../types/types';
 import HttpError from './HttpError';
 import { ZodError } from 'zod';
 
 const ErrorHandler = (err: any, req: Request, res: Response, next: NextFunction): void => {
+    const isDevelopment = process.env.NODE_ENV === 'development';
+    
+    if (isDevelopment) {
+        console.error('Error details:', {
+            message: err.message,
+            stack: err.stack,
+            error: err,
+        });
+    } else {
+        console.error('Error occurred:', {
+            message: err.message,
+            statusCode: err instanceof HttpError ? err.statusCode : 500,
+        });
+    }
+
     if (err instanceof ZodError) {
         const httpError = HttpError.validation(err);
 
@@ -13,7 +28,7 @@ const ErrorHandler = (err: any, req: Request, res: Response, next: NextFunction)
             data: undefined,
             error: {
                 message: 'Validation failed',
-                errorLog: err.message,
+                ...(isDevelopment && { errorLog: err.message }),
                 data: httpError.error.data,
             },
         });
@@ -22,27 +37,23 @@ const ErrorHandler = (err: any, req: Request, res: Response, next: NextFunction)
 
     const isHttpError = err instanceof HttpError;
     const statusCode = isHttpError ? err.statusCode : 500;
-    const message = err.message || 'Error happened on server.';
-    const errorLog = isHttpError && err.error ? err.error.errorLog : message;
+    const message = err.message || 'An error occurred on the server.';
+    
+    const errorLog = isDevelopment && isHttpError && err.error ? err.error.errorLog : undefined;
+
+    const errorResponse: ErrorDetails = {
+        message,
+        ...(isDevelopment && errorLog && { errorLog }),
+        ...(isDevelopment && err.stack && { stackTrace: err.stack }),
+        data: isHttpError && err.error ? err.error.data : undefined,
+    };
 
     const response: UnifiedResponse = {
         status: 'error',
         message,
         data: undefined,
-        error: {
-            message,
-            errorLog,
-            stackTrace: process.env.NODE_ENV === 'development' ? err.stack : undefined,
-            data: isHttpError && err.error ? err.error.data : undefined,
-        },
+        error: errorResponse,
     };
-
-    if (process.env.NODE_ENV === 'development') {
-        console.log('Error response:', JSON.stringify(response, null, 2));
-        if (!isHttpError) {
-            console.warn('Non-HttpError was thrown:', err);
-        }
-    }
 
     res.status(statusCode).json(response);
 };
