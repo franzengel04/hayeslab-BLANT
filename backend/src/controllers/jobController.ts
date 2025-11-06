@@ -202,32 +202,10 @@ const getJobStatus = async (req: GetJobResultsRequest, res: Response, next: Next
             throw new HttpError(`Job with id ${jobId} does not exist.`, { status: 400 });
         }
 
-
-        // const jobDir = path.resolve(path.join(__dirname, '../../process', jobId));
         const jobDir = path.resolve("./process", jobId);
         console.log("process.cwd():", process.cwd());
         console.log("__dirname:", __dirname);
         console.log("jobDir:", jobDir);
-
-        // // Check if job directory exists
-        // if (!fs.existsSync(jobDir) || !fs.lstatSync(jobDir).isDirectory()) {
-        //     throw new HttpError('Job not found.', { status: 404 });
-        // }
-
-        // // Check if info.json exists
-        // const infoJsonPath = path.join(jobDir, 'info.json');
-        // if (!fs.existsSync(infoJsonPath)) {
-        //     throw new HttpError('Job data not found. The job might not have been processed yet.', {
-        //         status: 500,
-        //     });
-        // }
-
-        // // Read job data
-        // const infoJsonContent = fs.readFileSync(infoJsonPath, 'utf8');
-        // const jobData = JSON.parse(infoJsonContent);
-
-        // // Handle different job statuses
-        // const status = jobData.status;
         
         const status = await job.getState();
         console.log("getJobStatus status: ", status);

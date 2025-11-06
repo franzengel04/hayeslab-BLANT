@@ -4,6 +4,7 @@ process/
 tmp/
 BLANT/
 dist/
+frontend/.env
 
 # Logs
 logs
