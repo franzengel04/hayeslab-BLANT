@@ -13,6 +13,8 @@ const PORT = parseInt(process.env.PORT) || 4000;
 
 // cors and bodyparser middleware
 // if (process.env.NODE_ENV === 'development') {
+app.use(express.json({ limit: '5mb' }));
+app.use(express.urlencoded({ limit: '5mb', extended: true })); 
 app.use(
     cors({
         origin: '*',
