@@ -132,16 +132,21 @@ const api: Api = {
     //   },
     //   true
     // );
-    const url = `${API_URL}/jobs/submitJob`;
-    const requestOptions = {
-      method: "POST",
-      body: formData,
+    try {
+      const url = `${API_URL}/jobs/submitJob`;
+      const requestOptions = {
+        method: "POST",
+        body: formData,
+      }
+      console.log("submitJob requestOptions: ", requestOptions);
+      const response = await fetch(url, requestOptions);
+      const responseData = await response.json();
+      console.log("submitJob api.submitJob response:", responseData);
+      return responseData;
+    } catch (error: any) {
+      console.error("submitJob error:", error);
+      throw new ApiError("Failed to submit job, something went wrong", 500);
     }
-    console.log("submitJob requestOptions: ", requestOptions);
-    const response = await fetch(url, requestOptions);
-    const responseData = await response.json();
-    console.log("submitJob api.submitJob response:", responseData);
-    return responseData;
   },
 
 //   process: async (jobId) => {

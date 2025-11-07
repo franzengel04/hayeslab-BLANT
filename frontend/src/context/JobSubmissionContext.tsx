@@ -27,6 +27,8 @@ interface JobSubmissionContextSchema {
     fileError: string | null,
     validateFile: (file: File) => boolean,
     handleSubmit: () => Promise<void>,
+    isSubmitted: boolean,
+    setIsSubmitted: (isSubmitted: boolean) => void,
     resetForm: () => void,
     handleFileInputChange: (event: React.ChangeEvent<HTMLInputElement>) => Promise<boolean>,
     handleBlantOptionsChange: (event: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>, optionName: keyof blantOptions) => Promise<boolean>,
@@ -44,6 +46,7 @@ export function JobSubmissionProvider({
 }) {
     const navigate = useNavigate();
     const [networkFile, setNetworkFile] = useState<File | null>(null);
+    const [isSubmitted, setIsSubmitted] = useState<boolean>(false); 
     const [blantOptions, setBlantOptions] = useState<blantOptions>({
         graphletSize: 4,
         outputMode: 'frequency',
@@ -142,23 +145,22 @@ export function JobSubmissionProvider({
                 console.log(pair[0], pair[1]);
             }
 
-            try {
-                console.log("Submitting form data: ", formData);
-                const response = await api.submitJob(formData);
-                console.log("jobSubmission api.upload response:", response);
+            console.log("Submitting form data: ", formData);
+            const response = await api.submitJob(formData)
+            console.log("jobSubmission api.upload response:", response);
 
-                if (response.redirect) {
-                    navigate(response.redirect); // redirects to /submit-jobs/[jobID] url
-                }
-            } catch (error) {
-                setFileError("An error occurred during submission: " + String(error));
+            if (response.redirect) {
+                navigate(response.redirect); // redirects to /submit-jobs/[jobID] url
             }
         } catch (error) {
             // console.error("Submit preparation error:", error);
             setFileError(
                 String(error)
             );
+            setIsSubmitted(false);
+            alert("An error occurred during submission: " + String(error));
             console.error("Submit preparation error:", error);
+            // setIsSubmitted(false);
         }
     };
 
@@ -184,6 +186,8 @@ export function JobSubmissionProvider({
                 setBlantOptions,
                 validateFile,
                 handleSubmit,
+                isSubmitted,
+                setIsSubmitted,
                 handleFileInputChange,
                 handleBlantOptionsChange,
                 resetForm,

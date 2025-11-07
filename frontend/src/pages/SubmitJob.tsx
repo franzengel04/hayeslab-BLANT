@@ -1,5 +1,5 @@
 // src/pages/SubmitJobPage.tsx
-import React, { useState } from 'react';
+import React from 'react';
 import './SubmitJob.css';
 import NetworkSelection from '../components/NetworkSelection';
 import Options from '../components/Options';
@@ -19,12 +19,14 @@ export interface FormData {
 
 const SubmitJobPage: React.FC = () => {
   const navigate = useNavigate();
-  const [isSubmitted, setIsSubmitted] = useState<boolean>(false); 
+  // const [isSubmitted, setIsSubmitted] = useState<boolean>(false); 
   const { 
     blantOptions, 
     handleSubmit, 
     handleFileInputChange,
     handleBlantOptionsChange,
+    isSubmitted,
+    setIsSubmitted,
   } = useJobSubmission();
 
   const handleSubmitJob = () => {
