@@ -65,7 +65,7 @@ export function JobSubmissionProvider({
             // setFileError("File extension must be .el");
             return [false, "[INVALID FILE] File extension must be .el"];
         }
-        if (file.size > 1 * 1024 * 1024) { // 5 MB in bytes
+        if (file.size > 5 * 1024 * 1024) { // 5 MB in bytes
             // setFileError("File size must not exceed 5 MB");
             return [false, "[INVALID FILE] File size must not exceed 5 MB"];
         }
