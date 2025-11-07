@@ -19,6 +19,7 @@ app.use(
         allowedHeaders: ['Origin', 'Content-Type', 'Authorization']
     }),
 );
+app.options('*', cors());
 app.use(logger('dev'));
 // }
 // Root route handler
