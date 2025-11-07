@@ -25,7 +25,7 @@ interface JobSubmissionContextSchema {
     blantOptions: blantOptions,
     setBlantOptions: (options: blantOptions) => void,
     fileError: string | null,
-    validateFile: (file: File) => boolean,
+    validateFile: (file: File) => [boolean, string | null],
     handleSubmit: () => Promise<void>,
     isSubmitted: boolean,
     setIsSubmitted: (isSubmitted: boolean) => void,
@@ -59,13 +59,17 @@ export function JobSubmissionProvider({
 
     const validateFile = (
         file: File,
-    ): boolean => {
+    ): [boolean, string | null] => {
         const fileName = file.name.toLowerCase();
         if (!fileName.endsWith('.el')) {
-            setFileError("File extension must be .el");
-            return false;
+            // setFileError("File extension must be .el");
+            return [false, "[INVALID FILE] File extension must be .el"];
         }
-        return true;
+        if (file.size > 1 * 1024 * 1024) { // 5 MB in bytes
+            // setFileError("File size must not exceed 5 MB");
+            return [false, "[INVALID FILE] File size must not exceed 5 MB"];
+        }
+        return [true, null];
     };
 
     const handleFileInputChange = async (
@@ -77,14 +81,16 @@ export function JobSubmissionProvider({
         if (!file) return false;
 
         try {
-            const isValid = await validateFile(file);
+            const [isValid, errorMessage] = await validateFile(file);
             console.log("Is valid: ", isValid);
             if (isValid) {
                 setNetworkFile(file);
                 return true;
             }
             // file is not valid
-            alert("Invalid file. Please upload a valid network file format (.el)");
+            // alert("Invalid file. Please upload a valid network file format (.el)");
+            // alert(fileError);
+            alert(errorMessage);
             event.target.value = '';
             setNetworkFile(null);
             return false;
