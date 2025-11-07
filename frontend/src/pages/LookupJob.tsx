@@ -32,7 +32,6 @@ const LookupJob: React.FC = () => {
       // setTimeout(() => getJobStatus(id), 3000); // query again in 3 seconds
       setJobOutput(result.execLogFileOutput);
     } else if (result.status === 'error') {
-      setJobOutput(result.error.message);
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
         intervalRef.current = null;
@@ -68,10 +67,16 @@ const LookupJob: React.FC = () => {
     };
   }, [id]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setJobId(() => searchJobId);
-    navigate(`/lookup-job/${searchJobId}`)
+    const result = await api.getJobStatus(searchJobId);
+
+    if (result.status === 'error') {
+      alert(result.error.message);
+    } else { // only go to /lookup-job/[jobId] if the job exists
+      setJobId(() => searchJobId);
+      navigate(`/lookup-job/${searchJobId}`);
+    }
   };
 
   const handleBack = () => {
