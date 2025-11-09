@@ -297,6 +297,20 @@ const getJobStatus = async (req: GetJobResultsRequest, res: Response, next: Next
             return;
         } 
 
+        const execLogFilePath = path.join(job.data.jobLocation, 'blant_runtime.log');
+        let execLogContent = '';
+        try {
+            if (fs.existsSync(execLogFilePath)) {
+                execLogContent = fs.readFileSync(execLogFilePath, 'utf8');
+            } else {
+                execLogContent = `Job execution log file at ${execLogFilePath} does not exist.`;
+            }
+        } catch (err) {
+            execLogContent = 'Error reading execution log file.';
+        }
+        console.log("jobId: ", jobId, " execLogContent:", execLogContent);
+
+
         // if (status === 'processing') {
             const redirectResponse: UnifiedResponse = {
                 status: 'processing',

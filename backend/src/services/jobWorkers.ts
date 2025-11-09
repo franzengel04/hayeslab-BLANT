@@ -79,7 +79,8 @@ const jobWorker = async (jobId: string, jobData: JobData) => {
             child.stdout.on('data', async (data: string) => {
                 stdout += data.toString();
                 // Optional: log in real-time
-                console.log(`Job ${jobId} stdout:`, data.toString());
+                console.log(`Job ${jobId} stdout data.toString():`, data.toString());
+                console.log(`Job ${jobId} stdout data:`, data);
                 logStream.write(data);
                 await updateJobInQueue(jobId, { execLogFileOutput: stdout });
             });
