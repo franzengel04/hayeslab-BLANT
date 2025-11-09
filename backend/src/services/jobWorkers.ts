@@ -52,7 +52,7 @@ const jobWorker = async (jobId: string, jobData: JobData) => {
 
         const outputFile = path.resolve(`./process/${jobId}`, 'blant_runtime.log');
 
-        const optionString = `cd ${blantDirectory} && source ./setup.sh && stdbuf -oL -eL./scripts/blant-clusters.sh` 
+        const optionString = `cd ${blantDirectory} && source ./setup.sh && stdbuf -oL -eL ./scripts/blant-clusters.sh` 
                              + ` ./blant ${jobData.graphletSize} ${jobData.density} ${networkDir}`;
         // let optionString = `cd ${blantPath} && ./scripts/blant-clusters.sh ./blant ${jobData.graphletSize} ${jobData.density} `;
         // optionString += `\"${inputFile}\" > \"${outputFile}\" 2>&1`;
