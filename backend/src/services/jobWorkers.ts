@@ -73,13 +73,29 @@ const jobWorker = async (jobId: string, jobData: JobData) => {
         return new Promise((resolve, reject) => {
             const child = spawn('/bin/bash', ['-c', optionString]);
             const logStream = fs.createWriteStream(outputFile, { flags: 'a', autoClose: false });
+
             let stdout = '';
             // let stderr = '';
+            let fileDescriptor: number | null = null;
             let streamReady = true;
+
+            logStream.on('open', (fd: number) => {
+                fileDescriptor = fd;
+            });
 
             const writeToStream = (data: Buffer) => {
                 if (streamReady) {
                     streamReady = logStream.write(data);
+                    if (fileDescriptor) {
+                        fs.fdatasync(fileDescriptor, (err) => {
+                            if (err) throw err;
+                            console.log('Data flushed to disk.');
+                
+                            // wstream.end(); // Close the stream after flushing
+                        });
+                    }
+                        
+
                     if (!streamReady) {
                         logStream.once('drain', () => {
                             streamReady = true;
@@ -87,6 +103,8 @@ const jobWorker = async (jobId: string, jobData: JobData) => {
                     }
                 }
             };
+
+
             
             child.stdout.on('data', async (data: Buffer) => {
                 const dataStr = data.toString();
