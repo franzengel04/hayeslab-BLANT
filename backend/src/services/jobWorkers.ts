@@ -75,17 +75,31 @@ const jobWorker = async (jobId: string, jobData: JobData) => {
             const logStream = fs.createWriteStream(outputFile, { flags: 'a', autoClose: false });
             let stdout = '';
             // let stderr = '';
+            let streamReady = true;
+
+            const writeToStream = (data: Buffer) => {
+                if (streamReady) {
+                    streamReady = logStream.write(data);
+                    if (!streamReady) {
+                        logStream.once('drain', () => {
+                            streamReady = true;
+                        });
+                    }
+                }
+            };
             
-            child.stdout.on('data', async (data: string) => {
-                stdout += data.toString();
+            child.stdout.on('data', async (data: Buffer) => {
+                const dataStr = data.toString();
+                stdout += dataStr;
                 // Optional: log in real-time
                 console.log(`Job ${jobId} stdout data.toString():`, data.toString());
                 console.log(`Job ${jobId} stdout data:`, data);
-                logStream.write(data);
+                // logStream.write(data);
+                writeToStream(data);
                 await updateJobInQueue(jobId, { execLogFileOutput: stdout });
             });
             
-            child.stderr.on('data', async (data: string) => {
+            child.stderr.on('data', async (data: Buffer) => {
                 stdout += data.toString();
                 console.warn(`Job ${jobId} stderr:`, data.toString());
                 logStream.write(data);
