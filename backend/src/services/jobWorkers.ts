@@ -1,8 +1,7 @@
 import { Worker, Job } from 'bullmq';
 import { JobData } from '../../types/types';
 import IORedis from 'ioredis';
-import { exec, spawn } from 'child_process';
-import { promisify } from 'util';
+import { spawn } from 'child_process';
 import fs from 'fs';
 import { updateJobInQueue } from '../config/queue';
 import * as path from 'path';
@@ -18,9 +17,6 @@ const connection = new IORedis({
 });
 
 const blantDirectory = process.env.BLANT_DIRECTORY;
-
-// const execAsync = promisify(exec);
-// const spawnAsync = promisify(spawn);
 const worker = new Worker('jobQueue', async (job: Job) => {
         console.log("Worker Started Processing Job: ", job.id);
         await jobWorker(job.id, job.data);
