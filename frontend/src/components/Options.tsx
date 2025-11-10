@@ -34,7 +34,7 @@ const Options: React.FC<OptionsProps> = ({ onDataChange, initialData }) => {
                     <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" fill="none"/>
                     <text x="12" y="17" textAnchor="middle" fontSize="14" fontWeight="bold" fill="currentColor">i</text>
                   </svg>
-                  <span className="os-infoTooltip">The number of nodes in the graphlets to sample (3-7), default is 4.</span>
+                  <span className="os-infoTooltip">The number of nodes in the graphlets to sample (3-7) </span>
                 </span>
               </label>
               <select id="graphletSize" className="os-selectInput" value={initialData.graphletSize || 4} onChange={(e: React.ChangeEvent<HTMLSelectElement>) => onDataChange(e, 'graphletSize')}>
@@ -55,10 +55,25 @@ const Options: React.FC<OptionsProps> = ({ onDataChange, initialData }) => {
                       <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" fill="none"/>
                       <text x="12" y="17" textAnchor="middle" fontSize="14" fontWeight="bold" fill="currentColor">i</text>
                     </svg>
-                    <span className="os-infoTooltip">Lower bound on the edge density for communities to discover.<br />Produces overlapping communities.</span>
+                    <span className="os-infoTooltip">Lower bound on the edge density for communities to discover,<br />produces overlapping communities.</span>
                   </span>
                 </label>
                 <input type="number" id="precision" className="os-numberInput" defaultValue={initialData.density} onChange={(e) => onDataChange(e, 'density')} />
+              </div>
+          </div>
+          <div className="os-optionsGrid">
+              <div className="os-inputGroup">
+                <label htmlFor="precision" className="os-labelWithInfo">
+                  Fractional Overlap
+                  <span className="os-infoIcon">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" fill="none"/>
+                      <text x="12" y="17" textAnchor="middle" fontSize="14" fontWeight="bold" fill="currentColor">i</text>
+                    </svg>
+                    <span className="os-infoTooltip">Fractional overlap allowed between two found clusters</span>
+                  </span>
+                </label>
+                <input type="number" id="precision" className="os-numberInput" defaultValue={initialData.fractionalOverlap} onChange={(e) => onDataChange(e, 'fractionalOverlap')} />
               </div>
           </div>
         </div>

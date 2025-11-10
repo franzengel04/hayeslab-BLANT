@@ -134,6 +134,8 @@
   display: flex;
   justify-content: flex-start;
   column-gap: 2rem;
+  row-gap: 2rem;
+  flex-wrap: wrap;
 }
 
 .os-infoIcon {

@@ -12,11 +12,8 @@ import api from "../api/api.ts";
 
 export interface blantOptions {
     graphletSize: number,
-    density?: number,
-    samplingMethod: 'precision' | 'sample_number',
-    outputMode: 'frequency' | 'odv',
-    precision?: number,
-    numSamples?: number,
+    density: number,
+    fractionalOverlap: number,
 }
 
 interface JobSubmissionContextSchema {
@@ -26,7 +23,7 @@ interface JobSubmissionContextSchema {
     setBlantOptions: (options: blantOptions) => void,
     fileError: string | null,
     validateFile: (file: File) => [boolean, string | null],
-    handleSubmit: () => Promise<void>,
+    handleSubmit: () => Promise<boolean>,
     isSubmitted: boolean,
     setIsSubmitted: (isSubmitted: boolean) => void,
     resetForm: () => void,
@@ -49,11 +46,8 @@ export function JobSubmissionProvider({
     const [isSubmitted, setIsSubmitted] = useState<boolean>(false); 
     const [blantOptions, setBlantOptions] = useState<blantOptions>({
         graphletSize: 4,
-        outputMode: 'frequency',
-        samplingMethod: 'precision',
-        precision: 1,
         density: 1,
-        numSamples: 10000,
+        fractionalOverlap: 0.5,
     });
     const [fileError, setFileError] = useState<string | null>(null);
 
@@ -131,16 +125,32 @@ export function JobSubmissionProvider({
         return true;
     };
 
-    const handleSubmit = async (): Promise<void> => {
-        try {
+    const _validateBlantOptions = (options: blantOptions): void => {
+        let errorMessage = '';
+        if (options.graphletSize < 3 || options.graphletSize > 7) {
+            errorMessage = "Graphlet size must be between 3 and 7 (inclusive).";
+        }
+        if (options.density < 0.01 || options.density > 1) {
+            errorMessage += "\nDensity must be between 0.01 and 1 (inclusive).";
+        }
+        if (options.fractionalOverlap < 0 || options.fractionalOverlap >= 1) {
+            errorMessage += "\nFractional overlap must be between 0 (inclusive) and 1 (exclusive).";
+        }
+        if (errorMessage) {
+            throw new Error(errorMessage);
+        }
+    };
+
+    const handleSubmit = async (): Promise<boolean> => {
+        // try {
             // Validate required files
             console.log("handleSubmit networkFile: ", networkFile);
             console.log("handleSubmit blantOptions: ", blantOptions);
             if (!networkFile) {
-                setFileError("Please upload a network file.");
-                return;
+                throw new Error("Please upload a network file.");
             }
 
+            _validateBlantOptions(blantOptions);
             const formData = new FormData();
             formData.append("file", networkFile);
             formData.append("options", JSON.stringify(blantOptions));
@@ -158,16 +168,7 @@ export function JobSubmissionProvider({
             if (response.redirect) {
                 navigate(response.redirect); // redirects to /submit-jobs/[jobID] url
             }
-        } catch (error) {
-            // console.error("Submit preparation error:", error);
-            setFileError(
-                String(error)
-            );
-            setIsSubmitted(false);
-            alert("An error occurred during submission: " + String(error));
-            console.error("Submit preparation error:", error);
-            // setIsSubmitted(false);
-        }
+            return true;
     };
 
     const resetForm = () => {

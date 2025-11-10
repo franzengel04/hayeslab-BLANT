@@ -10,11 +10,8 @@ import { useNavigate } from 'react-router-dom';
 export interface FormData {
   networkFile: File | null;
   graphletSize: number;
-  edgeDensity?: number;
-  outputMode: string;
-  samplingMethod: string;
-  precision: number;
-  numSamples: number;
+  edgeDensity: number;
+  fractionalOverlap: number;
 }
 
 const SubmitJobPage: React.FC = () => {
@@ -29,9 +26,20 @@ const SubmitJobPage: React.FC = () => {
     setIsSubmitted,
   } = useJobSubmission();
 
-  const handleSubmitJob = () => {
-      setIsSubmitted(true); // Set submission status to true
-      handleSubmit(); 
+  const handleSubmitJob = async () => {
+      // setIsSubmitted(true); // Set submission status to true
+      // if (await handleSubmit()) {
+      //   setIsSubmitted(true);
+      // } else {
+      //   setIsSubmitted(false);
+      // }
+      try {
+        await handleSubmit();
+        setIsSubmitted(true);
+      } catch (error) {
+        alert(String(error));
+        setIsSubmitted(false);
+      }
   }
 
   const handleBackToHome = () => {
