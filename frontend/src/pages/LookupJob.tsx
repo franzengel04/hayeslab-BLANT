@@ -12,6 +12,7 @@ const LookupJob: React.FC = () => {
   const [jobId, setJobId] = useState('');
   const [searchJobId, setSearchJobId] = useState('');
   const [jobOutput, setJobOutput] = useState<string | null>(null);
+  const [responseComplete, setResponseComplete] = useState<boolean>(false);
   const [copied, setCopied] = useState<boolean>(false);
   const navigate = useNavigate();
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -23,6 +24,7 @@ const LookupJob: React.FC = () => {
     console.log('Job Result:', result);
     if (result.status === 'success') {
       setJobOutput(result.data.execLogFileOutput);
+      setResponseComplete(true);
       console.log("Clearing interval...")
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
@@ -32,6 +34,7 @@ const LookupJob: React.FC = () => {
       // setTimeout(() => getJobStatus(id), 3000); // query again in 3 seconds
       setJobOutput(result.execLogFileOutput);
     } else if (result.status === 'error') {
+      setResponseComplete(true);
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
         intervalRef.current = null;
@@ -142,7 +145,11 @@ const LookupJob: React.FC = () => {
         jobId !== '' && jobOutput === null && (
           <div>
             <h1> Processing Job... </h1> 
-            <button onClick={handleCancelJob}> Cancel Job </button>
+            {
+              responseComplete && (
+                <button onClick={handleCancelJob}> Cancel Job </button>
+              )
+            }
             <LoadingCircle />
           </div>
         )
@@ -152,7 +159,12 @@ const LookupJob: React.FC = () => {
           jobOutput && (
             <div className="lj-output">
               {/* <button onClick={handleBack} className="lj-backButton"> Back </button> */}
-              <button onClick={handleCancelJob}> Cancel Job </button>
+              
+              {
+                responseComplete && (
+                  <button onClick={handleCancelJob}> Cancel Job </button>
+                )
+              }
               <h3 className="lj-outputTitle">Job Output
                  {
                    copied ? (
@@ -168,7 +180,11 @@ const LookupJob: React.FC = () => {
                 
               </h3>
               <p> Job ID: <b>{jobId}</b></p> 
-              <button onClick={handleCancelJob}> Cancel Job </button>
+              {
+                responseComplete && (
+                  <button onClick={handleCancelJob}> Cancel Job </button>
+                )
+              }
               <pre className="lj-outputContent">{jobOutput}</pre>
             </div>
           )
