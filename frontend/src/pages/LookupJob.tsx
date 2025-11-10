@@ -79,11 +79,6 @@ const LookupJob: React.FC = () => {
     }
   };
 
-  const handleBack = () => {
-    setSearchJobId('');
-    setCopied(false);
-    navigate('/lookup-job');
-  };
 
   const handleCopyToClipboard = () => {
     navigator.clipboard.writeText(jobOutput || '');
