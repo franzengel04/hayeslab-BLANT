@@ -52,7 +52,6 @@ const createJob = async (
     const jobData: JobData = {
         id: jobId,
         status: 'preprocessing',
-        // jobLocation: `/app/uploads/${jobId}`, 
         jobLocation: `./process/${jobId}`, 
         extension,
         networkName,
@@ -73,14 +72,6 @@ const createJob = async (
         console.log('Preprocessing completed successfully');
         return jobData;
     } catch (error: any) {
-        // // Update job status to error
-        // jobData.status = 'error';
-        // jobData.error = error.message;
-        // jobData.updatedAt = new Date();
-        
-        // // Save the error state if needed
-        // // await saveJobError(jobData);
-        
         throw new HttpError(
             `Error during preprocessing: ${error.message}`,
             { status: 500, errorLog: error.stack }

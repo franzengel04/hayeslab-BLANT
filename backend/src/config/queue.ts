@@ -29,7 +29,6 @@ async function updateJobInQueue(jobId: string, newJobData: Partial<JobData>) {
         const currentData = job.data;
         const updatedData = { ...currentData, ...newJobData };
         
-        // await job.update(newJobData);
         await job.updateData(updatedData);
         console.log(`Job ${jobId} updated with data:`, job.data);
     } else {

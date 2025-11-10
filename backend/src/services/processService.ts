@@ -29,8 +29,7 @@ const jobProcess = async (jobId: string, jobData: JobData): Promise<ProcessJobDa
             execLogFileOutput: null,
         };
     }
-   
-    // if (job) {
+    
     const jobStatus = await job.getState();
 
     if (jobStatus === 'completed' || jobStatus === 'failed') {
@@ -64,58 +63,6 @@ const jobProcess = async (jobId: string, jobData: JobData): Promise<ProcessJobDa
             redirect: `/lookup-job/${jobId}`,
         };
     }
-    // }
-
-    // Step 3: Add job to queue
-    // try {
-    //     addJobToQueue(jobId, jobData);
-    //     return new Promise<ProcessJobData>((resolve, reject) => {
-    //         const res: ProcessJobData = {
-    //             success: true,
-    //             status: 'Job added to queue',
-    //             jobId: jobId,
-    //             execLogFileOutput: undefined,
-    //             redirect: `/lookup-job/${jobId}`,
-    //         };
-    //         resolve(res);
-    //     });
-    // } catch {
-    //     return new Promise<ProcessJobData>((resolve, reject) => {
-    //         const res: ProcessJobData = {
-    //             success: false,
-    //             status: 'Job not added to queue',
-    //             jobId: jobId,
-    //             execLogFileOutput: undefined,
-    //             redirect: `/lookup-job/${jobId}`,
-    //         };
-    //         resolve(res);
-    //     });
-    // }
-  
-
-    // below is from backend-wip branch
-    
-    // Step 2: Check that the job is not already processed
-    // const job = await getJobFromQueue(jobId);
-    // if (job && (job.data.status === 'active' || job.data.status === 'completed' || job.data.status === 'failed')) {
-    //     return {
-    //         jobId: jobId,
-    //         success: true,
-    //         status: `Job already exists and is ${job.data.status}`,
-    //     };
-    // }
-
-    // Step 3: Add job to queue
-    // addJobToQueue(jobId, jobData);
-    // return new Promise<ProcessJobData>((resolve, reject) => {
-    //     const res: ProcessJobData = {
-    //         success: true,
-    //         status: 'Job added to queue',
-    //         jobId: jobId,
-    //         execLogFileOutput: undefined,
-    //     };
-    //     resolve(res);
-    // });
     
 };
 
