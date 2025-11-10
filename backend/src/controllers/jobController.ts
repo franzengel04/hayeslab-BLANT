@@ -362,21 +362,49 @@ const getJobStatus = async (req: GetJobResultsRequest, res: Response, next: Next
 //     }
 // }
 
-const cancelJobController = async (req: CancelJobRequest, res: CancelJobResponse, next: NextFunction): Promise<void> => {
+const cancelJob = async (req: CancelJobRequest, res: Response, next: NextFunction): Promise<void> => {
     try {
         const jobId = req.params.id;
-        console.log('cancelJobController jobId:', jobId);
+        console.log('cancelJob jobId:', jobId);
+
+        if (!jobId) {
+            throw new HttpError('Job ID is required.', { status: 400 });
+        }
+
+        const job = await getJobFromQueue(jobId);
+
+        if (!job) {
+            throw new HttpError(`Job with id ${jobId} does not exist.`, { status: 400 });
+        }
+        const jobLocation = job.data.jobLocation;
+        fs.rmSync(jobLocation, { recursive: true, force: true });
+
+        await job.remove();
+
+        const response: UnifiedResponse = {
+            status: 'success',
+            message: 'Job cancelled successfully',
+        };
+
+        res.status(200).json(response);
+        return;
+
     } catch (err) {
-        next(err);
+        console.error('Error cancelling job:', err);
+        const response: UnifiedResponse = {
+            status: 'error',
+            message: 'Error cancelling job: ' + err,
+        };
+        res.status(500).json(response);
+        return;
     }
 };
 
 
 export { 
     downloadZipJob, 
-    // getJobResults, 
     getJobStatus,
     submitJobController, 
     processController,
-    // getJobStatus,
+    cancelJob,
 };

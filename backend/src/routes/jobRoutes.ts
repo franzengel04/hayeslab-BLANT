@@ -8,6 +8,7 @@ import {
     // getJobResults,
     getJobStatus,
     submitJobController,
+    cancelJob,
 } from '../controllers/jobController';
 
 const router: Router = Router();
@@ -26,6 +27,11 @@ router.post(
     validateSingleFileMiddleware, // validates if the request contains a file to begin with, throws and error if not
     submitJobController,
     // cleanupFileErrorHandler,
+);
+
+router.post(
+    '/cancelJob/:id',
+    cancelJob,
 );
 
 router.get('/status/:id', getJobStatus);
