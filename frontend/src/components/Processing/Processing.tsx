@@ -1,7 +1,7 @@
 // src/components/Processing.tsx
 import React from 'react';
 import './Processing.css'; // We will create this CSS file next
-import LoadingCircle from './LoadingCircle';
+import LoadingCircle from '../LoadingCircle';
 
 const Processing: React.FC = () => {
   return (

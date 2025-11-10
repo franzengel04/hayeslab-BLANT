@@ -1,7 +1,7 @@
 // src/components/LandingPage.tsx
 import React from 'react';
 import './LandingPage.css'; // Make sure your CSS is imported
-import BlantImage from '../../public/blant.png';
+import BlantImage from '../../../public/blant.png';
 import { useNavigate } from 'react-router';
 
 

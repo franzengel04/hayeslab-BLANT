@@ -2,8 +2,8 @@
 import React from 'react';
 import './Options.css';
 import { useState } from 'react'
-import type { blantOptions } from '../context/JobSubmissionContext';
-import AccordionSection from './AccordionSection';
+import type { blantOptions } from '../../context/JobSubmissionContext';
+import AccordionSection from '../AccordionSection';
 
 interface OptionsProps {
   onDataChange: (event: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>, optionName: keyof blantOptions) => void;

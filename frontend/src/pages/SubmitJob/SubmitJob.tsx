@@ -1,10 +1,10 @@
 // src/pages/SubmitJobPage.tsx
 import React from 'react';
 import './SubmitJob.css';
-import NetworkSelection from '../components/NetworkSelection';
-import Options from '../components/Options';
-import Processing from '../components/Processing';
-import { useJobSubmission } from '../context/JobSubmissionContext';
+import NetworkSelection from '../../components/NetworkSelection';
+import Options from '../../components/Options';
+import Processing from '../../components/Processing';
+import { useJobSubmission } from '../../context/JobSubmissionContext';
 import { useNavigate } from 'react-router-dom';
 
 export interface FormData {

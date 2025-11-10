@@ -3,8 +3,8 @@ import React, { useState, useEffect, useRef, } from 'react';
 import { useNavigate } from "react-router";
 import { useParams } from 'react-router-dom';
 import './LookupJob.css';
-import api from '../api/api';
-import LoadingCircle from '../components/LoadingCircle';
+import api from '../../api/api';
+import LoadingCircle from '../../components/LoadingCircle';
 
 
 const LookupJob: React.FC = () => {

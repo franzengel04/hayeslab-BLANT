@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Link } from 'react-router-dom';
 import './Header.css';
-import SanaLogo from '../../public/sana-logo-white.png';
+import SanaLogo from '../../../public/sana-logo-white.png';
 
 const Header: React.FC = () => {
   return (
