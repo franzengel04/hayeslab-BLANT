@@ -379,7 +379,16 @@ const cancelJob = async (req: CancelJobRequest, res: Response, next: NextFunctio
         const jobLocation = job.data.jobLocation;
         fs.rmSync(jobLocation, { recursive: true, force: true });
 
-        await job.remove();
+        const jobState = await job.getState();
+        if (jobState === 'active') {
+            // Job is locked by worker - mark as failed
+            await job.moveToFailed(new Error('Job cancelled by user'), '0', true);
+            console.log(`Job ${jobId} marked as failed (was active)`);
+        } else {
+            // Job is not active - can safely remove
+            await job.remove();
+            console.log(`Job ${jobId} removed from queue`);
+        }
 
         const response: UnifiedResponse = {
             status: 'success',
