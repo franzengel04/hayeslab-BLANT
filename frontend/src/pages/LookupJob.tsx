@@ -158,13 +158,6 @@ const LookupJob: React.FC = () => {
       {
           jobOutput && (
             <div className="lj-output">
-              {/* <button onClick={handleBack} className="lj-backButton"> Back </button> */}
-              
-              {
-                !responseComplete && (
-                  <button onClick={handleCancelJob}> Cancel Job </button>
-                )
-              }
               <h3 className="lj-outputTitle">Job Output
                  {
                    copied ? (
