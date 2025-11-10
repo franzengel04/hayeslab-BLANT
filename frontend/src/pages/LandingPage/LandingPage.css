@@ -14,6 +14,16 @@
   font-weight: 700;
 }
 
+.landing-page-buttons {
+  display: flex;
+  gap: 1rem;
+}
+
+.landing-page-buttons button {
+  width: 100%;
+  white-space: nowrap;
+}
+
 ul li {
   font-size: 1.1rem;
 }

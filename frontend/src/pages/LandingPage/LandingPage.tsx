@@ -11,6 +11,9 @@ const LandingPage: React.FC = () => {
   const goToSubmitJob = () => {
     navigate("/submit-job");
   }
+  const goToLookupJob = () => {
+    navigate("/lookup-job");
+  }
 
   return (
     <div className="landing-page">
@@ -20,9 +23,11 @@ const LandingPage: React.FC = () => {
         alt="Network graph examples for BLANT"
         className="landing-image"
       />
-
-      <button onClick={goToSubmitJob} className='os-navButton'>Submit a Job</button>
-
+      <div className='landing-page-buttons'>
+        <button onClick={goToSubmitJob} className='os-navButton'>Submit a Job</button>
+        <button onClick={goToLookupJob} className='os-navButton'>Lookup a Job</button>
+      </div>
+      
       <div className="info-text">
         <p>
           BLANT stand for <a href="https://www.liebertpub.com/doi/abs/10.1089/cmb.2025.0095" target="_blank">Basic Local Alignment of Network Topology</a>.
