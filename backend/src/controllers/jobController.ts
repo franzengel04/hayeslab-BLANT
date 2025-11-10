@@ -83,6 +83,39 @@ const downloadZipJob = async (req: DownloadZipRequest, res: Response, next: Next
     }
 };
 
+
+const _validateSubmitJob = (jobOptions: SubmitJobOptions, req: SubmitJobRequest): void => {
+    if (!jobOptions.density) {
+        throw HttpError.badRequest('density is required.');
+    }
+
+    if (isNaN(jobOptions.density)) {
+        throw HttpError.badRequest('density must be a valid number.');
+    } else if (jobOptions.density > 1 || jobOptions.density < 0.01) {
+        throw HttpError.badRequest('density must be between 0.01 and 1.00.');
+    }
+
+    if (!jobOptions.fractionalOverlap) {
+        throw HttpError.badRequest('fractionalOverlap is required.');
+    }
+    if (isNaN(jobOptions.fractionalOverlap)) {
+        throw HttpError.badRequest('fractionalOverlap must be a valid number.');
+    } else if (jobOptions.fractionalOverlap >= 1 || jobOptions.fractionalOverlap < 0) {
+        throw HttpError.badRequest('fractionalOverlap must be greater than or equal to 0 and less than 1.');
+    }
+
+    if (!jobOptions.graphletSize ) {
+        throw HttpError.badRequest('graphletSize is required.');
+    }
+    if (isNaN(jobOptions.graphletSize)) {
+        throw HttpError.badRequest('graphletSize must be a valid number.');
+    } else if (jobOptions.graphletSize > 7 || jobOptions.graphletSize < 3) {
+        throw HttpError.badRequest('graphletSize must be between 3 and 7.');
+    }
+    if (!req.file) {
+        throw HttpError.badRequest('No network file uploaded.');
+    }
+}
 /**
  * Controller to handle job submission with file uploads.
  */
@@ -90,41 +123,16 @@ const submitJobController = async (req: SubmitJobRequest, res: Response, next: N
     try {
         //  Validate required fields
         console.log("submitJobController req.body:", req.body);
-        const jobOptions: SubmitJobOptions = JSON.parse(req.body.options);
+        const jobOptions: SubmitJobOptions = JSON.parse(req.body.options); // parse req.body string into an object
         console.log("submitJobController jobOptions object:", jobOptions);
 
-        if (!jobOptions.density) {
-            throw HttpError.badRequest('density is required.');
-        }
+        _validateSubmitJob(jobOptions, req);
 
-        if (isNaN(jobOptions.density)) {
-            throw HttpError.badRequest('density must be a valid number.');
-        } else if (jobOptions.density > 1 || jobOptions.density < 0.01) {
-            throw HttpError.badRequest('density must be between 0.01 and 1.00.');
-        }
-
-        if (!jobOptions.graphletSize ) {
-            throw HttpError.badRequest('graphletSize is required.');
-        }
-        if (isNaN(jobOptions.graphletSize)) {
-            throw HttpError.badRequest('graphletSize must be a valid number.');
-        } else if (jobOptions.graphletSize > 7 || jobOptions.graphletSize < 3) {
-            throw HttpError.badRequest('graphletSize must be between 3 and 7.');
-        }
-        if (!req.file) {
-            throw HttpError.badRequest('No network file uploaded.');
-        }
-        
         // creates job and runs preprocessing (creating the directory for output files, moving the network files there, etc... but does not actually start running the job)
         // const result = await createJob(req.file, req.body.options.density, req.body.options.graphletSize);
-        const result = await createJob(req.file, jobOptions.density, jobOptions.graphletSize);
+        const result = await createJob(req.file, jobOptions.density, jobOptions.graphletSize, jobOptions.fractionalOverlap);
         console.log("cratead job with preprocess data:", result);
         //  Send successful response
-        const response: UnifiedResponse<JobData> = {
-            status: 'success',
-            message: 'Job submitted successfully',
-            data: result,
-        };
         const processResult = await processController(result);
         res.status(201).json(processResult);
     } catch (err) {

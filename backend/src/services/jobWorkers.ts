@@ -53,23 +53,10 @@ const jobWorker = async (jobId: string, jobData: JobData) => {
         const outputFile = path.resolve(`./process/${jobId}`, 'blant_runtime.log');
 
         const optionString = `cd ${blantDirectory} && source ./setup.sh && stdbuf -oL -eL ./scripts/blant-clusters.sh` 
-                             + ` ./blant ${jobData.graphletSize} ${jobData.density} ${networkDir}`;
-        // let optionString = `cd ${blantPath} && ./scripts/blant-clusters.sh ./blant ${jobData.graphletSize} ${jobData.density} `;
-        // optionString += `\"${inputFile}\" > \"${outputFile}\" 2>&1`;
+                             + ` ./blant ${jobData.graphletSize} ${jobData.density} -o ${jobData.fractionalOverlap} ${networkDir}`;
         
         console.log(`Executing command for job ${jobId}:`, optionString);
         
-        // CURRENT: Using execAsync (buffers all output in memory)
-        // const { stdout, stderr } = await execAsync(optionString, {shell:'/bin/bash'});
-        
-        // if (stderr) {   
-        //     console.warn(`Job ${jobId} stderr:`, stderr);
-        // }
-        
-        // console.log(`Job ${jobId} completed successfully`);
-        // return { success: true, stdout, stderr };
-        
-        // ALTERNATIVE: Using spawn() for real-time streaming (more memory efficient for large outputs):
         return new Promise((resolve, reject) => {
             const child = spawn('/bin/bash', ['-c', optionString]);
             const logStream = fs.createWriteStream(outputFile, { flags: 'a', autoClose: false });

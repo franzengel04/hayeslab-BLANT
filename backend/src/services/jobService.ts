@@ -17,6 +17,7 @@ const createJob = async (
     file: MulterFile,
     density: number,
     graphletSize: number,
+    fractionalOverlap: number,
 
 ): Promise<JobData> => {
     const networkFullName = file.originalname;
@@ -57,6 +58,7 @@ const createJob = async (
         networkName,
         density,
         graphletSize,
+        fractionalOverlap,
         attempts: 0,
         execLogFileOutput: '',
         createdAt: new Date().toISOString(),

@@ -49,9 +49,7 @@ export interface SubmitJobRequest extends Request{
 export interface SubmitJobOptions {
     density: number,
     graphletSize: number,
-    outputMode: string,
-    samplingMethod: string,
-    precision?: number,
+    fractionalOverlap: number
 }
 
 export interface ProcessJobRequest extends Request{
@@ -104,6 +102,7 @@ export type JobData = {
     status: JobStatus;
     density: number;
     graphletSize: number;
+    fractionalOverlap: number;
     // file info
     networkName: string;
     extension: string;
