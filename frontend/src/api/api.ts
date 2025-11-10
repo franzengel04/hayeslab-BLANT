@@ -185,7 +185,7 @@ const api: Api = {
 
   cancelJob: async (jobId) => {
     const url = `${API_URL}/jobs/cancelJob/${jobId}`;
-    const response = await fetch(url, { method: 'GET' });
+    const response = await fetch(url, { method: 'POST' });
     const responseData = await response.json();
     return responseData;
   },

@@ -90,12 +90,17 @@ const LookupJob: React.FC = () => {
     setCopied(true);
   };
 
-  // const handleCancelJob = async () => {
-  //   console.log('handleCancelJob jobId:', jobId);
-  //   const result = await api.cancelJob(jobId);
-  //   console.log('Job Result:', result);
-
-  // };
+  const handleCancelJob = async () => {
+    console.log('handleCancelJob jobId:', jobId);
+    const result = await api.cancelJob(jobId);
+    console.log('Job Result:', result);
+    if (result.status === 'success') {
+      alert('Job cancelled successfully');
+      navigate(`/lookup-job`);
+    } else {
+      alert(result.error.message);
+    }
+  };
 
   return (
     <div className="lj-pageContainer">
@@ -142,8 +147,8 @@ const LookupJob: React.FC = () => {
         jobId !== '' && jobOutput === null && (
           <div>
             <h1> Processing Job... </h1> 
+            <button onClick={handleCancelJob}> Cancel Job </button>
             <LoadingCircle />
-            {/* <button onClick={handleCancelJob}> Cancel Job </button> */}
           </div>
         )
       }
@@ -151,7 +156,8 @@ const LookupJob: React.FC = () => {
       {
           jobOutput && (
             <div className="lj-output">
-              <button onClick={handleBack} className="lj-backButton"> Back </button>
+              {/* <button onClick={handleBack} className="lj-backButton"> Back </button> */}
+              <button onClick={handleCancelJob}> Cancel Job </button>
               <h3 className="lj-outputTitle">Job Output
                  {
                    copied ? (
