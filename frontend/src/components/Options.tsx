@@ -70,7 +70,7 @@ const Options: React.FC<OptionsProps> = ({ onDataChange, initialData }) => {
                       <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" fill="none"/>
                       <text x="12" y="17" textAnchor="middle" fontSize="14" fontWeight="bold" fill="currentColor">i</text>
                     </svg>
-                    <span className="os-infoTooltip">Fractional overlap allowed between two found clusters</span>
+                    <span className="os-infoTooltip">Maximum allowed fractional overlap between a new cluster and any one previously discovered cluster <br/> (it can overlap by more than this with MULTIPLE previous clusters). If it overlaps more than this with any ONE previous cluster, it is discarded</span>
                   </span>
                 </label>
                 <input type="number" id="precision" className="os-numberInput" defaultValue={initialData.fractionalOverlap} onChange={(e) => onDataChange(e, 'fractionalOverlap')} />

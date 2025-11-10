@@ -170,7 +170,8 @@
   color: white;
   font-size: 0.875rem;
   border-radius: 6px;
-  white-space: nowrap;
+  width: 27em;
+  white-space: wrap;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.2s;
