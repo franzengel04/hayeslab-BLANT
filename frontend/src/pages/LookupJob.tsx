@@ -146,7 +146,7 @@ const LookupJob: React.FC = () => {
           <div>
             <h1> Processing Job... </h1> 
             {
-              responseComplete && (
+              !responseComplete && (
                 <button onClick={handleCancelJob}> Cancel Job </button>
               )
             }
@@ -161,7 +161,7 @@ const LookupJob: React.FC = () => {
               {/* <button onClick={handleBack} className="lj-backButton"> Back </button> */}
               
               {
-                responseComplete && (
+                !responseComplete && (
                   <button onClick={handleCancelJob}> Cancel Job </button>
                 )
               }
@@ -181,7 +181,7 @@ const LookupJob: React.FC = () => {
               </h3>
               <p> Job ID: <b>{jobId}</b></p> 
               {
-                responseComplete && (
+                !responseComplete && (
                   <button onClick={handleCancelJob}> Cancel Job </button>
                 )
               }
