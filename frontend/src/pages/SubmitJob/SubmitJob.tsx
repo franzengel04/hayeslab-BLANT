@@ -33,13 +33,15 @@ const SubmitJobPage: React.FC = () => {
       // } else {
       //   setIsSubmitted(false);
       // }
+
+      setIsSubmitted(true);
       try {
         await handleSubmit();
-        setIsSubmitted(true);
       } catch (error) {
         alert(String(error));
-        setIsSubmitted(false);
       }
+      setIsSubmitted(false);
+
   }
 
   const handleBackToHome = () => {

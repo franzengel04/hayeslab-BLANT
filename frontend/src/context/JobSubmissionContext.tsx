@@ -5,10 +5,7 @@ import {
     useEffect,
 } from "react";
 import { useNavigate } from "react-router";
-// import { z } from "zod";
 import api from "../api/api.ts";
-
-// export const JobSubmissionContext = createContext<JobSubmissionContextType | null>(null);
 
 export interface blantOptions {
     graphletSize: number,
@@ -81,9 +78,6 @@ export function JobSubmissionProvider({
                 setNetworkFile(file);
                 return true;
             }
-            // file is not valid
-            // alert("Invalid file. Please upload a valid network file format (.el)");
-            // alert(fileError);
             alert(errorMessage);
             event.target.value = '';
             setNetworkFile(null);
@@ -109,17 +103,7 @@ export function JobSubmissionProvider({
             value = event.target.value;
         }
 
-        // // input validation
-        // if (optionName === 'density' && typeof value === 'number') {
-        //     if (value < 0.01 || value > 1) {
-        //         event.target.value = '1';
-        //         return false;
-        //         // return false;
-        //     }
-        // }
-    
         const newBlantOptions = { ...blantOptions, [optionName]: value };
-        // const newBlantOptions = { ...blantOptions, ...newData };
         setBlantOptions(newBlantOptions);
         console.log("handleBlantOptionsChange newBlantOptions: ", newBlantOptions);
         return true;
