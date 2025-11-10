@@ -173,6 +173,7 @@ const LookupJob: React.FC = () => {
                 
               </h3>
               <p> Job ID: <b>{jobId}</b></p> 
+              <button onClick={handleCancelJob}> Cancel Job </button>
               <pre className="lj-outputContent">{jobOutput}</pre>
             </div>
           )
