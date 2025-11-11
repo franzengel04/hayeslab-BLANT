@@ -33,6 +33,8 @@ const LookupJob: React.FC = () => {
     } else if (result.status === 'processing' && result.execLogFileOutput) {
       // setTimeout(() => getJobStatus(id), 3000); // query again in 3 seconds
       setJobOutput(result.execLogFileOutput);
+    } else if (result.status === 'waiting'){
+      setJobOutput(`${result.message} Please come back later.`)
     } else if (result.status === 'error') {
       setResponseComplete(true);
       if (intervalRef.current) {

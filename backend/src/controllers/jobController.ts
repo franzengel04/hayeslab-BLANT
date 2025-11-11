@@ -18,7 +18,7 @@ import {
     UnifiedResponse,
 } from '../../types/types';
 import path from 'path';
-import { getJobFromQueue } from '../config/queue';
+import { getJobFromQueue, getWaitingCount } from '../config/queue';
 // import { getJobFromQueue } from '../config/queue';
 /**
  * Downloads the zip file for a job based on the request parameters.
@@ -245,6 +245,16 @@ const getJobStatus = async (req: GetJobResultsRequest, res: Response, next: Next
             res.status(200).json(response);
             return;
         } 
+
+        if (status === 'waiting'){
+            const waitingResponse: UnifiedResponse = {
+                status: 'waiting',
+                message: `There are currently ${getWaitingCount()} jobs waiting in the queue.`,
+                redirect: `/lookup-job/${jobId}`,
+                execLogFileOutput: job.data.execLogFileOutput,
+            };
+            res.status(200).json(waitingResponse);
+        }
 
         const execLogFilePath = path.join(job.data.jobLocation, 'blant_runtime.log');
         let execLogContent = '';

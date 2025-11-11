@@ -83,7 +83,7 @@ export interface ErrorDetails<T = undefined> {
 }
 
 export interface UnifiedResponse<T = undefined, E = undefined> {
-    status: 'success' | 'error' | 'redirect' | 'processing';
+    status: 'success' | 'error' | 'redirect' | 'processing' | 'waiting';
     message: string;
     execLogFileOutput?: string;
     data?: T;
