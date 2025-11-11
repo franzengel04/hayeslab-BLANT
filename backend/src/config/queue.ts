@@ -19,6 +19,8 @@ async function addJobToQueue(jobId: string, jobData: JobData) {
         jobData,
         {
             jobId: jobId,
+            attempts: 7,
+            backoff: { type: 'exponential', delay: 5000}
         },
     );
 }
