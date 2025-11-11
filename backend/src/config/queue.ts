@@ -41,4 +41,8 @@ async function getJobFromQueue(jobId: string) {
     return job;
 }
 
-export { addJobToQueue, connection, getJobFromQueue, jobQueue, updateJobInQueue };
+function getWaitingCount(){
+    return jobQueue.getWaitingCount; 
+}
+
+export { getWaitingCount, addJobToQueue, connection, getJobFromQueue, jobQueue, updateJobInQueue };
