@@ -1,13 +1,9 @@
 // src/components/NetworkSelection.tsx
 import React from 'react';
 import './NetworkSelection.css';
-// 'onPrevious' and 'initialData' have been removed to fix the warnings
+
 interface NetworkSelectionProps {
-  // onNext: () => void;
-  // onDataChange: (data: Partial<FormData>) => void;
-  // onDataChange: (file: File | null) => void
-  onDataChange: (event: React.ChangeEvent<HTMLInputElement>) => Promise<boolean>,
-  
+  onDataChange: (event: React.ChangeEvent<HTMLInputElement>) => Promise<boolean>, 
 }
 
 const NetworkSelection: React.FC<NetworkSelectionProps> = ({ onDataChange }) => {

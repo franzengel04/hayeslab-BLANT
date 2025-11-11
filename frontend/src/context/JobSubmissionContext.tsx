@@ -6,32 +6,9 @@ import {
 } from "react";
 import { useNavigate } from "react-router";
 import api from "../api/api.ts";
-
-export interface blantOptions {
-    graphletSize: number,
-    density: number,
-    fractionalOverlap: number,
-}
-
-interface JobSubmissionContextSchema {
-    networkFile: File | null,
-    setNetworkFile: (file: File | null) => void,
-    blantOptions: blantOptions,
-    setBlantOptions: (options: blantOptions) => void,
-    fileError: string | null,
-    validateFile: (file: File) => [boolean, string | null],
-    handleSubmit: () => Promise<boolean>,
-    isSubmitted: boolean,
-    setIsSubmitted: (isSubmitted: boolean) => void,
-    resetForm: () => void,
-    handleFileInputChange: (event: React.ChangeEvent<HTMLInputElement>) => Promise<boolean>,
-    handleBlantOptionsChange: (event: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>, optionName: keyof blantOptions) => Promise<boolean>,
-}
+import { type JobSubmissionContextSchema, type blantOptions } from "../types/types";
 
 const JobSubmissionContext = createContext<JobSubmissionContextSchema | null>(null);
-
-// Option ranges schema with validation
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 
 export function JobSubmissionProvider({
     children,

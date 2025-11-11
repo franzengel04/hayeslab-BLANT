@@ -2,7 +2,7 @@
 import React from 'react';
 import './Options.css';
 import { useState } from 'react'
-import type { blantOptions } from '../../context/JobSubmissionContext';
+import type { blantOptions } from '../../types/types';
 import AccordionSection from '../AccordionSection';
 
 interface OptionsProps {

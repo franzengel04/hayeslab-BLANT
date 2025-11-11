@@ -7,16 +7,8 @@ import Processing from '../../components/Processing';
 import { useJobSubmission } from '../../context/JobSubmissionContext';
 import { useNavigate } from 'react-router-dom';
 
-export interface FormData {
-  networkFile: File | null;
-  graphletSize: number;
-  edgeDensity: number;
-  fractionalOverlap: number;
-}
-
 const SubmitJobPage: React.FC = () => {
   const navigate = useNavigate();
-  // const [isSubmitted, setIsSubmitted] = useState<boolean>(false); 
   const { 
     blantOptions, 
     handleSubmit, 
@@ -27,13 +19,6 @@ const SubmitJobPage: React.FC = () => {
   } = useJobSubmission();
 
   const handleSubmitJob = async () => {
-      // setIsSubmitted(true); // Set submission status to true
-      // if (await handleSubmit()) {
-      //   setIsSubmitted(true);
-      // } else {
-      //   setIsSubmitted(false);
-      // }
-
       setIsSubmitted(true);
       try {
         await handleSubmit();
