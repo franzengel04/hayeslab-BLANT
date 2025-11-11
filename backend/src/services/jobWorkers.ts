@@ -26,7 +26,8 @@ const worker = new Worker('jobQueue', async (job: Job) => {
         connection,
         removeOnComplete: { count: 1000 },
         removeOnFail: { count: 5000 },
-        concurrency: 4,
+        concurrency: 1,
+        useWorkerThreads: true,
     },
 );
 
