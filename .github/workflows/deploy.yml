@@ -1,0 +1,52 @@
+name: Deploy BLANT
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy-backend:
+    runs-on: self-hosted
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Switch to backend directory
+        run: cd backend
+
+      - name: Checkout to main branch
+        run: git checkout main
+
+      - name: Pull latest changes 
+        run: git pull
+
+      - name: Add permissions to deployment script
+        run: sudo chmod +x deploy-backend.sh
+
+      - name: Deploy backend
+        run: ./deploy-backend.sh
+
+  deploy-frontend:
+    runs-on: self-hosted
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Switch to frontend directory
+        run: cd frontend
+
+      - name: Checkout to main branch
+        run: git checkout main
+
+      - name: Pull latest changes 
+        run: git pull
+
+      - name: Add permissions to deployment script
+        run: sudo chmod +x deploy-frontend.sh
+
+      - name: Deploy frontend
+        run: ./deploy-frontend.sh
+
+        
