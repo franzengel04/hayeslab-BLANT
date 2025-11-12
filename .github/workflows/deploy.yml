@@ -29,6 +29,8 @@ jobs:
 
   deploy-frontend:
     runs-on: self-hosted
+    needs: deploy-backend
+    runs-after: deploy-backend
     
     steps:
       - name: Checkout code
