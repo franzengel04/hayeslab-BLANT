@@ -5,6 +5,23 @@ import HttpError from '../middlewares/HttpError';
 import { JobData, MulterFile, UploadedFiles } from '../../types/types';
 import { addJobToQueue } from '../config/queue';
 
+const _validateCreateJob = (file: MulterFile, networkFullName: string, extension: string): void => {
+
+    if (!networkFullName) {
+        throw new HttpError('Invalid file names: network must have valid names', { status: 400 });
+    }
+    const networkName = networkFullName.substring(0, networkFullName.lastIndexOf('.'));
+
+    if (!networkName) {
+        throw new HttpError(
+            `Failed to extract network names from file: ${networkFullName}`, 
+            { status: 400 }
+        );
+    }
+    if (!extension) {
+        throw new HttpError(`Invalid file extension for network: ${file.originalname}`, { status: 400 });
+    }
+};
 
 /**
  * Creates a new job with the provided files and options
@@ -20,33 +37,16 @@ const createJob = async (
     fractionalOverlap: number,
 
 ): Promise<JobData> => {
+
     const networkFullName = file.originalname;
-
-    if (!networkFullName) {
-        throw new HttpError('Invalid file names: network must have valid names', { status: 400 });
-    }
-
-    // Extract network names
     const networkName = networkFullName.substring(0, networkFullName.lastIndexOf('.'));
-
-    if (!networkName) {
-        throw new HttpError(
-            `Failed to extract network names from file: ${networkFullName}`, 
-            { status: 400 }
-        );
-    }
-
-    // Generate job ID
     const timestamp = Date.now();
     const jobId = createHash('md5')
         .update(`${timestamp}-${networkName}`)
         .digest('hex');
-
-    // Get file extension and validate
     const extension = path.extname(file.originalname).toLowerCase();
-    if (!extension) {
-        throw new HttpError(`Invalid file extension for network: ${file.originalname}`, { status: 400 });
-    }
+
+    _validateCreateJob(file, networkFullName, extension);
 
     // Create job data
     const jobData: JobData = {

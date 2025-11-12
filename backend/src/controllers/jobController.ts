@@ -19,7 +19,6 @@ import {
 } from '../../types/types';
 import path from 'path';
 import { getJobFromQueue, getWaitingCount } from '../config/queue';
-// import { getJobFromQueue } from '../config/queue';
 /**
  * Downloads the zip file for a job based on the request parameters.
  * @param req - The request object.

@@ -30,11 +30,9 @@ export function JobSubmissionProvider({
     ): [boolean, string | null] => {
         const fileName = file.name.toLowerCase();
         if (!fileName.endsWith('.el')) {
-            // setFileError("File extension must be .el");
             return [false, "[INVALID FILE] File extension must be .el"];
         }
         if (file.size > 5 * 1024 * 1024) { // 5 MB in bytes
-            // setFileError("File size must not exceed 5 MB");
             return [false, "[INVALID FILE] File size must not exceed 5 MB"];
         }
         return [true, null];
@@ -103,39 +101,36 @@ export function JobSubmissionProvider({
     };
 
     const handleSubmit = async (): Promise<boolean> => {
-        // try {
-            // Validate required files
-            console.log("handleSubmit networkFile: ", networkFile);
-            console.log("handleSubmit blantOptions: ", blantOptions);
-            if (!networkFile) {
-                throw new Error("Please upload a network file.");
-            }
+        console.log("handleSubmit networkFile: ", networkFile);
+        console.log("handleSubmit blantOptions: ", blantOptions);
+        if (!networkFile) {
+            throw new Error("Please upload a network file.");
+        }
 
-            _validateBlantOptions(blantOptions);
-            const formData = new FormData();
-            formData.append("file", networkFile);
-            formData.append("options", JSON.stringify(blantOptions));
+        _validateBlantOptions(blantOptions);
+        const formData = new FormData();
+        formData.append("file", networkFile);
+        formData.append("options", JSON.stringify(blantOptions));
 
-            // Log FormData contents
-            console.log("FormData contents:");
-            for (const pair of formData.entries()) {
-                console.log(pair[0], pair[1]);
-            }
+        // Log FormData contents
+        console.log("FormData contents:");
+        for (const pair of formData.entries()) {
+            console.log(pair[0], pair[1]);
+        }
 
-            console.log("Submitting form data: ", formData);
-            const response = await api.submitJob(formData)
-            console.log("jobSubmission api.upload response:", response);
+        console.log("Submitting form data: ", formData);
+        const response = await api.submitJob(formData)
+        console.log("jobSubmission api.upload response:", response);
 
-            if (response.redirect) {
-                navigate(response.redirect); // redirects to /submit-jobs/[jobID] url
-            }
-            return true;
+        if (response.redirect) {
+            navigate(response.redirect); // redirects to /submit-jobs/[jobID] url
+        }
+        return true;
     };
 
     const resetForm = () => {
         setNetworkFile(null);
         setFileError(null);
-        // setBlantOptions(null);
     };
 
     useEffect(() => {

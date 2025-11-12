@@ -11,8 +11,6 @@ import jobRoutes from './routes/jobRoutes';
 const app = express(); 
 const PORT = parseInt(process.env.PORT) || 4000;
 
-// cors and bodyparser middleware
-// if (process.env.NODE_ENV === 'development') {
 app.use(express.json({ limit: '5mb' }));
 app.use(express.urlencoded({ limit: '5mb', extended: true })); 
 app.use(
@@ -23,8 +21,7 @@ app.use(
 );
 app.options('*', cors());
 app.use(logger('dev'));
-// }
-// Root route handler
+
 app.get('/', (req, res) => {
     console.log('test');
     res.send('hello!');
